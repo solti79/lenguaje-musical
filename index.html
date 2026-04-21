@@ -30,8 +30,11 @@
         #mensaje-incorrecto { color: #e74c3c; font-size: 1.5rem; font-weight: bold; height: 30px; margin-bottom: 10px; visibility: hidden; }
         .cronometro { font-size: 4rem; color: #e74c3c; font-weight: bold; }
         .btn-inicio { background: #5dade2; color: white; border: none; padding: 20px 60px; border-radius: 15px; font-size: 1.8rem; cursor: pointer; font-weight: bold; }
-        .btn-respuesta { background: #3498db; color: white; border: none; padding: 15px 20px; margin: 8px; border-radius: 12px; font-size: 1.1rem; cursor: pointer; font-weight: bold; transition: 0.2s; line-height: 1.2; }
+        
+        /* AJUSTE AQUÍ: Más espacio para los botones de respuesta */
+        .btn-respuesta { background: #3498db; color: white; border: none; padding: 15px 25px; margin: 8px; border-radius: 12px; font-size: 1.1rem; cursor: pointer; font-weight: bold; transition: 0.2s; line-height: 1.2; min-width: 80px; }
         .btn-respuesta.error { background-color: #e74c3c !important; }
+        
         .contenedor-inspector { display: flex; align-items: stretch; background: white; border: 2px solid #2c3e50; border-radius: 10px; padding: 10px; width: 95%; max-width: 600px; }
         .seccion-compas { flex: 1; display: flex; flex-direction: column; border-right: 2px solid #2c3e50; min-width: 80px; }
         .seccion-compas:last-of-type { border-right: none; }
@@ -43,7 +46,9 @@
         .caja-click:hover::after { background: #d6eaf8; border-color: #3498db; transform: scale(1.1); }
         .zona-drop-container { display: flex; gap: 12px; justify-content: center; margin-top: 10px; }
         .hueco { width: 65px; height: 65px; border: 3px dashed #3498db; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #f9f9f9; }
-        .pieza { width: 60px; height: 60px; background: #5dade2; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: grab; font-size: 35px !important; touch-action: none; }
+        
+        /* AJUSTE AQUÍ: Soporte táctil y tamaño de pieza */
+        .pieza { width: 60px; height: 60px; background: #5dade2; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: grab; font-size: 35px !important; touch-action: none; z-index: 10; }
         .img-ritmo { max-height: 120px; width: auto; }
         .simbolo-suma { font-size: 2.5rem; font-weight: bold; color: #3498db; margin: 0 10px; }
     </style>
@@ -246,7 +251,8 @@
                             btn.innerText = d.n;
                         } else {
                             btn.classList.add('icono-f');
-                            btn.style.fontSize = "1.8rem";
+                            // AJUSTE AQUÍ: Fuente ligeramente más pequeña para que mf no se corte
+                            btn.style.fontSize = "1.6rem";
                             btn.innerText = d.s;
                         }
                         btn.onclick = () => verificarRespuesta(d.s, btn, d.n); 
