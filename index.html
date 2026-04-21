@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos Básicos del Lenguaje Musical</title>
+    <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
+    
+    <style>
+        /* ESTILOS */
+        body { font-family: 'Arial', sans-serif; background-color: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        #contenedor-app { background: white; width: 95%; max-width: 850px; padding: 40px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; position: relative; }
+        h1 { color: #2c3e50; font-size: 2.2rem; margin-bottom: 30px; }
+        #seccion-registro { margin-bottom: 30px; padding: 25px; background: #ebf5fb; border-radius: 15px; border: 2px solid #3498db; }
+        #nombre-alumno { padding: 12px; font-size: 1.2rem; border-radius: 8px; border: 1px solid #ccc; width: 280px; text-align: center; font-weight: bold; }
+        #menu-inicio { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .cuadros-container { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; width: 100%; margin-top: 20px;}
+        .tarjeta { background-color: #5dade2; color: white; width: 200px; height: 230px; border-radius: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; box-shadow: 0 6px 15px rgba(0,0,0,0.1); text-decoration: none; padding: 10px; box-sizing: border-box; gap: 10px; }
+        .tarjeta:hover { transform: translateY(-8px); background-color: #3498db; box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .icono { font-size: 85px; height: 110px; display: flex; align-items: center; justify-content: center; width: 100%; }
+        .icono-clave { font-size: 105px !important; display: inline-block; }
+        .icono-f { font-family: 'Times New Roman', Times, serif !important; font-weight: bold !important; font-style: italic !important; font-size: 85px !important; line-height: 1; display: inline-block; }
+        .tarjeta span { font-weight: bold; font-size: 1.4rem; color: white; margin: 0; }
+        #pantalla-actividad { display: none; }
+        .header-actividad { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .btn-volver, #selector-nivel { padding: 15px 25px; font-size: 1.1rem; font-weight: bold; border: 3px solid #3498db; border-radius: 12px; background-color: #ebf5fb; color: #2c3e50; cursor: pointer; }
+        #contenedor-pentagrama { display: flex; justify-content: center; margin: 20px 0; position: relative; width: 100%; }
+        #pentagrama { background: #fff; border: 3px solid #3498db; border-radius: 20px; width: 100%; max-width: 650px; min-height: 200px; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 10px; box-sizing: border-box; }
+        #feedback-error { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 120px; color: #e74c3c; font-weight: bold; z-index: 10; pointer-events: none; }
+        #mensaje-incorrecto { color: #e74c3c; font-size: 1.5rem; font-weight: bold; height: 30px; margin-bottom: 10px; visibility: hidden; }
+        .cronometro { font-size: 4rem; color: #e74c3c; font-weight: bold; }
+        .btn-inicio { background: #5dade2; color: white; border: none; padding: 20px 60px; border-radius: 15px; font-size: 1.8rem; cursor: pointer; font-weight: bold; }
+        .btn-respuesta { background: #3498db; color: white; border: none; padding: 15px 20px; margin: 8px; border-radius: 12px; font-size: 1.1rem; cursor: pointer; font-weight: bold; transition: 0.2s; line-height: 1.2; }
+        .btn-respuesta.error { background-color: #e74c3c !important; }
+        .contenedor-inspector { display: flex; align-items: stretch; background: white; border: 2px solid #2c3e50; border-radius: 10px; padding: 10px; width: 95%; max-width: 600px; }
+        .seccion-compas { flex: 1; display: flex; flex-direction: column; border-right: 2px solid #2c3e50; min-width: 80px; }
+        .seccion-compas:last-of-type { border-right: none; }
+        .dibujo-notas { height: 100px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+        .dibujo-notas img { max-height: 50px; width: auto; margin: 0 1px; }
+        .img-fija-insp { height: 70px; align-self: center; padding: 0 5px; width: auto; }
+        .caja-click { height: 60px; display: flex; align-items: center; justify-content: center; cursor: pointer; user-select: none; }
+        .caja-click::after { content: ""; width: 35px; height: 35px; border: 3px solid #2c3e50; border-radius: 6px; background: #fff; transition: 0.2s; }
+        .caja-click:hover::after { background: #d6eaf8; border-color: #3498db; transform: scale(1.1); }
+        .zona-drop-container { display: flex; gap: 12px; justify-content: center; margin-top: 10px; }
+        .hueco { width: 65px; height: 65px; border: 3px dashed #3498db; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #f9f9f9; }
+        .pieza { width: 60px; height: 60px; background: #5dade2; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: grab; font-size: 35px !important; }
+        .img-ritmo { max-height: 120px; width: auto; }
+        .simbolo-suma { font-size: 2.5rem; font-weight: bold; color: #3498db; margin: 0 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="contenedor-app">
+        <div id="menu-inicio">
+            <h1>Fundamentos Básicos del Lenguaje Musical</h1>
+            <div id="seccion-registro">
+                <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #2c3e50; font-size: 1.2rem;">¿Cómo te llamas?</label>
+                <input type="text" id="nombre-alumno" placeholder="Escribe tu nombre aquí">
+            </div>
+            <div class="cuadros-container">
+                <div class="tarjeta" onclick="intentarEntrar('Ritmo')">
+                    <div class="icono">♩</div>
+                    <span>RITMO</span>
+                </div>
+                <div class="tarjeta" onclick="intentarEntrar('Melodía')">
+                    <div class="icono"><span class="icono-clave">𝄞</span></div>
+                    <span>MELODÍA</span>
+                </div>
+                <div class="tarjeta" onclick="intentarEntrar('Dinámicas')">
+                    <div class="icono"><span class="icono-f">f</span></div>
+                    <span>DINÁMICAS</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="pantalla-actividad">
+            <div class="header-actividad">
+                <button class="btn-volver" onclick="volver()"> MENÚ</button>
+                <select id="selector-nivel" onchange="ajustarTiemposSelector()"></select>
+            </div>
+            <div id="pantalla-previa">
+                <h2 id="titulo-modulo" style="color: #34495e;"></h2>
+                <p id="instrucciones-texto" style="font-size: 1.3rem; color: #7f8c8d; margin-bottom: 30px;"></p>
+                <button class="btn-inicio" onclick="comenzarActividad()">COMENZAR</button>
+            </div>
+            <div id="area-juego" style="display:none;">
+                <div class="cronometro" id="tiempo">20</div>
+                <div id="contador" style="font-size: 1.4rem; font-weight: bold; margin: 10px;">Aciertos: 0 | Errores: 0</div>
+                <div id="mensaje-incorrecto">¡Incorrecto!</div>
+                <div id="contenedor-pentagrama">
+                    <div id="pentagrama"></div>
+                    <div id="feedback-error">✘</div>
+                </div>
+                <div id="opciones"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbzy5sc0_ijmg0Ch50LYrAzfKYaxuW5qHL_iBq3GaiLYkLmokIwRmMEFF5wh_vuYT60YPQ/exec";
+
+        let alumnoActual = "", moduloActual = "", tiempoRestante, timer, notaActual, itemsRestantes, aciertos, errores, bloqueado = false;
+        let rondaDrag = 1, faseRitmo = 1;
+        let logAciertos = [], logErrores = [];
+
+        const MAPA_MELODIA = { 'c/4': 'Do', 'd/4': 'Re', 'e/4': 'Mi', 'f/4': 'Fa', 'g/4': 'Sol' };
+        const RITMO_NOTAS = [
+            { id: 'negra', n: 'Negra', d: '(1 tiempo)', img: 'negra.png', v: 1 },
+            { id: 'blanca', n: 'Blanca', d: '(2 tiempos)', img: 'blanca.png', v: 2 },
+            { id: 'redonda', n: 'Redonda', d: '(4 tiempos)', img: 'redonda.png', v: 4 }
+        ];
+        const RITMO_SIMBOLOS = [
+            { id: '44', n: 'Compás 4/4', d: '(Indica 4 pulsos)', img: 'cuatrocuatro.png' },
+            { id: 'co', n: 'Un Compás', d: '(Espacio entre barras)', img: 'compas.png' },
+            { id: 'ba', n: 'Barra Compás', d: '(Línea divisoria)', img: 'barra.png' },
+            { id: 'db', n: 'Doble Barra', d: '(Final de la pieza)', img: 'doblebarra.png' }
+        ];
+        const DATA_DINAMICAS = [
+            { s: 'p', n: 'Piano', e: ["Un secreto al oído bajito", "El ronroneo de un gato", "Un reloj en silencio"] },
+            { s: 'mp', n: 'Mezzopiano', e: ["Murmullo en biblioteca", "Pasar hojas de un libro", "Lluvia tras el cristal"] },
+            { s: 'mf', n: 'Mezzoforte', e: ["Una charla normal", "TV a volumen medio", "Pasos con zapatos"] },
+            { s: 'f', n: 'Forte', e: ["Silbato de árbitro", "Perro ladrando fuerte", "Aplausos de mucha gente"] }
+        ];
+
+        function intentarEntrar(m) {
+            const n = document.getElementById('nombre-alumno').value.trim();
+            if (!n) { alert("Por favor, escribe tu nombre."); return; }
+            alumnoActual = n; moduloActual = m;
+            const sel = document.getElementById('selector-nivel');
+            const ins = document.getElementById('instrucciones-texto');
+            sel.innerHTML = "";
+            if (m === 'Melodía') {
+                ins.innerText = "Identifica las notas en el pentagrama.";
+                sel.innerHTML = `<option value="20">BÁSICO (20s)</option><option value="15">INTERMEDIO (15s)</option><option value="10">AVANZADO (10s)</option>`;
+            } else if (m === 'Ritmo') {
+                ins.innerText = "Reconoce figuras y resuelve sumas rítmicas.";
+                sel.innerHTML = `<option value="25">BÁSICO (Identificar)</option><option value="20">INTERMEDIO (Sumas x5)</option><option value="25">AVANZADO (Inspector)</option>`;
+            } else {
+                ins.innerText = "Reconoce u ordena los niveles de intensidad.";
+                sel.innerHTML = `<option value="25">BÁSICO (Reconocer)</option><option value="25">INTERMEDIO (Ordenar)</option><option value="20">AVANZADO (Sonidos)</option>`;
+            }
+            document.getElementById('menu-inicio').style.display = 'none';
+            document.getElementById('pantalla-actividad').style.display = 'block';
+            document.getElementById('pantalla-previa').style.display = 'block';
+            document.getElementById('area-juego').style.display = 'none';
+            document.getElementById('titulo-modulo').innerText = "Módulo de " + m;
+        }
+
+        function ajustarTiemposSelector() { document.getElementById('tiempo').innerText = document.getElementById('selector-nivel').value; }
+
+        function comenzarActividad() {
+            document.getElementById('pantalla-previa').style.display = 'none';
+            document.getElementById('area-juego').style.display = 'block';
+            aciertos = 0; errores = 0; rondaDrag = 1; faseRitmo = 1; bloqueado = false;
+            logAciertos = []; logErrores = [];
+            const nIdx = document.getElementById('selector-nivel').selectedIndex;
+            if (moduloActual === 'Melodía') itemsRestantes = Object.keys(MAPA_MELODIA).sort(() => Math.random() - 0.5);
+            else if (moduloActual === 'Ritmo') {
+                if(nIdx === 0) itemsRestantes = [...RITMO_NOTAS].sort(() => Math.random() - 0.5);
+                else if(nIdx === 1) itemsRestantes = [1, 2, 3, 4, 5];
+                else itemsRestantes = [1, 2, 3];
+            } else {
+                if (nIdx === 0) itemsRestantes = [...DATA_DINAMICAS].sort(() => Math.random() - 0.5);
+                else if (nIdx === 1) itemsRestantes = [1];
+                else itemsRestantes = DATA_DINAMICAS.map(d => ({ s: d.s, q: d.e[Math.floor(Math.random() * d.e.length)] })).sort(() => Math.random() - 0.5);
+            }
+            tiempoRestante = parseInt(document.getElementById('selector-nivel').value);
+            document.getElementById('tiempo').innerText = tiempoRestante;
+            proximaRonda();
+            iniciarTimer();
+        }
+
+        function proximaRonda() {
+            const pen = document.getElementById("pentagrama");
+            const ops = document.getElementById("opciones");
+            const nIdx = document.getElementById('selector-nivel').selectedIndex;
+            pen.innerHTML = ""; ops.innerHTML = "";
+
+            if (itemsRestantes.length === 0) {
+                if (moduloActual === 'Ritmo' && faseRitmo === 1 && nIdx === 0) {
+                    faseRitmo = 2; itemsRestantes = [...RITMO_SIMBOLOS].sort(() => Math.random() - 0.5);
+                } else if (moduloActual === 'Dinámicas' && nIdx === 1) {
+                    if (rondaDrag > 1) { finalizarYEnviar("Completado"); return; }
+                } else { 
+                    finalizarYEnviar("Completado"); return;
+                }
+            }
+
+            if (moduloActual === 'Ritmo' && nIdx === 2) {
+                itemsRestantes.pop();
+                const idxErr = Math.floor(Math.random() * 3); notaActual = idxErr;
+                const cont = document.createElement('div'); cont.className = 'contenedor-inspector';
+                const img44 = document.createElement('img'); img44.src = 'cuatrocuatrosolo.png'; img44.className = 'img-fija-insp';
+                cont.appendChild(img44);
+                for(let i=0; i<3; i++) {
+                    const sec = document.createElement('div'); sec.className = 'seccion-compas';
+                    const dib = document.createElement('div'); dib.className = 'dibujo-notas';
+                    generarNotasInspector(dib, (i === idxErr ? (Math.random() > 0.5 ? 3 : 5) : 4));
+                    const caj = document.createElement('div'); caj.className = 'caja-click';
+                    caj.onclick = function() { verificarRespuesta(i, caj, "Compás " + (i+1)); };
+                    sec.appendChild(dib); sec.appendChild(caj); cont.appendChild(sec);
+                }
+                const imgB = document.createElement('img'); imgB.src = 'doblebarrasola.png'; imgB.className = 'img-fija-insp';
+                cont.appendChild(imgB); pen.appendChild(cont);
+                ops.innerHTML = "<p>Inspector: Marca el compás que NO tiene 4 tiempos.</p>";
+            } else if (moduloActual === 'Melodía') {
+                notaActual = itemsRestantes.pop(); 
+                let nom = MAPA_MELODIA[notaActual];
+                dibujarNota(notaActual);
+                Object.keys(MAPA_MELODIA).forEach(k => {
+                    const btn = document.createElement('button'); btn.className = 'btn-respuesta'; btn.innerText = MAPA_MELODIA[k];
+                    btn.onclick = () => verificarRespuesta(k, btn, nom); ops.appendChild(btn);
+                });
+            } else if (moduloActual === 'Ritmo' && nIdx === 0) {
+                let it = itemsRestantes.pop(); notaActual = it.id;
+                pen.innerHTML = `<img src="${it.img}" class="img-ritmo">`;
+                let pool = (faseRitmo === 1) ? RITMO_NOTAS : RITMO_SIMBOLOS;
+                pool.forEach(r => {
+                    const btn = document.createElement('button'); btn.className = 'btn-respuesta'; btn.innerHTML = `${r.n}<br><small>${r.d}</small>`;
+                    btn.onclick = () => verificarRespuesta(r.id, btn, r.n); ops.appendChild(btn);
+                });
+            } else if (moduloActual === 'Ritmo' && nIdx === 1) {
+                let s = 0; itemsRestantes.pop();
+                for(let i=0; i<3; i++) {
+                    let f = RITMO_NOTAS[Math.floor(Math.random()*3)]; s += f.v;
+                    pen.innerHTML += `<img src="${f.img}" style="max-height:80px;">` + (i<2 ? '<span class="simbolo-suma">+</span>':'<span class="simbolo-suma">=</span>');
+                }
+                notaActual = s;
+                for(let v=3; v<=12; v++) {
+                    const btn = document.createElement('button'); btn.className='btn-respuesta'; btn.innerText=v;
+                    btn.onclick = () => verificarRespuesta(v, btn, "Suma " + s); ops.appendChild(btn);
+                }
+            } else if (moduloActual === 'Dinámicas') {
+                if (nIdx === 1) { generarDragDrop(); } 
+                else {
+                    let it = itemsRestantes.pop(); notaActual = it.s;
+                    if(nIdx === 0) {
+                        pen.innerHTML = `<div class="icono-f" style="font-size:75px;">${it.s}</div>`;
+                    } else {
+                        pen.innerHTML = `<div style="font-size:1.4rem; padding:15px; font-weight:bold;">"${it.q}"</div>`;
+                    }
+                    // AQUÍ CORREGIMOS EL FONT DE LOS BOTONES
+                    DATA_DINAMICAS.forEach(d => {
+                        const btn = document.createElement('button'); 
+                        btn.className = 'btn-respuesta';
+                        // Aplicamos el estilo musical (icono-f) si es nivel avanzado (nIdx === 2) o basico
+                        if (nIdx === 0) {
+                            btn.innerText = d.n;
+                        } else {
+                            btn.classList.add('icono-f');
+                            btn.style.fontSize = "1.8rem";
+                            btn.innerText = d.s;
+                        }
+                        btn.onclick = () => verificarRespuesta(d.s, btn, d.n); 
+                        ops.appendChild(btn);
+                    });
+                }
+            }
+            actualizarContador();
+        }
+
+        function generarNotasInspector(c, t) {
+            let r = t;
+            const figs = [...RITMO_NOTAS].reverse();
+            while(r > 0) {
+                let posibles = figs.filter(x => x.v <= r);
+                if(posibles.length === 0) break;
+                let elegida;
+                if(posibles[0].id === 'redonda' && posibles.length > 1) {
+                    elegida = (Math.random() < 0.3) ? posibles[0] : posibles[Math.floor(Math.random() * (posibles.length - 1)) + 1];
+                } else {
+                    elegida = posibles[Math.floor(Math.random() * posibles.length)];
+                }
+                const img = document.createElement('img');
+                img.src = elegida.img;
+                c.appendChild(img);
+                r -= elegida.v;
+            }
+        }
+
+        function dibujarNota(n) {
+            const renderer = new Vex.Flow.Renderer(document.getElementById("pentagrama"), Vex.Flow.Renderer.Backends.SVG);
+            renderer.resize(180, 160); const ctx = renderer.getContext();
+            const stave = new Vex.Flow.Stave(10, 30, 160); stave.addClef("treble").setContext(ctx).draw();
+            const notes = [new Vex.Flow.StaveNote({ keys: [n], duration: "q" })];
+            Vex.Flow.Formatter.FormatAndDraw(ctx, stave, notes);
+        }
+
+        function verificarRespuesta(v, b, itemNom) {
+            if(bloqueado) return;
+            if(v === notaActual) { aciertos++; logAciertos.push(itemNom); proximaRonda(); }
+            else { errores++; logErrores.push(itemNom); mostrarError(b); }
+        }
+
+        function mostrarError(b) {
+            bloqueado = true; document.getElementById('feedback-error').style.display = 'block';
+            document.getElementById('mensaje-incorrecto').style.visibility = 'visible';
+            if(b) b.classList.add('error');
+            setTimeout(() => {
+                document.getElementById('feedback-error').style.display = 'none';
+                document.getElementById('mensaje-incorrecto').style.visibility = 'hidden';
+                if(b) b.classList.remove('error'); bloqueado = false;
+            }, 1000);
+        }
+
+        function generarDragDrop() {
+            const pen = document.getElementById("pentagrama");
+            const ops = document.getElementById("opciones");
+            const ord = rondaDrag === 1 ? 'Suave a Fuerte' : 'Fuerte a Suave';
+            pen.innerHTML = `<div style="width:100%"><p>Ordena de ${ord}:</p><div class="zona-drop-container"><div class="hueco" id="h0"></div><div class="hueco" id="h1"></div><div class="hueco" id="h2"></div><div class="hueco" id="h3"></div></div></div>`;
+            ops.innerHTML = `<div id="piezas" style="display:flex; gap:10px; justify-content:center;"></div>`;
+            [...DATA_DINAMICAS].sort(()=>Math.random()-0.5).forEach(d => {
+                const p = document.createElement('div'); p.className='pieza icono-f'; p.innerText=d.s; p.draggable=true; p.id="p-"+d.s;
+                p.ondragstart = (e) => e.dataTransfer.setData("text", e.target.id); document.getElementById('piezas').appendChild(p);
+            });
+            document.querySelectorAll('.hueco').forEach(h => {
+                h.ondragover = (e) => e.preventDefault();
+                h.ondrop = (e) => {
+                    const id = e.dataTransfer.getData("text");
+                    if(h.children.length === 0) h.appendChild(document.getElementById(id));
+                    validarDrag();
+                };
+            });
+        }
+
+        function validarDrag() {
+            const huecos = document.querySelectorAll('.hueco');
+            const llenos = Array.from(huecos).filter(h => h.children.length > 0);
+            if(llenos.length === 4) {
+                const res = Array.from(huecos).map(h => h.firstChild.innerText);
+                const sol = rondaDrag === 1 ? ['p', 'mp', 'mf', 'f'] : ['f', 'mf', 'mp', 'p'];
+                const itemD = "Orden " + (rondaDrag === 1 ? "Asc" : "Desc");
+                if(JSON.stringify(res) === JSON.stringify(sol)) {
+                    aciertos++; logAciertos.push(itemD);
+                    if(rondaDrag === 2) { setTimeout(() => finalizarYEnviar("Completado"), 500); } 
+                    else { rondaDrag = 2; setTimeout(proximaRonda, 500); }
+                } else { errores++; logErrores.push(itemD); mostrarError(); setTimeout(proximaRonda, 1000); }
+            }
+        }
+
+        function actualizarContador() { document.getElementById('contador').innerText = `Aciertos: ${aciertos} | Errores: ${errores}`; }
+
+        function iniciarTimer() {
+            clearInterval(timer);
+            timer = setInterval(() => {
+                tiempoRestante--; document.getElementById('tiempo').innerText = tiempoRestante;
+                if(tiempoRestante <= 0) { clearInterval(timer); finalizarYEnviar("Tiempo agotado"); }
+            }, 1000);
+        }
+
+        function volver() { clearInterval(timer); document.getElementById('menu-inicio').style.display = 'flex'; document.getElementById('pantalla-actividad').style.display = 'none'; }
+
+        function finalizarYEnviar(estado) {
+            clearInterval(timer);
+            const nivelSel = document.getElementById('selector-nivel');
+            const nivel = nivelSel.options[nivelSel.selectedIndex].text;
+            alert(`¡Actividad terminada!\nEstado: ${estado}\nAciertos: ${aciertos}\nErrores: ${errores}`);
+            const params = new URLSearchParams();
+            params.append("Fecha", new Date().toLocaleString());
+            params.append("Alumno", alumnoActual);
+            params.append("Módulo", moduloActual);
+            params.append("Nivel", nivel);
+            params.append("Aciertos", aciertos);
+            params.append("Estado", estado);
+            params.append("Log Aciertos", logAciertos.join(", "));
+            params.append("Log Errores", logErrores.join(", "));
+            fetch(GOOGLE_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: params.toString()
+            });
+            volver();
+        }
+    </script>
+</body>
+</html>
