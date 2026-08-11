@@ -1,552 +1,470 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Fundamentos Básicos del Lenguaje Musical</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
 
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f2f5;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#contenedor-app {
+    background: white;
+    width: 95%;
+    max-width: 850px;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* =========================
+   MENÚ PRINCIPAL
+========================= */
+
+#menu-inicio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #2c3e50;
+    font-size: 2.2rem;
+    margin-bottom: 35px;
+}
+
+.cuadros-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.tarjeta {
+    background-color: #5dade2;
+    color: white;
+    width: 240px;
+    height: 250px;
+    border-radius: 25px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    transition: 0.25s;
+
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+
+    padding: 15px;
+}
+
+.tarjeta:hover {
+    transform: translateY(-8px);
+    background-color: #3498db;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.tarjeta .icono {
+    font-size: 90px;
+    height: 125px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tarjeta span {
+    font-weight: bold;
+    font-size: 1.35rem;
+    color: white;
+}
+
+/* =========================
+   ACTIVIDAD
+========================= */
+
+#pantalla-actividad {
+    display: none;
+}
+
+.header-actividad {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.btn-volver,
+#selector-nivel {
+    padding: 13px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+
+    border: 3px solid #3498db;
+    border-radius: 12px;
+
+    background-color: #ebf5fb;
+    color: #2c3e50;
+
+    cursor: pointer;
+}
+
+#pantalla-previa {
+    padding: 20px;
+}
+
+#titulo-modulo {
+    color: #34495e;
+    font-size: 2rem;
+}
+
+#instrucciones-texto {
+    font-size: 1.3rem;
+    color: #7f8c8d;
+    margin-bottom: 35px;
+}
+
+.btn-inicio {
+    background: #5dade2;
+    color: white;
+    border: none;
+
+    padding: 20px 60px;
+
+    border-radius: 15px;
+
+    font-size: 1.7rem;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.btn-inicio:hover {
+    background: #3498db;
+}
+
+/* =========================
+   JUEGO
+========================= */
+
+#area-juego {
+    display: none;
+}
+
+.cronometro {
+    font-size: 4rem;
+    color: #e74c3c;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#contador {
+    font-size: 1.35rem;
+    font-weight: bold;
+    margin: 10px;
+    color: #2c3e50;
+}
+
+#mensaje-incorrecto {
+    color: #e74c3c;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    height: 30px;
+    margin-bottom: 5px;
+
+    visibility: hidden;
+}
+
+#contenedor-pentagrama {
+    position: relative;
+
+    width: 100%;
+    max-width: 700px;
+
+    min-height: 230px;
+
+    margin: 15px auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pentagrama {
+    width: 100%;
+    min-height: 210px;
+
+    background: white;
+
+    border: 3px solid #3498db;
+    border-radius: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 15px;
+
+    overflow: hidden;
+}
+
+#feedback-error {
+    display: none;
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 120px;
+
+    color: #e74c3c;
+
+    font-weight: bold;
+
+    z-index: 100;
+
+    pointer-events: none;
+}
+
+/* =========================
+   BOTONES DE RESPUESTA
+========================= */
+
+#opciones {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-respuesta {
+    background: #3498db;
+    color: white;
+
+    border: none;
+
+    padding: 15px 22px;
+
+    margin: 5px;
+
+    border-radius: 12px;
+
+    font-size: 1.15rem;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+
+    min-width: 90px;
+}
+
+.btn-respuesta:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn-respuesta.error {
+    background-color: #e74c3c !important;
+}
+
+/* =========================
+   MÓDULO DE SÍMBOLOS
+========================= */
+
+.simbolo-display {
+    max-width: 90%;
+    max-height: 170px;
+
+    object-fit: contain;
+}
+
+.simbolo-grande {
+    max-width: 95%;
+    max-height: 180px;
+}
+
+/* =========================
+   MÓDULO DE NOTAS
+========================= */
+
+/*
+   Este contenedor utiliza el PNG del pentagrama
+   como fondo y coloca la clave y la nota encima.
+*/
+
+.staff-notas {
+    position: relative;
+
+    width: 100%;
+    max-width: 650px;
+
+    height: 190px;
+
+    margin: auto;
+
+    overflow: hidden;
+}
+
+.staff-imagen {
+    position: absolute;
+
+    left: 5%;
+    top: 35px;
+
+    width: 90%;
+    height: 105px;
+
+    object-fit: fill;
+}
+
+/*
+   La clave se coloca sobre el pentagrama.
+*/
+
+.clave-imagen {
+    position: absolute;
+
+    left: 8%;
+    top: 5px;
+
+    width: 85px;
+    height: 165px;
+
+    object-fit: contain;
+
+    z-index: 3;
+}
+
+/*
+   Nota musical.
+
+   La posición vertical cambia según la nota.
+*/
+
+.nota-imagen {
+    position: absolute;
+
+    width: 48px;
+    height: 70px;
+
+    object-fit: contain;
+
+    z-index: 5;
+}
+
+/*
+   Posiciones de las cinco notas.
+
+   Do = C4
+   Re = D4
+   Mi = E4
+   Fa = F4
+   Sol = G4
+*/
+
+.nota-do {
+    left: 37%;
+    top: 119px;
+}
+
+.nota-re {
+    left: 42%;
+    top: 108px;
+}
+
+.nota-mi {
+    left: 47%;
+    top: 94px;
+}
+
+.nota-fa {
+    left: 52%;
+    top: 82px;
+}
+
+.nota-sol {
+    left: 57%;
+    top: 68px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 650px) {
+
+    #contenedor-app {
         padding: 20px;
     }
 
-    #contenedor-app {
-        background: white;
-        width: 95%;
-        max-width: 850px;
-        padding: 40px;
-        border-radius: 25px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        text-align: center;
-        position: relative;
-    }
-
     h1 {
-        color: #2c3e50;
-        font-size: 2.2rem;
-        margin-bottom: 35px;
-    }
-
-    h2 {
-        color: #34495e;
-    }
-
-    /* ==============================
-       MENÚ
-       ============================== */
-
-    #menu-inicio {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-
-    .cuadros-container {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        flex-wrap: wrap;
-        width: 100%;
-        margin-top: 15px;
+        font-size: 1.7rem;
     }
 
     .tarjeta {
-        background-color: #5dade2;
-        color: white;
-        width: 250px;
-        height: 245px;
-        border-radius: 25px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: 0.3s;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-        padding: 15px;
-        gap: 15px;
+        width: 210px;
+        height: 210px;
     }
 
-    .tarjeta:hover {
-        transform: translateY(-8px);
-        background-color: #3498db;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    }
-
-    .icono {
-        font-size: 85px;
-        height: 115px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .icono-clave {
-        font-size: 105px;
-        display: inline-block;
-    }
-
-    .tarjeta span {
-        font-weight: bold;
-        font-size: 1.35rem;
-        color: white;
-        margin: 0;
-    }
-
-    /* ==============================
-       ACTIVIDAD
-       ============================== */
-
-    #pantalla-actividad {
-        display: none;
+    .tarjeta .icono {
+        font-size: 70px;
+        height: 100px;
     }
 
     .header-actividad {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 25px;
-        gap: 15px;
-    }
-
-    .btn-volver,
-    #selector-nivel {
-        padding: 14px 22px;
-        font-size: 1.05rem;
-        font-weight: bold;
-        border: 3px solid #3498db;
-        border-radius: 12px;
-        background-color: #ebf5fb;
-        color: #2c3e50;
-        cursor: pointer;
-    }
-
-    #selector-nivel {
-        text-align: center;
-    }
-
-    #pantalla-previa {
-        padding: 10px;
-    }
-
-    #instrucciones-texto {
-        font-size: 1.25rem;
-        color: #7f8c8d;
-        margin: 20px auto 30px;
-        max-width: 650px;
-        line-height: 1.5;
-    }
-
-    .btn-inicio {
-        background: #5dade2;
-        color: white;
-        border: none;
-        padding: 20px 60px;
-        border-radius: 15px;
-        font-size: 1.7rem;
-        cursor: pointer;
-        font-weight: bold;
-        transition: 0.2s;
-    }
-
-    .btn-inicio:hover {
-        background: #3498db;
-        transform: scale(1.03);
-    }
-
-    /* ==============================
-       JUEGO
-       ============================== */
-
-    #area-juego {
-        display: none;
+        flex-direction: column;
+        gap: 12px;
     }
 
     .cronometro {
-        font-size: 4rem;
-        color: #e74c3c;
-        font-weight: bold;
-        line-height: 1;
-        margin-bottom: 10px;
+        font-size: 3rem;
     }
 
-    #contador {
-        font-size: 1.35rem;
-        font-weight: bold;
-        margin: 10px;
-        color: #2c3e50;
+    .staff-notas {
+        transform: scale(0.85);
+        transform-origin: center;
+        margin-top: -10px;
+        margin-bottom: -10px;
     }
 
-    #mensaje-incorrecto {
-        color: #e74c3c;
-        font-size: 1.4rem;
-        font-weight: bold;
-        height: 30px;
-        margin-bottom: 10px;
-        visibility: hidden;
-    }
+}
 
-    #contenedor-pentagrama {
-        display: flex;
-        justify-content: center;
-        margin: 15px 0 20px;
-        position: relative;
-        width: 100%;
-    }
-
-    #pentagrama {
-        background: #fff;
-        border: 3px solid #3498db;
-        border-radius: 20px;
-        width: 100%;
-        max-width: 650px;
-        min-height: 220px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        padding: 15px;
-    }
-
-    #feedback-error {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 120px;
-        color: #e74c3c;
-        font-weight: bold;
-        z-index: 10;
-        pointer-events: none;
-    }
-
-    /* ==============================
-       BOTONES
-       ============================== */
-
-    #opciones {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        max-width: 700px;
-        margin: auto;
-    }
-
-    .btn-respuesta {
-        background: #3498db;
-        color: white;
-        border: none;
-        padding: 15px 25px;
-        margin: 7px;
-        border-radius: 12px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        font-weight: bold;
-        transition: 0.2s;
-        min-width: 100px;
-    }
-
-    .btn-respuesta:hover {
-        background: #2980b9;
-        transform: translateY(-2px);
-    }
-
-    .btn-respuesta.error {
-        background-color: #e74c3c !important;
-    }
-
-    /* ==============================
-       NOTACIÓN MUSICAL
-       ============================== */
-
-    .musica {
-        width: 100%;
-        max-width: 560px;
-        margin: auto;
-    }
-
-    .pregunta-musical {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #34495e;
-        margin-bottom: 15px;
-    }
-
-    .staff {
-        position: relative;
-        height: 130px;
-        width: 100%;
-        margin: auto;
-    }
-
-    .staff-lines {
-        position: absolute;
-        left: 8%;
-        right: 8%;
-        top: 35px;
-        height: 80px;
-        border-top: 2px solid #222;
-        border-bottom: 2px solid #222;
-        background:
-            linear-gradient(
-                to bottom,
-                transparent 19%,
-                #222 20%,
-                #222 22%,
-                transparent 23%,
-                transparent 44%,
-                #222 45%,
-                #222 47%,
-                transparent 48%,
-                transparent 69%,
-                #222 70%,
-                #222 72%,
-                transparent 73%
-            );
-    }
-
-    /*
-       Se generan cinco líneas mediante elementos individuales.
-    */
-
-    .linea {
-        position: absolute;
-        left: 8%;
-        right: 8%;
-        height: 2px;
-        background: #222;
-    }
-
-    .linea1 { top: 35px; }
-    .linea2 { top: 55px; }
-    .linea3 { top: 75px; }
-    .linea4 { top: 95px; }
-    .linea5 { top: 115px; }
-
-    .clave-sol {
-        position: absolute;
-        left: 10%;
-        top: 7px;
-        font-family: "Times New Roman", serif;
-        font-size: 105px;
-        line-height: 1;
-        font-weight: normal;
-        z-index: 2;
-    }
-
-    .nota-musical {
-        position: absolute;
-        font-family: "Times New Roman", serif;
-        font-size: 55px;
-        font-weight: bold;
-        z-index: 3;
-        line-height: 1;
-    }
-
-    /*
-       Posiciones de Do a Sol.
-       Estas posiciones corresponden al pentagrama
-       en clave de Sol.
-    */
-
-    .nota-do  { left: 46%; top: 100px; }
-    .nota-re  { left: 50%; top: 90px; }
-    .nota-mi  { left: 50%; top: 80px; }
-    .nota-fa  { left: 50%; top: 70px; }
-    .nota-sol { left: 50%; top: 60px; }
-
-    .nota-con-linea {
-        position: absolute;
-        width: 38px;
-        height: 2px;
-        background: #222;
-        z-index: 2;
-    }
-
-    .linea-do {
-        left: 43%;
-        top: 112px;
-    }
-
-    /* ==============================
-       SÍMBOLOS
-       ============================== */
-
-    .simbolo-grande {
-        font-family: "Times New Roman", serif;
-        color: #222;
-        font-weight: normal;
-    }
-
-    .simbolo-clave-grande {
-        font-family: "Times New Roman", serif;
-        font-size: 120px;
-        line-height: 1;
-    }
-
-    .simbolo-nota {
-        font-family: "Times New Roman", serif;
-        font-size: 100px;
-        line-height: 1;
-    }
-
-    .simbolo-blanca {
-        font-family: "Times New Roman", serif;
-        font-size: 100px;
-        line-height: 1;
-    }
-
-    .compas-visual {
-        width: 360px;
-        height: 100px;
-        position: relative;
-        margin: auto;
-    }
-
-    .compas-visual .linea {
-        left: 0;
-        right: 0;
-    }
-
-    .barra-vertical {
-        position: absolute;
-        top: 10px;
-        bottom: 10px;
-        width: 3px;
-        background: #222;
-    }
-
-    .barra-1 {
-        left: 20px;
-    }
-
-    .barra-2 {
-        right: 20px;
-    }
-
-    .barra-centro {
-        left: 180px;
-    }
-
-    .doble-1 {
-        left: 170px;
-    }
-
-    .doble-2 {
-        left: 180px;
-    }
-
-    .time-signature {
-        position: absolute;
-        left: 105px;
-        top: 18px;
-        font-family: "Times New Roman", serif;
-        font-size: 35px;
-        font-weight: bold;
-        line-height: 0.9;
-    }
-
-    .time-signature div {
-        height: 32px;
-    }
-
-    .nota-en-compas {
-        position: absolute;
-        font-family: "Times New Roman", serif;
-        font-size: 55px;
-    }
-
-    .nota1 { left: 190px; top: 18px; }
-    .nota2 { left: 230px; top: 18px; }
-
-    /* ==============================
-       RESPONSIVE
-       ============================== */
-
-    @media (max-width: 650px) {
-
-        body {
-            padding: 10px;
-        }
-
-        #contenedor-app {
-            width: 100%;
-            padding: 25px 15px;
-            border-radius: 18px;
-        }
-
-        h1 {
-            font-size: 1.7rem;
-        }
-
-        .tarjeta {
-            width: 210px;
-            height: 210px;
-        }
-
-        .icono {
-            font-size: 70px;
-            height: 90px;
-        }
-
-        .icono-clave {
-            font-size: 85px;
-        }
-
-        .header-actividad {
-            flex-direction: column;
-        }
-
-        .btn-volver,
-        #selector-nivel {
-            width: 100%;
-        }
-
-        .cronometro {
-            font-size: 3.5rem;
-        }
-
-        .btn-respuesta {
-            min-width: 90px;
-            padding: 13px 18px;
-            font-size: 1rem;
-        }
-
-        .clave-sol {
-            left: 5%;
-        }
-
-        .linea {
-            left: 5%;
-            right: 5%;
-        }
-    }
 </style>
 </head>
+
 
 <body>
 
 <div id="contenedor-app">
 
-    <!-- ==========================================
+    <!-- =========================
          MENÚ PRINCIPAL
-         ========================================== -->
+    ========================== -->
 
     <div id="menu-inicio">
 
@@ -556,10 +474,10 @@
 
         <div class="cuadros-container">
 
-            <div
-                class="tarjeta"
-                onclick="intentarEntrar('Símbolos Musicales')"
-            >
+            <!-- MÓDULO 1 -->
+
+            <div class="tarjeta"
+                 onclick="entrarModulo('Simbolos')">
 
                 <div class="icono">
                     𝄞
@@ -572,17 +490,17 @@
             </div>
 
 
-            <div
-                class="tarjeta"
-                onclick="intentarEntrar('Notas en el Pentagrama')"
-            >
+            <!-- MÓDULO 2 -->
+
+            <div class="tarjeta"
+                 onclick="entrarModulo('Notas')">
 
                 <div class="icono">
-                    ♫
+                    ♩
                 </div>
 
                 <span>
-                    NOTAS EN EL PENTAGRAMA
+                    NOTAS MUSICALES
                 </span>
 
             </div>
@@ -592,9 +510,9 @@
     </div>
 
 
-    <!-- ==========================================
+    <!-- =========================
          PANTALLA DE ACTIVIDAD
-         ========================================== -->
+    ========================== -->
 
     <div id="pantalla-actividad">
 
@@ -602,20 +520,34 @@
 
             <button
                 class="btn-volver"
-                onclick="volver()"
-            >
-                MENÚ
+                onclick="volver()">
+
+                ← MENÚ
+
             </button>
 
 
             <select
-                id="selector-nivel"
-                onchange="ajustarTiempo()"
-            >
+                id="selector-nivel">
+
+                <option value="20">
+                    PRINCIPIANTE — 20 segundos
+                </option>
+
+                <option value="15">
+                    INTERMEDIO — 15 segundos
+                </option>
+
+                <option value="10">
+                    EXPERTO — 10 segundos
+                </option>
+
             </select>
 
         </div>
 
+
+        <!-- PANTALLA PREVIA -->
 
         <div id="pantalla-previa">
 
@@ -625,31 +557,39 @@
 
             <button
                 class="btn-inicio"
-                onclick="comenzarActividad()"
-            >
+                onclick="comenzarActividad()">
+
                 COMENZAR
+
             </button>
 
         </div>
 
 
+        <!-- ÁREA DEL JUEGO -->
+
         <div id="area-juego">
 
             <div
                 class="cronometro"
-                id="tiempo"
-            >
+                id="tiempo">
+
                 20
+
             </div>
 
 
             <div id="contador">
+
                 Aciertos: 0 | Errores: 0
+
             </div>
 
 
             <div id="mensaje-incorrecto">
+
                 ¡Incorrecto!
+
             </div>
 
 
@@ -675,356 +615,582 @@
 
 <script>
 
-    /* ======================================================
-       CONFIGURACIÓN GENERAL
-       ====================================================== */
+/* =====================================================
+   CONFIGURACIÓN
+===================================================== */
 
-    const GOOGLE_URL =
-        "https://script.google.com/macros/s/AKfycbzy5sc0_ijmg0Ch50LYrAzfKYaxuW5qHL_iBq3GaiLYkLmokIwRmMEFF5wh_vuYT60YPQ/exec";
-
-
-    const NIVELES = [
-
-        {
-            nombre: "BÁSICO",
-            tiempo: 20,
-            opciones: 3
-        },
-
-        {
-            nombre: "INTERMEDIO",
-            tiempo: 12,
-            opciones: 4
-        },
-
-        {
-            nombre: "EXPERTO",
-            tiempo: 8,
-            opciones: 5
-        }
-
-    ];
+const GOOGLE_URL =
+"https://script.google.com/macros/s/AKfycbzy5sc0_ijmg0Ch50LYrAzfKYaxuW5qHL_iBq3GaiLYkLmokIwRmMEFF5wh_vuYT60YPQ/exec";
 
 
-    /* ======================================================
-       SÍMBOLOS
-       ====================================================== */
+let moduloActual = "";
 
-    const SIMBOLOS = [
+let tiempoRestante = 0;
 
-        {
-            id: "staff",
-            nombre: "Pentagrama"
-        },
+let timer = null;
 
-        {
-            id: "clef",
-            nombre: "Clave de Sol"
-        },
+let notaActual = null;
 
-        {
-            id: "measure",
-            nombre: "Compás"
-        },
+let itemsRestantes = [];
 
-        {
-            id: "time44",
-            nombre: "Compás 4/4"
-        },
+let aciertos = 0;
 
-        {
-            id: "barline",
-            nombre: "Barra de compás"
-        },
+let errores = 0;
 
-        {
-            id: "doublebar",
-            nombre: "Doble barra"
-        },
+let bloqueado = false;
 
-        {
-            id: "quarter",
-            nombre: "Negra"
-        },
+let logAciertos = [];
 
-        {
-            id: "half",
-            nombre: "Blanca"
-        }
-
-    ];
+let logErrores = [];
 
 
-    /* ======================================================
-       NOTAS
-       ====================================================== */
+/* =====================================================
+   DATOS — MÓDULO DE SÍMBOLOS
+===================================================== */
 
-    const NOTAS = [
+const SIMBOLOS = [
 
-        {
-            id: "do",
-            nombre: "Do"
-        },
+    {
+        id: "pentagrama",
+        nombre: "Pentagrama",
+        imagen: "pentagrama.png"
+    },
 
-        {
-            id: "re",
-            nombre: "Re"
-        },
+    {
+        id: "clave",
+        nombre: "Clave de Sol",
+        imagen: "clavedesol.png"
+    },
 
-        {
-            id: "mi",
-            nombre: "Mi"
-        },
+    {
+        id: "compas",
+        nombre: "Compás",
+        imagen: "compas.png"
+    },
 
-        {
-            id: "fa",
-            nombre: "Fa"
-        },
+    {
+        id: "cuatrocuatro",
+        nombre: "4/4",
+        imagen: "cuatrocuatro.png"
+    },
 
-        {
-            id: "sol",
-            nombre: "Sol"
-        }
+    {
+        id: "barra",
+        nombre: "Barra de compás",
+        imagen: "barra.png"
+    },
 
-    ];
+    {
+        id: "doblebarra",
+        nombre: "Doble barra",
+        imagen: "doblebarra.png"
+    },
 
+    {
+        id: "negra",
+        nombre: "Negra",
+        imagen: "negra.png"
+    },
 
-    /* ======================================================
-       VARIABLES
-       ====================================================== */
+    {
+        id: "blanca",
+        nombre: "Blanca",
+        imagen: "blanca.png"
+    }
 
-    let moduloActual = "";
-    let nivelActual = 0;
-
-    let tiempoRestante = 20;
-    let timer = null;
-
-    let aciertos = 0;
-    let errores = 0;
-
-    let respuestaCorrecta = "";
-
-    let bloqueado = false;
-
-    let logAciertos = [];
-    let logErrores = [];
-
-
-    /* ======================================================
-       ENTRAR AL MÓDULO
-       ====================================================== */
-
-    function intentarEntrar(modulo) {
-
-        moduloActual = modulo;
-
-        const selector =
-            document.getElementById("selector-nivel");
-
-        selector.innerHTML = "";
+];
 
 
-        NIVELES.forEach(
-            (nivel, index) => {
+/* =====================================================
+   DATOS — MÓDULO DE NOTAS
+===================================================== */
 
-                const option =
-                    document.createElement("option");
+const NOTAS = [
 
-                option.value = index;
+    {
+        id: "do",
+        nombre: "Do",
+        clase: "nota-do"
+    },
 
-                option.textContent =
-                    `${nivel.nombre} (${nivel.tiempo}s)`;
+    {
+        id: "re",
+        nombre: "Re",
+        clase: "nota-re"
+    },
 
-                selector.appendChild(option);
-            }
+    {
+        id: "mi",
+        nombre: "Mi",
+        clase: "nota-mi"
+    },
+
+    {
+        id: "fa",
+        nombre: "Fa",
+        clase: "nota-fa"
+    },
+
+    {
+        id: "sol",
+        nombre: "Sol",
+        clase: "nota-sol"
+    }
+
+];
+
+
+/* =====================================================
+   ENTRAR A UN MÓDULO
+===================================================== */
+
+function entrarModulo(modulo) {
+
+    moduloActual = modulo;
+
+    const titulo =
+        document.getElementById("titulo-modulo");
+
+    const instrucciones =
+        document.getElementById("instrucciones-texto");
+
+    const menu =
+        document.getElementById("menu-inicio");
+
+    const actividad =
+        document.getElementById("pantalla-actividad");
+
+    const previa =
+        document.getElementById("pantalla-previa");
+
+    const juego =
+        document.getElementById("area-juego");
+
+
+    if (modulo === "Simbolos") {
+
+        titulo.innerText =
+            "Módulo de Símbolos Musicales";
+
+        instrucciones.innerText =
+            "Observa el símbolo musical y selecciona su nombre.";
+
+    }
+
+
+    if (modulo === "Notas") {
+
+        titulo.innerText =
+            "Módulo de Notas Musicales";
+
+        instrucciones.innerText =
+            "Observa la nota en el pentagrama y selecciona su nombre.";
+
+    }
+
+
+    menu.style.display = "none";
+
+    actividad.style.display = "block";
+
+    previa.style.display = "block";
+
+    juego.style.display = "none";
+
+}
+
+
+/* =====================================================
+   COMENZAR ACTIVIDAD
+===================================================== */
+
+function comenzarActividad() {
+
+    document.getElementById("pantalla-previa")
+        .style.display = "none";
+
+    document.getElementById("area-juego")
+        .style.display = "block";
+
+
+    aciertos = 0;
+
+    errores = 0;
+
+    bloqueado = false;
+
+    logAciertos = [];
+
+    logErrores = [];
+
+
+    if (moduloActual === "Simbolos") {
+
+        itemsRestantes =
+            [...SIMBOLOS]
+            .sort(() => Math.random() - 0.5);
+
+    }
+
+
+    if (moduloActual === "Notas") {
+
+        itemsRestantes =
+            [...NOTAS]
+            .sort(() => Math.random() - 0.5);
+
+    }
+
+
+    tiempoRestante =
+        parseInt(
+            document.getElementById("selector-nivel").value
         );
 
 
-        if (
-            modulo === "Símbolos Musicales"
-        ) {
-
-            document.getElementById(
-                "instrucciones-texto"
-            ).innerText =
-                "Identifica los símbolos y elementos básicos del lenguaje musical. Responde tantas preguntas como puedas antes de que se termine el tiempo.";
-
-        } else {
-
-            document.getElementById(
-                "instrucciones-texto"
-            ).innerText =
-                "Identifica las notas Do, Re, Mi, Fa y Sol en el pentagrama. Responde tantas preguntas como puedas antes de que se termine el tiempo.";
-
-        }
+    document.getElementById("tiempo")
+        .innerText = tiempoRestante;
 
 
-        document.getElementById(
-            "titulo-modulo"
-        ).innerText = modulo;
+    actualizarContador();
+
+    siguientePregunta();
+
+    iniciarTimer();
+
+}
 
 
-        document.getElementById(
-            "menu-inicio"
-        ).style.display = "none";
+/* =====================================================
+   SIGUIENTE PREGUNTA
+===================================================== */
+
+function siguientePregunta() {
+
+    const pentagrama =
+        document.getElementById("pentagrama");
+
+    const opciones =
+        document.getElementById("opciones");
 
 
-        document.getElementById(
-            "pantalla-actividad"
-        ).style.display = "block";
+    pentagrama.innerHTML = "";
+
+    opciones.innerHTML = "";
 
 
-        document.getElementById(
-            "pantalla-previa"
-        ).style.display = "block";
+    if (itemsRestantes.length === 0) {
 
+        finalizarYEnviar("Completado");
 
-        document.getElementById(
-            "area-juego"
-        ).style.display = "none";
+        return;
 
-
-        ajustarTiempo();
     }
 
 
-    /* ======================================================
-       AJUSTAR TIEMPO
-       ====================================================== */
+    const item =
+        itemsRestantes.pop();
 
-    function ajustarTiempo() {
 
-        nivelActual =
-            parseInt(
-                document.getElementById(
-                    "selector-nivel"
-                ).value || 0
+    notaActual =
+        item.id;
+
+
+    if (moduloActual === "Simbolos") {
+
+        mostrarSimbolo(item);
+
+        crearOpcionesSimbolos();
+
+    }
+
+
+    if (moduloActual === "Notas") {
+
+        mostrarNota(item);
+
+        crearOpcionesNotas();
+
+    }
+
+
+    actualizarContador();
+
+}
+
+
+/* =====================================================
+   MOSTRAR SÍMBOLO
+===================================================== */
+
+function mostrarSimbolo(item) {
+
+    const pentagrama =
+        document.getElementById("pentagrama");
+
+
+    const imagen =
+        document.createElement("img");
+
+
+    imagen.src = item.imagen;
+
+    imagen.alt = item.nombre;
+
+    imagen.className = "simbolo-display";
+
+
+    pentagrama.appendChild(imagen);
+
+}
+
+
+/* =====================================================
+   OPCIONES DE SÍMBOLOS
+===================================================== */
+
+function crearOpcionesSimbolos() {
+
+    const opciones =
+        document.getElementById("opciones");
+
+
+    const respuestas =
+        [...SIMBOLOS]
+        .sort(() => Math.random() - 0.5);
+
+
+    respuestas.forEach(item => {
+
+        const boton =
+            document.createElement("button");
+
+
+        boton.className =
+            "btn-respuesta";
+
+
+        boton.innerText =
+            item.nombre;
+
+
+        boton.onclick = function() {
+
+            verificarRespuesta(
+                item.id,
+                boton,
+                item.nombre
             );
 
-
-        tiempoRestante =
-            NIVELES[nivelActual].tiempo;
+        };
 
 
-        document.getElementById(
-            "tiempo"
-        ).innerText = tiempoRestante;
+        opciones.appendChild(boton);
+
+    });
+
+}
+
+
+/* =====================================================
+   MOSTRAR NOTA
+===================================================== */
+
+function mostrarNota(item) {
+
+    const pentagrama =
+        document.getElementById("pentagrama");
+
+
+    const staff =
+        document.createElement("div");
+
+
+    staff.className =
+        "staff-notas";
+
+
+    /*
+       Pentagrama
+    */
+
+    const imagenStaff =
+        document.createElement("img");
+
+
+    imagenStaff.src =
+        "pentagrama.png";
+
+
+    imagenStaff.className =
+        "staff-imagen";
+
+
+    staff.appendChild(imagenStaff);
+
+
+    /*
+       Clave de Sol
+    */
+
+    const clave =
+        document.createElement("img");
+
+
+    clave.src =
+        "clavedesol.png";
+
+
+    clave.className =
+        "clave-imagen";
+
+
+    staff.appendChild(clave);
+
+
+    /*
+       Nota
+    */
+
+    const nota =
+        document.createElement("img");
+
+
+    nota.src =
+        "negra.png";
+
+
+    nota.className =
+        "nota-imagen " + item.clase;
+
+
+    nota.alt =
+        item.nombre;
+
+
+    staff.appendChild(nota);
+
+
+    pentagrama.appendChild(staff);
+
+}
+
+
+/* =====================================================
+   OPCIONES DE NOTAS
+===================================================== */
+
+function crearOpcionesNotas() {
+
+    const opciones =
+        document.getElementById("opciones");
+
+
+    const respuestas =
+        [...NOTAS]
+        .sort(() => Math.random() - 0.5);
+
+
+    respuestas.forEach(item => {
+
+        const boton =
+            document.createElement("button");
+
+
+        boton.className =
+            "btn-respuesta";
+
+
+        boton.innerText =
+            item.nombre;
+
+
+        boton.onclick = function() {
+
+            verificarRespuesta(
+                item.id,
+                boton,
+                item.nombre
+            );
+
+        };
+
+
+        opciones.appendChild(boton);
+
+    });
+
+}
+
+
+/* =====================================================
+   VERIFICAR RESPUESTA
+===================================================== */
+
+function verificarRespuesta(
+    respuesta,
+    boton,
+    nombre
+) {
+
+    if (bloqueado) {
+        return;
     }
 
 
-    /* ======================================================
-       COMENZAR
-       ====================================================== */
+    if (respuesta === notaActual) {
 
-    function comenzarActividad() {
+        aciertos++;
 
-        clearInterval(timer);
-
-        aciertos = 0;
-        errores = 0;
-
-        logAciertos = [];
-        logErrores = [];
-
-        bloqueado = false;
-
-
-        tiempoRestante =
-            NIVELES[nivelActual].tiempo;
-
-
-        document.getElementById(
-            "pantalla-previa"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "area-juego"
-        ).style.display = "block";
-
-
-        document.getElementById(
-            "tiempo"
-        ).innerText = tiempoRestante;
-
-
-        actualizarContador();
-
+        logAciertos.push(nombre);
 
         siguientePregunta();
 
+    }
 
-        iniciarTimer();
+    else {
+
+        errores++;
+
+        logErrores.push(nombre);
+
+        mostrarError(boton);
+
+    }
+
+}
+
+
+/* =====================================================
+   MOSTRAR ERROR
+===================================================== */
+
+function mostrarError(boton) {
+
+    bloqueado = true;
+
+
+    document.getElementById(
+        "feedback-error"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "mensaje-incorrecto"
+    ).style.visibility = "visible";
+
+
+    if (boton) {
+
+        boton.classList.add("error");
+
     }
 
 
-    /* ======================================================
-       TEMPORIZADOR
-       ====================================================== */
-
-    function iniciarTimer() {
-
-        clearInterval(timer);
-
-        timer = setInterval(
-            function() {
-
-                tiempoRestante--;
-
-                document.getElementById(
-                    "tiempo"
-                ).innerText =
-                    tiempoRestante;
+    actualizarContador();
 
 
-                if (
-                    tiempoRestante <= 0
-                ) {
-
-                    clearInterval(timer);
-
-                    finalizarYEnviar(
-                        "Tiempo agotado"
-                    );
-                }
-
-            },
-            1000
-        );
-    }
-
-
-    /* ======================================================
-       SIGUIENTE PREGUNTA
-       ====================================================== */
-
-    function siguientePregunta() {
-
-        if (
-            tiempoRestante <= 0
-        ) {
-            return;
-        }
-
-
-        bloqueado = false;
-
-
-        const pentagrama =
-            document.getElementById(
-                "pentagrama"
-            );
-
-
-        const opciones =
-            document.getElementById(
-                "opciones"
-            );
-
-
-        pentagrama.innerHTML = "";
-        opciones.innerHTML = "";
-
+    setTimeout(function() {
 
         document.getElementById(
             "feedback-error"
@@ -1036,948 +1202,216 @@
         ).style.visibility = "hidden";
 
 
-        if (
-            moduloActual ===
-            "Símbolos Musicales"
-        ) {
-
-            generarPreguntaSimbolo();
-
-        } else {
-
-            generarPreguntaNota();
-
-        }
-    }
-
-
-    /* ======================================================
-       PREGUNTA DE SÍMBOLOS
-       ====================================================== */
-
-    function generarPreguntaSimbolo() {
-
-        const objetivo =
-            SIMBOLOS[
-                Math.floor(
-                    Math.random() *
-                    SIMBOLOS.length
-                )
-            ];
-
-
-        respuestaCorrecta =
-            objetivo.id;
-
-
-        /*
-           IMPORTANTE:
-           Creamos primero los botones.
-        */
-
-        const opciones =
-            document.getElementById(
-                "opciones"
-            );
-
-
-        const cantidad =
-            NIVELES[nivelActual].opciones;
-
-
-        const candidatos =
-            SIMBOLOS.filter(
-                function(s) {
-                    return s.id !== objetivo.id;
-                }
-            );
-
-
-        mezclar(candidatos);
-
-
-        let respuestas =
-            [objetivo];
-
-
-        respuestas =
-            respuestas.concat(
-                candidatos.slice(
-                    0,
-                    cantidad - 1
-                )
-            );
-
-
-        mezclar(respuestas);
-
-
-        respuestas.forEach(
-            function(simbolo) {
-
-                const boton =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                boton.className =
-                    "btn-respuesta";
-
-
-                boton.innerText =
-                    simbolo.nombre;
-
-
-                boton.onclick =
-                    function() {
-
-                        verificarRespuesta(
-                            simbolo.id,
-                            boton,
-                            simbolo.nombre
-                        );
-
-                    };
-
-
-                opciones.appendChild(
-                    boton
-                );
-            }
-        );
-
-
-        /*
-           Después dibujamos el símbolo.
-        */
-
-        dibujarSimbolo(
-            objetivo.id
-        );
-
-
-        actualizarContador();
-    }
-
-
-    /* ======================================================
-       DIBUJAR SÍMBOLO
-       ====================================================== */
-
-    function dibujarSimbolo(id) {
-
-        const contenedor =
-            document.getElementById(
-                "pentagrama"
-            );
-
-
-        /*
-           PENTAGRAMA
-        */
-
-        if (id === "staff") {
-
-            contenedor.innerHTML = `
-
-                <div class="musica">
-
-                    <div class="pregunta-musical">
-                        ¿Qué elemento musical es?
-                    </div>
-
-                    <div class="staff">
-
-                        <div class="linea linea1"></div>
-                        <div class="linea linea2"></div>
-                        <div class="linea linea3"></div>
-                        <div class="linea linea4"></div>
-                        <div class="linea linea5"></div>
-
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        /*
-           CLAVE DE SOL
-        */
-
-        if (id === "clef") {
-
-            contenedor.innerHTML = `
-
-                <div class="musica">
-
-                    <div class="pregunta-musical">
-                        ¿Qué símbolo musical es?
-                    </div>
-
-                    <div class="staff">
-
-                        <div class="linea linea1"></div>
-                        <div class="linea linea2"></div>
-                        <div class="linea linea3"></div>
-                        <div class="linea linea4"></div>
-                        <div class="linea linea5"></div>
-
-                        <div class="clave-sol">
-                            𝄞
-                        </div>
-
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        /*
-           COMPÁS
-        */
-
-        if (id === "measure") {
-
-            contenedor.innerHTML = `
-
-                <div class="musica">
-
-                    <div class="pregunta-musical">
-                        ¿Qué elemento musical es?
-                    </div>
-
-                    <div class="compas-visual">
-
-                        <div class="linea linea1"></div>
-                        <div class="linea linea2"></div>
-                        <div class="linea linea3"></div>
-                        <div class="linea linea4"></div>
-                        <div class="linea linea5"></div>
-
-                        <div class="barra-vertical barra-1"></div>
-                        <div class="barra-vertical barra-2"></div>
-
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        /*
-           4/4
-        */
-
-        if (id === "time44") {
-
-            contenedor.innerHTML = `
-
-                <div class="musica">
-
-                    <div class="pregunta-musical">
-                        ¿Qué símbolo musical es?
-                    </div>
-
-                    <div class="compas-visual">
-
-                        <div class="linea linea1"></div>
-                        <div class="linea linea2"></div>
-                        <div class="linea linea3"></div>
-                        <div class="linea linea4"></div>
-                        <div class="linea linea5"></div>
-
-                        <div class="barra-vertical barra-1"></div>
-                        <div class="barra-vertical barra-2"></div>
-
-                        <div class="time-signature">
-
-                            <div>4</div>
-                            <div>4</div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        /*
-           BARRA DE COMPÁS
-        */
-
-        if (id === "barline") {
-
-            contenedor.innerHTML = `
-
-                <div class="musica">
-
-                    <div class="pregunta-musical">
-                        ¿Qué símbolo musical es?
-                    </div>
-
-                    <div class="compas-visual">
-
-                        <div class="linea linea1"></div>
-                        <div class="linea linea2"></div>
-                        <div class="linea linea3"></div>
-                        <div class="linea linea4"></div>
-                        <div class="linea linea5"></div>
-
-                        <div class="barra-vertical barra-1"></div>
-
-                        <div class="barra-vertical barra-centro"></div>
-
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        /*
-           DOBLE BARRA
-        */
-
-        if (id === "doublebar") {
-
-            contenedor.innerHTML = `
-
-                <div class="musica">
-
-                    <div class="pregunta-musical">
-                        ¿Qué símbolo musical es?
-                    </div>
-
-                    <div class="compas-visual">
-
-                        <div class="linea linea1"></div>
-                        <div class="linea linea2"></div>
-                        <div class="linea linea3"></div>
-                        <div class="linea linea4"></div>
-                        <div class="linea linea5"></div>
-
-                        <div class="barra-vertical doble-1"></div>
-                        <div class="barra-vertical doble-2"></div>
-
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        /*
-           NEGRA
-        */
-
-        if (id === "quarter") {
-
-            contenedor.innerHTML = `
-
-                <div class="musica">
-
-                    <div class="pregunta-musical">
-                        ¿Qué figura musical es?
-                    </div>
-
-                    <div class="staff">
-
-                        <div class="linea linea1"></div>
-                        <div class="linea linea2"></div>
-                        <div class="linea linea3"></div>
-                        <div class="linea linea4"></div>
-                        <div class="linea linea5"></div>
-
-                        <div
-                            class="clave-sol"
-                            style="font-size:75px; left:10%;"
-                        >
-                            𝄞
-                        </div>
-
-                        <div
-                            class="nota-musical"
-                            style="left:53%; top:65px;"
-                        >
-                            ♩
-                        </div>
-
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        /*
-           BLANCA
-        */
-
-        if (id === "half") {
-
-            contenedor.innerHTML = `
-
-                <div class="musica">
-
-                    <div class="pregunta-musical">
-                        ¿Qué figura musical es?
-                    </div>
-
-                    <div class="staff">
-
-                        <div class="linea linea1"></div>
-                        <div class="linea linea2"></div>
-                        <div class="linea linea3"></div>
-                        <div class="linea linea4"></div>
-                        <div class="linea linea5"></div>
-
-                        <div
-                            class="clave-sol"
-                            style="font-size:75px; left:10%;"
-                        >
-                            𝄞
-                        </div>
-
-                        <div
-                            class="nota-musical"
-                            style="left:53%; top:65px;"
-                        >
-                            ♩
-                        </div>
-
-                    </div>
-
-                </div>
-            `;
-
-            /*
-               La diferencia visual entre negra y blanca
-               se establece debajo mediante CSS/Unicode
-               en una segunda capa.
-            */
-
-            const nota =
-                contenedor.querySelector(
-                    ".nota-musical"
-                );
-
-            nota.innerHTML = "𝅗𝅥";
-
-            return;
-        }
-
-    }
-
-
-    /* ======================================================
-       PREGUNTA DE NOTAS
-       ====================================================== */
-
-    function generarPreguntaNota() {
-
-        const objetivo =
-            NOTAS[
-                Math.floor(
-                    Math.random() *
-                    NOTAS.length
-                )
-            ];
-
-
-        respuestaCorrecta =
-            objetivo.id;
-
-
-        const opciones =
-            document.getElementById(
-                "opciones"
-            );
-
-
-        const cantidad =
-            NIVELES[nivelActual].opciones;
-
-
-        const candidatos =
-            NOTAS.filter(
-                function(n) {
-                    return n.id !== objetivo.id;
-                }
-            );
-
-
-        mezclar(candidatos);
-
-
-        let respuestas =
-            [objetivo];
-
-
-        respuestas =
-            respuestas.concat(
-                candidatos.slice(
-                    0,
-                    cantidad - 1
-                )
-            );
-
-
-        mezclar(respuestas);
-
-
-        respuestas.forEach(
-            function(nota) {
-
-                const boton =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                boton.className =
-                    "btn-respuesta";
-
-
-                boton.innerText =
-                    nota.nombre;
-
-
-                boton.onclick =
-                    function() {
-
-                        verificarRespuesta(
-                            nota.id,
-                            boton,
-                            nota.nombre
-                        );
-
-                    };
-
-
-                opciones.appendChild(
-                    boton
-                );
-            }
-        );
-
-
-        dibujarNota(
-            objetivo.id
-        );
-
-
-        actualizarContador();
-    }
-
-
-    /* ======================================================
-       DIBUJAR NOTA EN PENTAGRAMA
-       ====================================================== */
-
-    function dibujarNota(id) {
-
-        const posiciones = {
-
-            do: {
-                clase: "nota-do",
-                linea: true
-            },
-
-            re: {
-                clase: "nota-re",
-                linea: false
-            },
-
-            mi: {
-                clase: "nota-mi",
-                linea: false
-            },
-
-            fa: {
-                clase: "nota-fa",
-                linea: false
-            },
-
-            sol: {
-                clase: "nota-sol",
-                linea: false
-            }
-
-        };
-
-
-        const posicion =
-            posiciones[id];
-
-
-        const contenedor =
-            document.getElementById(
-                "pentagrama"
-            );
-
-
-        contenedor.innerHTML = `
-
-            <div class="musica">
-
-                <div class="pregunta-musical">
-                    ¿Qué nota es?
-                </div>
-
-                <div class="staff">
-
-                    <div class="linea linea1"></div>
-                    <div class="linea linea2"></div>
-                    <div class="linea linea3"></div>
-                    <div class="linea linea4"></div>
-                    <div class="linea linea5"></div>
-
-                    <div class="clave-sol">
-                        𝄞
-                    </div>
-
-                    <div
-                        class="nota-musical ${posicion.clase}"
-                    >
-                        ●
-                    </div>
-
-                    ${
-                        posicion.linea
-                        ?
-                        '<div class="nota-con-linea linea-do"></div>'
-                        :
-                        ''
-                    }
-
-                </div>
-
-            </div>
-        `;
-    }
-
-
-    /* ======================================================
-       VERIFICAR RESPUESTA
-       ====================================================== */
-
-    function verificarRespuesta(
-        valor,
-        boton,
-        nombre
-    ) {
-
-        if (bloqueado) {
-            return;
-        }
-
-
-        if (
-            valor === respuestaCorrecta
-        ) {
-
-            aciertos++;
-
-            logAciertos.push(
-                nombre
-            );
-
-            actualizarContador();
-
-            siguientePregunta();
-
-        } else {
-
-            errores++;
-
-            logErrores.push(
-                nombre
-            );
-
-            actualizarContador();
-
-            mostrarError(
-                boton
-            );
-        }
-    }
-
-
-    /* ======================================================
-       ERROR
-       ====================================================== */
-
-    function mostrarError(boton) {
-
-        bloqueado = true;
-
-
-        document.getElementById(
-            "feedback-error"
-        ).style.display = "block";
-
-
-        document.getElementById(
-            "mensaje-incorrecto"
-        ).style.visibility = "visible";
-
-
         if (boton) {
-            boton.classList.add(
-                "error"
-            );
+
+            boton.classList.remove("error");
+
         }
-
-
-        setTimeout(
-            function() {
-
-                document.getElementById(
-                    "feedback-error"
-                ).style.display = "none";
-
-
-                document.getElementById(
-                    "mensaje-incorrecto"
-                ).style.visibility =
-                    "hidden";
-
-
-                if (boton) {
-                    boton.classList.remove(
-                        "error"
-                    );
-                }
-
-
-                bloqueado = false;
-
-            },
-            900
-        );
-    }
-
-
-    /* ======================================================
-       CONTADOR
-       ====================================================== */
-
-    function actualizarContador() {
-
-        document.getElementById(
-            "contador"
-        ).innerText =
-            `Aciertos: ${aciertos} | Errores: ${errores}`;
-    }
-
-
-    /* ======================================================
-       FINALIZAR
-       ====================================================== */
-
-    function finalizarYEnviar(
-        estado
-    ) {
-
-        clearInterval(timer);
-
-        bloqueado = true;
-
-
-        const selector =
-            document.getElementById(
-                "selector-nivel"
-            );
-
-
-        const nivel =
-            selector.options[
-                selector.selectedIndex
-            ].text;
-
-
-        alert(
-            `¡Actividad terminada!\n\n` +
-            `Estado: ${estado}\n` +
-            `Aciertos: ${aciertos}\n` +
-            `Errores: ${errores}`
-        );
-
-
-        const params =
-            new URLSearchParams();
-
-
-        params.append(
-            "Fecha",
-            new Date().toLocaleString()
-        );
-
-
-        params.append(
-            "Alumno",
-            ""
-        );
-
-
-        params.append(
-            "Módulo",
-            moduloActual
-        );
-
-
-        params.append(
-            "Nivel",
-            nivel
-        );
-
-
-        params.append(
-            "Aciertos",
-            aciertos
-        );
-
-
-        params.append(
-            "Errores",
-            errores
-        );
-
-
-        params.append(
-            "Estado",
-            estado
-        );
-
-
-        params.append(
-            "Log Aciertos",
-            logAciertos.join(", ")
-        );
-
-
-        params.append(
-            "Log Errores",
-            logErrores.join(", ")
-        );
-
-
-        fetch(
-            GOOGLE_URL,
-            {
-                method: "POST",
-                mode: "no-cors",
-                headers: {
-                    "Content-Type":
-                        "application/x-www-form-urlencoded"
-                },
-                body: params.toString()
-            }
-        ).catch(
-            function() {}
-        );
-
-
-        volver();
-    }
-
-
-    /* ======================================================
-       VOLVER
-       ====================================================== */
-
-    function volver() {
-
-        clearInterval(timer);
-
-        document.getElementById(
-            "pantalla-actividad"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "menu-inicio"
-        ).style.display = "flex";
-
-
-        document.getElementById(
-            "pantalla-previa"
-        ).style.display = "block";
-
-
-        document.getElementById(
-            "area-juego"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "pentagrama"
-        ).innerHTML = "";
-
-
-        document.getElementById(
-            "opciones"
-        ).innerHTML = "";
 
 
         bloqueado = false;
-    }
+
+    }, 900);
+
+}
 
 
-    /* ======================================================
-       MEZCLAR
-       ====================================================== */
+/* =====================================================
+   CONTADOR
+===================================================== */
 
-    function mezclar(array) {
+function actualizarContador() {
 
-        for (
-            let i = array.length - 1;
-            i > 0;
-            i--
-        ) {
+    document.getElementById(
+        "contador"
+    ).innerText =
+        "Aciertos: " + aciertos +
+        " | Errores: " + errores;
 
-            const j =
-                Math.floor(
-                    Math.random() *
-                    (i + 1)
-                );
+}
 
 
-            [
-                array[i],
-                array[j]
-            ] =
-            [
-                array[j],
-                array[i]
-            ];
+/* =====================================================
+   CRONÓMETRO
+===================================================== */
+
+function iniciarTimer() {
+
+    clearInterval(timer);
+
+
+    timer = setInterval(function() {
+
+        tiempoRestante--;
+
+
+        document.getElementById(
+            "tiempo"
+        ).innerText =
+            tiempoRestante;
+
+
+        if (tiempoRestante <= 0) {
+
+            clearInterval(timer);
+
+            finalizarYEnviar(
+                "Tiempo agotado"
+            );
+
         }
 
+    }, 1000);
 
-        return array;
-    }
+}
+
+
+/* =====================================================
+   VOLVER AL MENÚ
+===================================================== */
+
+function volver() {
+
+    clearInterval(timer);
+
+
+    document.getElementById(
+        "menu-inicio"
+    ).style.display = "flex";
+
+
+    document.getElementById(
+        "pantalla-actividad"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "area-juego"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "pantalla-previa"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "pentagrama"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "opciones"
+    ).innerHTML = "";
+
+}
+
+
+/* =====================================================
+   FINALIZAR Y ENVIAR
+===================================================== */
+
+function finalizarYEnviar(estado) {
+
+    clearInterval(timer);
+
+
+    const selector =
+        document.getElementById(
+            "selector-nivel"
+        );
+
+
+    const nivel =
+        selector.options[
+            selector.selectedIndex
+        ].text;
+
+
+    alert(
+        "¡Actividad terminada!\n\n" +
+        "Estado: " + estado + "\n" +
+        "Aciertos: " + aciertos + "\n" +
+        "Errores: " + errores
+    );
+
+
+    /*
+       Registro en Google Sheets.
+
+       No se incluye nombre del alumno.
+    */
+
+    const params =
+        new URLSearchParams();
+
+
+    params.append(
+        "Fecha",
+        new Date().toLocaleString()
+    );
+
+
+    params.append(
+        "Módulo",
+        moduloActual === "Simbolos"
+            ? "Símbolos Musicales"
+            : "Notas Musicales"
+    );
+
+
+    params.append(
+        "Nivel",
+        nivel
+    );
+
+
+    params.append(
+        "Aciertos",
+        aciertos
+    );
+
+
+    params.append(
+        "Estado",
+        estado
+    );
+
+
+    params.append(
+        "Log Aciertos",
+        logAciertos.join(", ")
+    );
+
+
+    params.append(
+        "Log Errores",
+        logErrores.join(", ")
+    );
+
+
+    fetch(
+        GOOGLE_URL,
+        {
+            method: "POST",
+
+            mode: "no-cors",
+
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded"
+            },
+
+            body: params.toString()
+        }
+    );
+
+
+    volver();
+
+}
 
 </script>
 
 </body>
 </html>
-```
