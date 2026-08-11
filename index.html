@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -257,16 +256,30 @@ h1 {
 }
 
 
-/* =========================================================
-   AJUSTE ESPECIAL PARA COMPÁS Y BARRA DE COMPÁS
-========================================================= */
+/*
+   COMPÁS Y BARRA DE COMPÁS
+
+   Estas dos clases tienen un tamaño específico y además
+   se les aplica una escala para evitar que vuelvan a
+   aparecer visualmente demasiado pequeñas en Google Sites.
+*/
 
 .simbolo-imagen.compas {
-    max-height: 230px;
+    width: 190px !important;
+    height: 170px !important;
+    max-width: 90% !important;
+    max-height: 170px !important;
+    object-fit: contain !important;
+    transform: scale(1.35);
 }
 
 .simbolo-imagen.barra {
-    max-height: 230px;
+    width: 190px !important;
+    height: 170px !important;
+    max-width: 90% !important;
+    max-height: 170px !important;
+    object-fit: contain !important;
+    transform: scale(1.35);
 }
 
 
@@ -395,6 +408,13 @@ h1 {
         font-size: 3rem;
     }
 
+    .simbolo-imagen.compas,
+    .simbolo-imagen.barra {
+        width: 175px !important;
+        height: 155px !important;
+        transform: scale(1.25);
+    }
+
 }
 
 </style>
@@ -405,50 +425,50 @@ h1 {
 
 <div id="contenedor-app">
 
+
 <!-- =====================================================
      MENÚ PRINCIPAL
 ===================================================== -->
 
 <div id="menu-inicio">
 
-```
-<h1>
-    Selecciona una Actividad:
-</h1>
+    <h1>
+        Selecciona una Actividad:
+    </h1>
 
-<div class="cuadros-container">
+    <div class="cuadros-container">
 
-    <div class="tarjeta"
-         onclick="entrarModulo('Simbolos')">
+        <div class="tarjeta"
+             onclick="entrarModulo('Simbolos')">
 
-        <div class="icono">
-            𝄞
+            <div class="icono">
+                𝄞
+            </div>
+
+            <span>
+                SÍMBOLOS MUSICALES
+            </span>
+
         </div>
 
-        <span>
-            SÍMBOLOS MUSICALES
-        </span>
 
-    </div>
+        <div class="tarjeta"
+             onclick="entrarModulo('Notas')">
 
+            <div class="icono">
+                ♩
+            </div>
 
-    <div class="tarjeta"
-         onclick="entrarModulo('Notas')">
+            <span>
+                NOTAS MUSICALES
+            </span>
 
-        <div class="icono">
-            ♩
         </div>
-
-        <span>
-            NOTAS MUSICALES
-        </span>
 
     </div>
 
 </div>
-```
 
-</div>
 
 <!-- =====================================================
      PANTALLA DE ACTIVIDAD
@@ -456,169 +476,176 @@ h1 {
 
 <div id="pantalla-actividad">
 
-```
-<div class="header-actividad">
+    <div class="header-actividad">
 
-    <button
-        class="btn-volver"
-        onclick="volver()">
+        <button
+            class="btn-volver"
+            onclick="volver()">
 
-        ← MENÚ
+            ← MENÚ
 
-    </button>
-
-
-    <select id="selector-nivel">
-
-        <option value="25">
-            PRINCIPIANTE — 25 segundos
-        </option>
-
-        <option value="20">
-            INTERMEDIO — 20 segundos
-        </option>
-
-        <option value="15">
-            EXPERTO — 15 segundos
-        </option>
-
-    </select>
-
-</div>
+        </button>
 
 
-<!-- =========================
-     INTRODUCCIÓN
-========================== -->
+        <!--
+            CAMBIO:
+            onchange ahora llama a cambioNivel()
+            para reiniciar inmediatamente la actividad.
+        -->
 
-<div id="pantalla-previa">
+        <select
+            id="selector-nivel"
+            onchange="cambioNivel()">
 
-    <h2 id="titulo-modulo"></h2>
+            <option value="25">
+                PRINCIPIANTE — 25 segundos
+            </option>
 
-    <p id="instrucciones-texto"></p>
+            <option value="20">
+                INTERMEDIO — 20 segundos
+            </option>
 
-    <button
-        class="btn-inicio"
-        onclick="comenzarActividad()">
+            <option value="15">
+                EXPERTO — 15 segundos
+            </option>
 
-        COMENZAR
-
-    </button>
-
-</div>
-
-
-<!-- =========================
-     JUEGO
-========================== -->
-
-<div id="area-juego">
-
-    <div class="cronometro"
-         id="tiempo">
-
-        25
+        </select>
 
     </div>
 
 
-    <div id="contador">
+    <!-- =========================
+         INTRODUCCIÓN
+    ========================== -->
 
-        Aciertos: 0 | Errores: 0
+    <div id="pantalla-previa">
 
-    </div>
+        <h2 id="titulo-modulo"></h2>
 
+        <p id="instrucciones-texto"></p>
 
-    <div id="mensaje-incorrecto">
+        <button
+            class="btn-inicio"
+            onclick="comenzarActividad()">
 
-        ¡Incorrecto!
+            COMENZAR
 
-    </div>
-
-
-    <div id="contenedor-pentagrama">
-
-        <div id="pentagrama"></div>
-
-        <div id="feedback-error">
-            ✘
-        </div>
+        </button>
 
     </div>
 
 
-    <div id="opciones"></div>
+    <!-- =========================
+         JUEGO
+    ========================== -->
 
-</div>
+    <div id="area-juego">
 
+        <div class="cronometro"
+             id="tiempo">
 
-<!-- =========================
-     RESULTADOS
-========================== -->
-
-<div id="pantalla-resultados">
-
-    <div class="resultado-titulo">
-
-        🎉 ¡Actividad terminada!
-
-    </div>
-
-
-    <div class="resultado-tarjeta">
-
-        <div class="resultado-fila">
-
-            Estado:
-
-            <span
-                class="resultado-estado"
-                id="resultado-estado">
-            </span>
+            25
 
         </div>
 
 
-        <div class="resultado-fila">
+        <div id="contador">
 
-            Aciertos:
-
-            <span
-                class="resultado-numero"
-                id="resultado-aciertos">
-            </span>
+            Aciertos: 0 | Errores: 0
 
         </div>
 
 
-        <div class="resultado-fila">
+        <div id="mensaje-incorrecto">
 
-            Errores:
-
-            <span
-                class="resultado-numero"
-                id="resultado-errores">
-            </span>
+            ¡Incorrecto!
 
         </div>
+
+
+        <div id="contenedor-pentagrama">
+
+            <div id="pentagrama"></div>
+
+            <div id="feedback-error">
+                ✘
+            </div>
+
+        </div>
+
+
+        <div id="opciones"></div>
 
     </div>
 
 
-    <button
-        class="btn-resultado"
-        onclick="volver()">
+    <!-- =========================
+         RESULTADOS
+    ========================== -->
 
-        VOLVER AL MENÚ
+    <div id="pantalla-resultados">
 
-    </button>
+        <div class="resultado-titulo">
+
+            🎉 ¡Actividad terminada!
+
+        </div>
+
+
+        <div class="resultado-tarjeta">
+
+            <div class="resultado-fila">
+
+                Estado:
+
+                <span
+                    class="resultado-estado"
+                    id="resultado-estado">
+                </span>
+
+            </div>
+
+
+            <div class="resultado-fila">
+
+                Aciertos:
+
+                <span
+                    class="resultado-numero"
+                    id="resultado-aciertos">
+                </span>
+
+            </div>
+
+
+            <div class="resultado-fila">
+
+                Errores:
+
+                <span
+                    class="resultado-numero"
+                    id="resultado-errores">
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn-resultado"
+            onclick="volver()">
+
+            VOLVER AL MENÚ
+
+        </button>
+
+    </div>
 
 </div>
-```
 
 </div>
 
-</div>
 
 <script>
 
@@ -827,10 +854,79 @@ function entrarModulo(modulo) {
 
 
 /* =========================================================
+   CAMBIAR NIVEL DURANTE LA ACTIVIDAD
+
+   NUEVO:
+
+   Si el estudiante cambia el nivel mientras está
+   jugando, la actividad se reinicia completamente:
+
+   - Aciertos = 0
+   - Errores = 0
+   - Nuevas preguntas
+   - Nuevo tiempo
+   - Nuevo temporizador
+
+========================================================= */
+
+function cambioNivel() {
+
+    const selector =
+        document.getElementById(
+            "selector-nivel"
+        );
+
+    const nuevoTiempo =
+        parseInt(
+            selector.value
+        );
+
+
+    /*
+       Si estamos actualmente jugando,
+       reiniciamos inmediatamente.
+    */
+
+    const areaJuego =
+        document.getElementById(
+            "area-juego"
+        );
+
+
+    if (
+        areaJuego.style.display === "block" &&
+        moduloActual !== ""
+    ) {
+
+        comenzarActividad();
+
+        return;
+
+    }
+
+
+    /*
+       Si todavía estamos en la pantalla
+       de introducción, solamente actualizamos
+       el número mostrado.
+    */
+
+    document.getElementById(
+        "tiempo"
+    ).innerText =
+        nuevoTiempo;
+
+}
+
+
+/* =========================================================
    COMENZAR ACTIVIDAD
 ========================================================= */
 
 function comenzarActividad() {
+
+    clearInterval(timer);
+
 
     document.getElementById(
         "pantalla-previa"
@@ -850,11 +946,17 @@ function comenzarActividad() {
         "none";
 
 
+    /*
+       REINICIO COMPLETO
+    */
+
     aciertos = 0;
 
     errores = 0;
 
     bloqueado = false;
+
+    notaActual = null;
 
     logAciertos = [];
 
@@ -1001,11 +1103,40 @@ function mostrarSimbolo(item) {
         "simbolo-imagen";
 
 
+    /*
+       COMPÁS Y BARRA DE COMPÁS
+
+       Además de las clases CSS, aplicamos
+       directamente los valores de tamaño
+       mediante JavaScript. Esto evita que
+       el navegador o Google Sites termine
+       reduciendo el tamaño de estas imágenes
+       entre preguntas.
+    */
+
     if (item.id === "compas") {
 
         imagen.classList.add(
             "compas"
         );
+
+        imagen.style.width =
+            "190px";
+
+        imagen.style.height =
+            "170px";
+
+        imagen.style.maxWidth =
+            "90%";
+
+        imagen.style.maxHeight =
+            "170px";
+
+        imagen.style.objectFit =
+            "contain";
+
+        imagen.style.transform =
+            "scale(1.35)";
 
     }
 
@@ -1015,6 +1146,24 @@ function mostrarSimbolo(item) {
         imagen.classList.add(
             "barra"
         );
+
+        imagen.style.width =
+            "190px";
+
+        imagen.style.height =
+            "170px";
+
+        imagen.style.maxWidth =
+            "90%";
+
+        imagen.style.maxHeight =
+            "170px";
+
+        imagen.style.objectFit =
+            "contain";
+
+        imagen.style.transform =
+            "scale(1.35)";
 
     }
 
@@ -1108,6 +1257,9 @@ function crearOpcionesSimbolos(
 
 /* =========================================================
    DIBUJAR NOTA
+
+   SE MANTIENE EL AJUSTE DE TAMAÑO
+   DE LA VERSIÓN ANTERIOR.
 ========================================================= */
 
 function dibujarNota(n) {
@@ -1151,9 +1303,7 @@ function dibujarNota(n) {
 
             keys: [n],
 
-            duration: "q",
-
-            glyph_font_scale: 44
+            duration: "q"
 
         })
 
@@ -1466,6 +1616,9 @@ function volver() {
         "mensaje-incorrecto"
     ).style.visibility =
         "hidden";
+
+
+    moduloActual = "";
 
 }
 
