@@ -1,610 +1,383 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Fundamentos Básicos del Lenguaje Musical</title>
 
+<!-- VexFlow: used only for the real musical staff/note notation -->
+
+<script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.3/build/cjs/vexflow.js"></script>
+
 <style>
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#contenedor-app {
-    background: white;
-    width: 95%;
-    max-width: 850px;
-    padding: 40px;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-/* =========================
-   MENÚ PRINCIPAL
-========================= */
-
-#menu-inicio {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-h1 {
-    color: #2c3e50;
-    font-size: 2.2rem;
-    margin-bottom: 35px;
-}
-
-.cuadros-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
-.tarjeta {
-    background-color: #5dade2;
-    color: white;
-    width: 240px;
-    height: 250px;
-    border-radius: 25px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    cursor: pointer;
-    transition: 0.25s;
-
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-
-    padding: 15px;
-}
-
-.tarjeta:hover {
-    transform: translateY(-8px);
-    background-color: #3498db;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-}
-
-.tarjeta .icono {
-    font-size: 90px;
-    height: 125px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.tarjeta span {
-    font-weight: bold;
-    font-size: 1.35rem;
-    color: white;
-}
-
-/* =========================
-   ACTIVIDAD
-========================= */
-
-#pantalla-actividad {
-    display: none;
-}
-
-.header-actividad {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.btn-volver,
-#selector-nivel {
-    padding: 13px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-
-    border: 3px solid #3498db;
-    border-radius: 12px;
-
-    background-color: #ebf5fb;
-    color: #2c3e50;
-
-    cursor: pointer;
-}
-
-#pantalla-previa {
-    padding: 20px;
-}
-
-#titulo-modulo {
-    color: #34495e;
-    font-size: 2rem;
-}
-
-#instrucciones-texto {
-    font-size: 1.3rem;
-    color: #7f8c8d;
-    margin-bottom: 35px;
-}
-
-.btn-inicio {
-    background: #5dade2;
-    color: white;
-    border: none;
-
-    padding: 20px 60px;
-
-    border-radius: 15px;
-
-    font-size: 1.7rem;
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-.btn-inicio:hover {
-    background: #3498db;
-}
-
-/* =========================
-   JUEGO
-========================= */
-
-#area-juego {
-    display: none;
-}
-
-.cronometro {
-    font-size: 4rem;
-    color: #e74c3c;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-#contador {
-    font-size: 1.35rem;
-    font-weight: bold;
-    margin: 10px;
-    color: #2c3e50;
-}
-
-#mensaje-incorrecto {
-    color: #e74c3c;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    height: 30px;
-    margin-bottom: 5px;
-
-    visibility: hidden;
-}
-
-#contenedor-pentagrama {
-    position: relative;
-
-    width: 100%;
-    max-width: 700px;
-
-    min-height: 230px;
-
-    margin: 15px auto;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#pentagrama {
-    width: 100%;
-    min-height: 210px;
-
-    background: white;
-
-    border: 3px solid #3498db;
-    border-radius: 20px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 15px;
-
-    overflow: hidden;
-}
-
-#feedback-error {
-    display: none;
-
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    font-size: 120px;
-
-    color: #e74c3c;
-
-    font-weight: bold;
-
-    z-index: 100;
-
-    pointer-events: none;
-}
-
-/* =========================
-   BOTONES DE RESPUESTA
-========================= */
-
-#opciones {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.btn-respuesta {
-    background: #3498db;
-    color: white;
-
-    border: none;
-
-    padding: 15px 22px;
-
-    margin: 5px;
-
-    border-radius: 12px;
-
-    font-size: 1.15rem;
-
-    cursor: pointer;
-
-    font-weight: bold;
-
-    transition: 0.2s;
-
-    min-width: 90px;
-}
-
-.btn-respuesta:hover {
-    background: #2980b9;
-    transform: translateY(-2px);
-}
-
-.btn-respuesta.error {
-    background-color: #e74c3c !important;
-}
-
-/* =========================
-   MÓDULO DE SÍMBOLOS
-========================= */
-
-.simbolo-display {
-    max-width: 90%;
-    max-height: 170px;
-
-    object-fit: contain;
-}
-
-.simbolo-grande {
-    max-width: 95%;
-    max-height: 180px;
-}
-
-/* =========================
-   MÓDULO DE NOTAS
-========================= */
-
-/*
-   Este contenedor utiliza el PNG del pentagrama
-   como fondo y coloca la clave y la nota encima.
-*/
-
-.staff-notas {
-    position: relative;
-
-    width: 100%;
-    max-width: 650px;
-
-    height: 190px;
-
-    margin: auto;
-
-    overflow: hidden;
-}
-
-.staff-imagen {
-    position: absolute;
-
-    left: 5%;
-    top: 35px;
-
-    width: 90%;
-    height: 105px;
-
-    object-fit: fill;
-}
-
-/*
-   La clave se coloca sobre el pentagrama.
-*/
-
-.clave-imagen {
-    position: absolute;
-
-    left: 8%;
-    top: 5px;
-
-    width: 85px;
-    height: 165px;
-
-    object-fit: contain;
-
-    z-index: 3;
-}
-
-/*
-   Nota musical.
-
-   La posición vertical cambia según la nota.
-*/
-
-.nota-imagen {
-    position: absolute;
-
-    width: 48px;
-    height: 70px;
-
-    object-fit: contain;
-
-    z-index: 5;
-}
-
-/*
-   Posiciones de las cinco notas.
-
-   Do = C4
-   Re = D4
-   Mi = E4
-   Fa = F4
-   Sol = G4
-*/
-
-.nota-do {
-    left: 37%;
-    top: 119px;
-}
-
-.nota-re {
-    left: 42%;
-    top: 108px;
-}
-
-.nota-mi {
-    left: 47%;
-    top: 94px;
-}
-
-.nota-fa {
-    left: 52%;
-    top: 82px;
-}
-
-.nota-sol {
-    left: 57%;
-    top: 68px;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 650px) {
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
 
     #contenedor-app {
-        padding: 20px;
+        background: white;
+        width: 95%;
+        max-width: 850px;
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        text-align: center;
+        position: relative;
     }
 
     h1 {
-        font-size: 1.7rem;
+        color: #2c3e50;
+        font-size: 2.2rem;
+        margin-bottom: 35px;
+    }
+
+    /* =========================
+       MENÚ
+    ========================= */
+
+    #menu-inicio {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .cuadros-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        width: 100%;
     }
 
     .tarjeta {
-        width: 210px;
-        height: 210px;
-    }
-
-    .tarjeta .icono {
-        font-size: 70px;
-        height: 100px;
-    }
-
-    .header-actividad {
+        background-color: #5dade2;
+        color: white;
+        width: 230px;
+        height: 240px;
+        border-radius: 25px;
+        display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        text-decoration: none;
+        padding: 15px;
         gap: 12px;
     }
 
+    .tarjeta:hover {
+        transform: translateY(-8px);
+        background-color: #3498db;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
+    .icono {
+        font-size: 85px;
+        height: 115px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .icono-clave {
+        font-size: 105px;
+        display: inline-block;
+    }
+
+    .tarjeta span {
+        font-weight: bold;
+        font-size: 1.35rem;
+        color: white;
+        margin: 0;
+    }
+
+    /* =========================
+       ACTIVIDAD
+    ========================= */
+
+    #pantalla-actividad {
+        display: none;
+    }
+
+    .header-actividad {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .btn-volver,
+    #selector-nivel {
+        padding: 13px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        border: 3px solid #3498db;
+        border-radius: 12px;
+        background-color: #ebf5fb;
+        color: #2c3e50;
+        cursor: pointer;
+    }
+
+    #pantalla-previa {
+        display: block;
+    }
+
+    #titulo-modulo {
+        color: #34495e;
+        font-size: 2rem;
+    }
+
+    #instrucciones-texto {
+        font-size: 1.3rem;
+        color: #7f8c8d;
+        margin-bottom: 30px;
+    }
+
+    .btn-inicio {
+        background: #5dade2;
+        color: white;
+        border: none;
+        padding: 20px 60px;
+        border-radius: 15px;
+        font-size: 1.7rem;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .btn-inicio:hover {
+        background: #3498db;
+    }
+
+    /* =========================
+       JUEGO
+    ========================= */
+
+    #area-juego {
+        display: none;
+    }
+
     .cronometro {
-        font-size: 3rem;
+        font-size: 4rem;
+        color: #e74c3c;
+        font-weight: bold;
+        line-height: 1;
+        margin-bottom: 8px;
     }
 
-    .staff-notas {
-        transform: scale(0.85);
-        transform-origin: center;
-        margin-top: -10px;
-        margin-bottom: -10px;
+    #contador {
+        font-size: 1.35rem;
+        font-weight: bold;
+        margin: 10px;
+        color: #2c3e50;
     }
 
-}
+    #mensaje-incorrecto {
+        color: #e74c3c;
+        font-size: 1.4rem;
+        font-weight: bold;
+        height: 30px;
+        margin-bottom: 5px;
+        visibility: hidden;
+    }
 
+    #contenedor-pentagrama {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px 0;
+        position: relative;
+        width: 100%;
+        min-height: 230px;
+    }
+
+    #pentagrama {
+        background: #fff;
+        border: 3px solid #3498db;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 700px;
+        min-height: 220px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        padding: 10px;
+    }
+
+    #feedback-error {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 120px;
+        color: #e74c3c;
+        font-weight: bold;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    /* =========================
+       BOTONES
+    ========================= */
+
+    #opciones {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .btn-respuesta {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 15px 22px;
+        margin: 6px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.2s;
+        min-width: 90px;
+    }
+
+    .btn-respuesta:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    .btn-respuesta.error {
+        background-color: #e74c3c !important;
+    }
+
+    /* =========================
+       SÍMBOLOS MUSICALES
+    ========================= */
+
+    .simbolo-imagen {
+        max-width: 90%;
+        max-height: 165px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        display: block;
+        margin: auto;
+    }
+
+    /* =========================
+       VEXFLOW
+    ========================= */
+
+    #vexflow-container {
+        width: 100%;
+        max-width: 650px;
+        height: 190px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    #vexflow-container svg {
+        max-width: 100%;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 650px) {
+
+        #contenedor-app {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 1.7rem;
+        }
+
+        .tarjeta {
+            width: 210px;
+            height: 210px;
+        }
+
+        .tarjeta .icono {
+            font-size: 70px;
+            height: 95px;
+        }
+
+        .header-actividad {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cronometro {
+            font-size: 3rem;
+        }
+
+        #vexflow-container {
+            transform: scale(0.85);
+            transform-origin: center;
+        }
+    }
 </style>
-</head>
 
+</head>
 
 <body>
 
 <div id="contenedor-app">
 
-    <!-- =========================
-         MENÚ PRINCIPAL
-    ========================== -->
+```
+<!-- =========================
+     MENÚ PRINCIPAL
+========================= -->
 
-    <div id="menu-inicio">
+<div id="menu-inicio">
 
-        <h1>
-            Fundamentos Básicos del Lenguaje Musical
-        </h1>
+    <h1>
+        Fundamentos Básicos del Lenguaje Musical
+    </h1>
 
-        <div class="cuadros-container">
+    <div class="cuadros-container">
 
-            <!-- MÓDULO 1 -->
+        <div class="tarjeta" onclick="entrarModulo('Simbolos')">
 
-            <div class="tarjeta"
-                 onclick="entrarModulo('Simbolos')">
-
-                <div class="icono">
-                    𝄞
-                </div>
-
-                <span>
-                    SÍMBOLOS MUSICALES
-                </span>
-
+            <div class="icono">
+                𝄞
             </div>
 
-
-            <!-- MÓDULO 2 -->
-
-            <div class="tarjeta"
-                 onclick="entrarModulo('Notas')">
-
-                <div class="icono">
-                    ♩
-                </div>
-
-                <span>
-                    NOTAS MUSICALES
-                </span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         PANTALLA DE ACTIVIDAD
-    ========================== -->
-
-    <div id="pantalla-actividad">
-
-        <div class="header-actividad">
-
-            <button
-                class="btn-volver"
-                onclick="volver()">
-
-                ← MENÚ
-
-            </button>
-
-
-            <select
-                id="selector-nivel">
-
-                <option value="20">
-                    PRINCIPIANTE — 20 segundos
-                </option>
-
-                <option value="15">
-                    INTERMEDIO — 15 segundos
-                </option>
-
-                <option value="10">
-                    EXPERTO — 10 segundos
-                </option>
-
-            </select>
+            <span>
+                SÍMBOLOS MUSICALES
+            </span>
 
         </div>
 
 
-        <!-- PANTALLA PREVIA -->
+        <div class="tarjeta" onclick="entrarModulo('Notas')">
 
-        <div id="pantalla-previa">
-
-            <h2 id="titulo-modulo"></h2>
-
-            <p id="instrucciones-texto"></p>
-
-            <button
-                class="btn-inicio"
-                onclick="comenzarActividad()">
-
-                COMENZAR
-
-            </button>
-
-        </div>
-
-
-        <!-- ÁREA DEL JUEGO -->
-
-        <div id="area-juego">
-
-            <div
-                class="cronometro"
-                id="tiempo">
-
-                20
-
+            <div class="icono">
+                ♩
             </div>
 
-
-            <div id="contador">
-
-                Aciertos: 0 | Errores: 0
-
-            </div>
-
-
-            <div id="mensaje-incorrecto">
-
-                ¡Incorrecto!
-
-            </div>
-
-
-            <div id="contenedor-pentagrama">
-
-                <div id="pentagrama"></div>
-
-                <div id="feedback-error">
-                    ✘
-                </div>
-
-            </div>
-
-
-            <div id="opciones"></div>
+            <span>
+                NOTAS MUSICALES
+            </span>
 
         </div>
 
@@ -613,11 +386,88 @@ h1 {
 </div>
 
 
+<!-- =========================
+     ACTIVIDAD
+========================= -->
+
+<div id="pantalla-actividad">
+
+    <div class="header-actividad">
+
+        <button class="btn-volver" onclick="volver()">
+            ← MENÚ
+        </button>
+
+        <select id="selector-nivel">
+
+            <option value="20">
+                PRINCIPIANTE — 20 segundos
+            </option>
+
+            <option value="15">
+                INTERMEDIO — 15 segundos
+            </option>
+
+            <option value="10">
+                EXPERTO — 10 segundos
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div id="pantalla-previa">
+
+        <h2 id="titulo-modulo"></h2>
+
+        <p id="instrucciones-texto"></p>
+
+        <button class="btn-inicio" onclick="comenzarActividad()">
+            COMENZAR
+        </button>
+
+    </div>
+
+
+    <div id="area-juego">
+
+        <div class="cronometro" id="tiempo">
+            20
+        </div>
+
+        <div id="contador">
+            Aciertos: 0 | Errores: 0
+        </div>
+
+        <div id="mensaje-incorrecto">
+            ¡Incorrecto!
+        </div>
+
+        <div id="contenedor-pentagrama">
+
+            <div id="pentagrama"></div>
+
+            <div id="feedback-error">
+                ✘
+            </div>
+
+        </div>
+
+        <div id="opciones"></div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
 <script>
 
-/* =====================================================
+/* =========================================================
    CONFIGURACIÓN
-===================================================== */
+========================================================= */
 
 const GOOGLE_URL =
 "https://script.google.com/macros/s/AKfycbzy5sc0_ijmg0Ch50LYrAzfKYaxuW5qHL_iBq3GaiLYkLmokIwRmMEFF5wh_vuYT60YPQ/exec";
@@ -644,9 +494,9 @@ let logAciertos = [];
 let logErrores = [];
 
 
-/* =====================================================
-   DATOS — MÓDULO DE SÍMBOLOS
-===================================================== */
+/* =========================================================
+   SÍMBOLOS
+========================================================= */
 
 const SIMBOLOS = [
 
@@ -663,15 +513,15 @@ const SIMBOLOS = [
     },
 
     {
-        id: "compas",
-        nombre: "Compás",
-        imagen: "compas.png"
-    },
-
-    {
         id: "cuatrocuatro",
         nombre: "4/4",
         imagen: "cuatrocuatro.png"
+    },
+
+    {
+        id: "compas",
+        nombre: "Compás",
+        imagen: "compas.png"
     },
 
     {
@@ -701,48 +551,54 @@ const SIMBOLOS = [
 ];
 
 
-/* =====================================================
-   DATOS — MÓDULO DE NOTAS
-===================================================== */
+/* =========================================================
+   NOTAS
+
+   C4 = Do
+   D4 = Re
+   E4 = Mi
+   F4 = Fa
+   G4 = Sol
+========================================================= */
 
 const NOTAS = [
 
     {
-        id: "do",
+        id: "c/4",
         nombre: "Do",
-        clase: "nota-do"
+        vexKey: "c/4"
     },
 
     {
-        id: "re",
+        id: "d/4",
         nombre: "Re",
-        clase: "nota-re"
+        vexKey: "d/4"
     },
 
     {
-        id: "mi",
+        id: "e/4",
         nombre: "Mi",
-        clase: "nota-mi"
+        vexKey: "e/4"
     },
 
     {
-        id: "fa",
+        id: "f/4",
         nombre: "Fa",
-        clase: "nota-fa"
+        vexKey: "f/4"
     },
 
     {
-        id: "sol",
+        id: "g/4",
         nombre: "Sol",
-        clase: "nota-sol"
+        vexKey: "g/4"
     }
 
 ];
 
 
-/* =====================================================
-   ENTRAR A UN MÓDULO
-===================================================== */
+/* =========================================================
+   ENTRAR AL MÓDULO
+========================================================= */
 
 function entrarModulo(modulo) {
 
@@ -753,18 +609,6 @@ function entrarModulo(modulo) {
 
     const instrucciones =
         document.getElementById("instrucciones-texto");
-
-    const menu =
-        document.getElementById("menu-inicio");
-
-    const actividad =
-        document.getElementById("pantalla-actividad");
-
-    const previa =
-        document.getElementById("pantalla-previa");
-
-    const juego =
-        document.getElementById("area-juego");
 
 
     if (modulo === "Simbolos") {
@@ -784,25 +628,29 @@ function entrarModulo(modulo) {
             "Módulo de Notas Musicales";
 
         instrucciones.innerText =
-            "Observa la nota en el pentagrama y selecciona su nombre.";
+            "Identifica la nota que aparece en el pentagrama.";
 
     }
 
 
-    menu.style.display = "none";
+    document.getElementById("menu-inicio")
+        .style.display = "none";
 
-    actividad.style.display = "block";
+    document.getElementById("pantalla-actividad")
+        .style.display = "block";
 
-    previa.style.display = "block";
+    document.getElementById("pantalla-previa")
+        .style.display = "block";
 
-    juego.style.display = "none";
+    document.getElementById("area-juego")
+        .style.display = "none";
 
 }
 
 
-/* =====================================================
-   COMENZAR ACTIVIDAD
-===================================================== */
+/* =========================================================
+   COMENZAR
+========================================================= */
 
 function comenzarActividad() {
 
@@ -861,9 +709,9 @@ function comenzarActividad() {
 }
 
 
-/* =====================================================
+/* =========================================================
    SIGUIENTE PREGUNTA
-===================================================== */
+========================================================= */
 
 function siguientePregunta() {
 
@@ -905,9 +753,9 @@ function siguientePregunta() {
     }
 
 
-    if (moduloActual === "Notas") {
+    else if (moduloActual === "Notas") {
 
-        mostrarNota(item);
+        dibujarNota(item);
 
         crearOpcionesNotas();
 
@@ -919,9 +767,9 @@ function siguientePregunta() {
 }
 
 
-/* =====================================================
+/* =========================================================
    MOSTRAR SÍMBOLO
-===================================================== */
+========================================================= */
 
 function mostrarSimbolo(item) {
 
@@ -933,11 +781,16 @@ function mostrarSimbolo(item) {
         document.createElement("img");
 
 
-    imagen.src = item.imagen;
+    imagen.src =
+        item.imagen;
 
-    imagen.alt = item.nombre;
 
-    imagen.className = "simbolo-display";
+    imagen.alt =
+        item.nombre;
+
+
+    imagen.className =
+        "simbolo-imagen";
 
 
     pentagrama.appendChild(imagen);
@@ -945,9 +798,9 @@ function mostrarSimbolo(item) {
 }
 
 
-/* =====================================================
+/* =========================================================
    OPCIONES DE SÍMBOLOS
-===================================================== */
+========================================================= */
 
 function crearOpcionesSimbolos() {
 
@@ -992,93 +845,117 @@ function crearOpcionesSimbolos() {
 }
 
 
-/* =====================================================
-   MOSTRAR NOTA
-===================================================== */
+/* =========================================================
+   DIBUJAR NOTA CON VEXFLOW
+========================================================= */
 
-function mostrarNota(item) {
+function dibujarNota(item) {
 
     const pentagrama =
         document.getElementById("pentagrama");
 
 
-    const staff =
+    /*
+       Contenedor limpio para VexFlow.
+    */
+
+    const container =
         document.createElement("div");
 
 
-    staff.className =
-        "staff-notas";
+    container.id =
+        "vexflow-container";
+
+
+    pentagrama.appendChild(container);
 
 
     /*
-       Pentagrama
+       VexFlow 4.
     */
 
-    const imagenStaff =
-        document.createElement("img");
+    const VF = Vex.Flow;
 
 
-    imagenStaff.src =
-        "pentagrama.png";
+    const renderer =
+        new VF.Renderer(
+            container,
+            VF.Renderer.Backends.SVG
+        );
 
 
-    imagenStaff.className =
-        "staff-imagen";
+    renderer.resize(600, 190);
 
 
-    staff.appendChild(imagenStaff);
+    const context =
+        renderer.getContext();
+
+
+    context.setFont(
+        "Arial",
+        10,
+        ""
+    );
 
 
     /*
-       Clave de Sol
+       Staff.
     */
 
-    const clave =
-        document.createElement("img");
-
-
-    clave.src =
-        "clavedesol.png";
-
-
-    clave.className =
-        "clave-imagen";
-
-
-    staff.appendChild(clave);
+    const stave =
+        new VF.Stave(
+            50,
+            35,
+            480
+        );
 
 
     /*
-       Nota
+       Treble clef.
     */
 
-    const nota =
-        document.createElement("img");
+    stave.addClef("treble");
 
 
-    nota.src =
-        "negra.png";
+    stave.setContext(context)
+        .draw();
 
 
-    nota.className =
-        "nota-imagen " + item.clase;
+    /*
+       La nota.
+    */
+
+    const note =
+        new VF.StaveNote({
+
+            clef: "treble",
+
+            keys: [
+                item.vexKey
+            ],
+
+            duration: "q"
+
+        });
 
 
-    nota.alt =
-        item.nombre;
+    /*
+       Formatter.
+    */
 
-
-    staff.appendChild(nota);
-
-
-    pentagrama.appendChild(staff);
+    VF.Formatter
+        .FormatAndDraw(
+            context,
+            stave,
+            [note]
+        );
 
 }
 
 
-/* =====================================================
+/* =========================================================
    OPCIONES DE NOTAS
-===================================================== */
+========================================================= */
 
 function crearOpcionesNotas() {
 
@@ -1123,9 +1000,9 @@ function crearOpcionesNotas() {
 }
 
 
-/* =====================================================
-   VERIFICAR RESPUESTA
-===================================================== */
+/* =========================================================
+   VERIFICAR
+========================================================= */
 
 function verificarRespuesta(
     respuesta,
@@ -1161,9 +1038,9 @@ function verificarRespuesta(
 }
 
 
-/* =====================================================
-   MOSTRAR ERROR
-===================================================== */
+/* =========================================================
+   ERROR
+========================================================= */
 
 function mostrarError(boton) {
 
@@ -1216,9 +1093,9 @@ function mostrarError(boton) {
 }
 
 
-/* =====================================================
+/* =========================================================
    CONTADOR
-===================================================== */
+========================================================= */
 
 function actualizarContador() {
 
@@ -1231,9 +1108,9 @@ function actualizarContador() {
 }
 
 
-/* =====================================================
-   CRONÓMETRO
-===================================================== */
+/* =========================================================
+   TIMER
+========================================================= */
 
 function iniciarTimer() {
 
@@ -1266,9 +1143,9 @@ function iniciarTimer() {
 }
 
 
-/* =====================================================
-   VOLVER AL MENÚ
-===================================================== */
+/* =========================================================
+   VOLVER
+========================================================= */
 
 function volver() {
 
@@ -1286,13 +1163,13 @@ function volver() {
 
 
     document.getElementById(
-        "area-juego"
-    ).style.display = "none";
+        "pantalla-previa"
+    ).style.display = "block";
 
 
     document.getElementById(
-        "pantalla-previa"
-    ).style.display = "block";
+        "area-juego"
+    ).style.display = "none";
 
 
     document.getElementById(
@@ -1304,12 +1181,22 @@ function volver() {
         "opciones"
     ).innerHTML = "";
 
+
+    document.getElementById(
+        "feedback-error"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "mensaje-incorrecto"
+    ).style.visibility = "hidden";
+
 }
 
 
-/* =====================================================
-   FINALIZAR Y ENVIAR
-===================================================== */
+/* =========================================================
+   FINALIZAR
+========================================================= */
 
 function finalizarYEnviar(estado) {
 
@@ -1338,8 +1225,7 @@ function finalizarYEnviar(estado) {
 
     /*
        Registro en Google Sheets.
-
-       No se incluye nombre del alumno.
+       No se incluye el nombre del alumno.
     */
 
     const params =
