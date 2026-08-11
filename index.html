@@ -5,11 +5,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Selecciona una actividad</title>
+<title>Selecciona una Actividad:</title>
 
 <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.3/build/cjs/vexflow.js"></script>
 
 <style>
+
+/* =========================================================
+   ESTILOS GENERALES
+========================================================= */
 
 * {
     box-sizing: border-box;
@@ -42,9 +46,10 @@ h1 {
     margin-bottom: 35px;
 }
 
-/* =========================
+
+/* =========================================================
    MENÚ PRINCIPAL
-========================= */
+========================================================= */
 
 #menu-inicio {
     display: flex;
@@ -105,9 +110,10 @@ h1 {
     margin: 0;
 }
 
-/* =========================
+
+/* =========================================================
    PANTALLA DE ACTIVIDAD
-========================= */
+========================================================= */
 
 #pantalla-actividad {
     display: none;
@@ -162,9 +168,10 @@ h1 {
     background: #3498db;
 }
 
-/* =========================
-   ÁREA DE JUEGO
-========================= */
+
+/* =========================================================
+   JUEGO
+========================================================= */
 
 #area-juego {
     display: none;
@@ -194,6 +201,11 @@ h1 {
     visibility: hidden;
 }
 
+
+/* =========================================================
+   CONTENEDOR DE LA ACTIVIDAD
+========================================================= */
+
 #contenedor-pentagrama {
     display: flex;
     justify-content: center;
@@ -208,12 +220,13 @@ h1 {
     border-radius: 20px;
     width: 100%;
     max-width: 650px;
-    min-height: 230px;
+    min-height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 #feedback-error {
@@ -229,33 +242,32 @@ h1 {
     pointer-events: none;
 }
 
-/* =========================
+
+/* =========================================================
    IMÁGENES DE SÍMBOLOS
-========================= */
+========================================================= */
 
 .simbolo-imagen {
     max-width: 90%;
-    max-height: 190px;
+    max-height: 160px;
     width: auto;
     height: auto;
     object-fit: contain;
     display: block;
 }
 
-/* COMPÁS Y BARRA DE COMPÁS
-   necesitan más espacio porque sus
-   PNG contienen más espacio vacío */
 .simbolo-imagen.compas {
-    max-height: 250px;
+    max-height: 190px;
 }
 
 .simbolo-imagen.barra {
-    max-height: 250px;
+    max-height: 190px;
 }
 
-/* =========================
+
+/* =========================================================
    BOTONES DE RESPUESTA
-========================= */
+========================================================= */
 
 #opciones {
     display: flex;
@@ -288,66 +300,66 @@ h1 {
     background-color: #e74c3c !important;
 }
 
-/* =========================
-   PANEL DE RESULTADOS
-========================= */
+
+/* =========================================================
+   RESULTADOS
+========================================================= */
 
 #pantalla-resultados {
     display: none;
-    text-align: center;
-    padding: 25px 15px;
 }
 
 .resultado-titulo {
-    color: #2c3e50;
     font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
     margin-bottom: 25px;
 }
 
 .resultado-tarjeta {
     background: #ebf5fb;
     border: 3px solid #3498db;
-    border-radius: 18px;
+    border-radius: 15px;
     padding: 25px;
-    max-width: 500px;
+    max-width: 450px;
     margin: 0 auto 25px auto;
 }
 
 .resultado-fila {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: bold;
     color: #2c3e50;
     margin: 12px 0;
 }
 
 .resultado-numero {
-    font-size: 1.7rem;
     color: #3498db;
+    font-size: 1.6rem;
 }
 
 .resultado-estado {
-    font-size: 1.4rem;
-    color: #2c3e50;
+    color: #27ae60;
 }
 
 .btn-resultado {
     background: #5dade2;
     color: white;
     border: none;
-    padding: 16px 35px;
-    border-radius: 14px;
+    padding: 15px 30px;
+    border-radius: 12px;
     font-size: 1.2rem;
-    cursor: pointer;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .btn-resultado:hover {
     background: #3498db;
 }
 
-/* =========================
+
+/* =========================================================
    RESPONSIVE
-========================= */
+========================================================= */
 
 @media (max-width: 650px) {
 
@@ -378,216 +390,225 @@ h1 {
         font-size: 3rem;
     }
 
-    .resultado-titulo {
-        font-size: 1.7rem;
-    }
-
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div id="contenedor-app">
 
-    <!-- =========================
-         MENÚ PRINCIPAL
-    ========================== -->
+<!-- =====================================================
+     MENÚ PRINCIPAL
+===================================================== -->
 
-    <div id="menu-inicio">
+<div id="menu-inicio">
 
-        <h1>
-            Selecciona una actividad
-        </h1>
+    <h1>
+        Selecciona una Actividad:
+    </h1>
 
-        <div class="cuadros-container">
+    <div class="cuadros-container">
 
-            <div class="tarjeta"
-                 onclick="entrarModulo('Simbolos')">
+        <div class="tarjeta"
+             onclick="entrarModulo('Simbolos')">
 
-                <div class="icono">
-                    𝄞
-                </div>
-
-                <span>
-                    SÍMBOLOS MUSICALES
-                </span>
-
+            <div class="icono">
+                𝄞
             </div>
 
-            <div class="tarjeta"
-                 onclick="entrarModulo('Notas')">
+            <span>
+                SÍMBOLOS MUSICALES
+            </span>
 
-                <div class="icono">
-                    ♩
-                </div>
+        </div>
 
-                <span>
-                    NOTAS MUSICALES
-                </span>
 
+        <div class="tarjeta"
+             onclick="entrarModulo('Notas')">
+
+            <div class="icono">
+                ♩
             </div>
+
+            <span>
+                NOTAS MUSICALES
+            </span>
 
         </div>
 
     </div>
 
-
-    <!-- =========================
-         PANTALLA DE ACTIVIDAD
-    ========================== -->
-
-    <div id="pantalla-actividad">
-
-        <div class="header-actividad">
-
-            <button
-                class="btn-volver"
-                onclick="volver()">
-
-                ← MENÚ
-
-            </button>
-
-            <select id="selector-nivel">
-
-                <option value="25">
-                    PRINCIPIANTE — 25 segundos
-                </option>
-
-                <option value="20">
-                    INTERMEDIO — 20 segundos
-                </option>
-
-                <option value="15">
-                    EXPERTO — 15 segundos
-                </option>
-
-            </select>
-
-        </div>
+</div>
 
 
-        <!-- =========================
-             INTRODUCCIÓN
-        ========================== -->
+<!-- =====================================================
+     PANTALLA DE ACTIVIDAD
+===================================================== -->
 
-        <div id="pantalla-previa">
+<div id="pantalla-actividad">
 
-            <h2 id="titulo-modulo"></h2>
+    <div class="header-actividad">
 
-            <p id="instrucciones-texto"></p>
+        <button
+            class="btn-volver"
+            onclick="volver()">
 
-            <button
-                class="btn-inicio"
-                onclick="comenzarActividad()">
+            ← MENÚ
 
-                COMENZAR
-
-            </button>
-
-        </div>
+        </button>
 
 
-        <!-- =========================
-             JUEGO
-        ========================== -->
+        <select id="selector-nivel">
 
-        <div id="area-juego">
+            <option value="25">
+                PRINCIPIANTE — 25 segundos
+            </option>
 
-            <div class="cronometro"
-                 id="tiempo">
+            <option value="20">
+                INTERMEDIO — 20 segundos
+            </option>
 
-                25
+            <option value="15">
+                EXPERTO — 15 segundos
+            </option>
 
-            </div>
-
-            <div id="contador">
-
-                Aciertos: 0 | Errores: 0
-
-            </div>
-
-            <div id="mensaje-incorrecto">
-
-                ¡Incorrecto!
-
-            </div>
-
-            <div id="contenedor-pentagrama">
-
-                <div id="pentagrama"></div>
-
-                <div id="feedback-error">
-                    ✘
-                </div>
-
-            </div>
-
-            <div id="opciones"></div>
-
-        </div>
-
-
-        <!-- =========================
-             RESULTADOS
-        ========================== -->
-
-        <div id="pantalla-resultados">
-
-            <div class="resultado-titulo">
-                🎉 ¡Actividad terminada!
-            </div>
-
-            <div class="resultado-tarjeta">
-
-                <div class="resultado-fila">
-
-                    Estado:
-
-                    <span
-                        class="resultado-estado"
-                        id="resultado-estado">
-                    </span>
-
-                </div>
-
-                <div class="resultado-fila">
-
-                    Aciertos:
-
-                    <span
-                        class="resultado-numero"
-                        id="resultado-aciertos">
-                    </span>
-
-                </div>
-
-                <div class="resultado-fila">
-
-                    Errores:
-
-                    <span
-                        class="resultado-numero"
-                        id="resultado-errores">
-                    </span>
-
-                </div>
-
-            </div>
-
-            <button
-                class="btn-resultado"
-                onclick="volver()">
-
-                VOLVER AL MENÚ
-
-            </button>
-
-        </div>
+        </select>
 
     </div>
+
+
+    <!-- =========================
+         INTRODUCCIÓN
+    ========================== -->
+
+    <div id="pantalla-previa">
+
+        <h2 id="titulo-modulo"></h2>
+
+        <p id="instrucciones-texto"></p>
+
+        <button
+            class="btn-inicio"
+            onclick="comenzarActividad()">
+
+            COMENZAR
+
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         JUEGO
+    ========================== -->
+
+    <div id="area-juego">
+
+        <div class="cronometro"
+             id="tiempo">
+
+            25
+
+        </div>
+
+
+        <div id="contador">
+
+            Aciertos: 0 | Errores: 0
+
+        </div>
+
+
+        <div id="mensaje-incorrecto">
+
+            ¡Incorrecto!
+
+        </div>
+
+
+        <div id="contenedor-pentagrama">
+
+            <div id="pentagrama"></div>
+
+            <div id="feedback-error">
+                ✘
+            </div>
+
+        </div>
+
+
+        <div id="opciones"></div>
+
+    </div>
+
+
+    <!-- =========================
+         RESULTADOS
+    ========================== -->
+
+    <div id="pantalla-resultados">
+
+        <div class="resultado-titulo">
+
+            🎉 ¡Actividad terminada!
+
+        </div>
+
+
+        <div class="resultado-tarjeta">
+
+            <div class="resultado-fila">
+
+                Estado:
+
+                <span
+                    class="resultado-estado"
+                    id="resultado-estado">
+                </span>
+
+            </div>
+
+
+            <div class="resultado-fila">
+
+                Aciertos:
+
+                <span
+                    class="resultado-numero"
+                    id="resultado-aciertos">
+                </span>
+
+            </div>
+
+
+            <div class="resultado-fila">
+
+                Errores:
+
+                <span
+                    class="resultado-numero"
+                    id="resultado-errores">
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn-resultado"
+            onclick="volver()">
+
+            VOLVER AL MENÚ
+
+        </button>
+
+    </div>
+
+</div>
 
 </div>
 
@@ -768,27 +789,32 @@ function entrarModulo(modulo) {
 
     document.getElementById(
         "menu-inicio"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
         "pantalla-actividad"
-    ).style.display = "block";
+    ).style.display =
+        "block";
 
 
     document.getElementById(
         "pantalla-previa"
-    ).style.display = "block";
+    ).style.display =
+        "block";
 
 
     document.getElementById(
         "area-juego"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
         "pantalla-resultados"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 }
 
@@ -801,17 +827,20 @@ function comenzarActividad() {
 
     document.getElementById(
         "pantalla-previa"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
         "area-juego"
-    ).style.display = "block";
+    ).style.display =
+        "block";
 
 
     document.getElementById(
         "pantalla-resultados"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     aciertos = 0;
@@ -978,6 +1007,7 @@ function mostrarSimbolo(item) {
 
     }
 
+
     if (item.id === "barra") {
 
         imagen.classList.add(
@@ -1076,6 +1106,13 @@ function crearOpcionesSimbolos(
 
 /* =========================================================
    DIBUJAR NOTA
+
+   ÚNICO CAMBIO DE ESTA VERSIÓN:
+   Se aumenta ligeramente el tamaño del
+   área de VexFlow para que la nota y el
+   pentagrama sean más fáciles de distinguir.
+
+   Module 1 / Símbolos NO se modifica.
 ========================================================= */
 
 function dibujarNota(n) {
@@ -1089,9 +1126,17 @@ function dibujarNota(n) {
         );
 
 
+    /*
+       ANTES:
+       renderer.resize(180, 160);
+
+       AHORA:
+       210 x 185
+    */
+
     renderer.resize(
-        180,
-        160
+        210,
+        185
     );
 
 
@@ -1099,11 +1144,16 @@ function dibujarNota(n) {
         renderer.getContext();
 
 
+    /*
+       El pentagrama también se
+       amplía ligeramente.
+    */
+
     const stave =
         new Vex.Flow.Stave(
             10,
-            30,
-            160
+            35,
+            190
         );
 
 
@@ -1215,6 +1265,7 @@ function verificarRespuesta(
 
         aciertos++;
 
+
         logAciertos.push(
             nombre
         );
@@ -1227,6 +1278,7 @@ function verificarRespuesta(
     else {
 
         errores++;
+
 
         logErrores.push(
             nombre
