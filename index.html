@@ -1,10 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Selecciona una Actividad</title>
+<title>Selecciona una actividad</title>
 
 <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.3/build/cjs/vexflow.js"></script>
 
@@ -42,7 +43,7 @@ h1 {
 }
 
 /* =========================
-   MENÚ
+   MENÚ PRINCIPAL
 ========================= */
 
 #menu-inicio {
@@ -105,7 +106,7 @@ h1 {
 }
 
 /* =========================
-   ACTIVIDAD
+   PANTALLA DE ACTIVIDAD
 ========================= */
 
 #pantalla-actividad {
@@ -162,7 +163,7 @@ h1 {
 }
 
 /* =========================
-   JUEGO
+   ÁREA DE JUEGO
 ========================= */
 
 #area-juego {
@@ -207,10 +208,7 @@ h1 {
     border-radius: 20px;
     width: 100%;
     max-width: 650px;
-
-    /* AUMENTADO DE 200px A 230px */
     min-height: 230px;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -232,9 +230,7 @@ h1 {
 }
 
 /* =========================
-   SÍMBOLOS MUSICALES
-
-   AUMENTADO DE 160px A 190px
+   IMÁGENES DE SÍMBOLOS
 ========================= */
 
 .simbolo-imagen {
@@ -246,8 +242,19 @@ h1 {
     display: block;
 }
 
+/* COMPÁS Y BARRA DE COMPÁS
+   necesitan más espacio porque sus
+   PNG contienen más espacio vacío */
+.simbolo-imagen.compas {
+    max-height: 250px;
+}
+
+.simbolo-imagen.barra {
+    max-height: 250px;
+}
+
 /* =========================
-   BOTONES
+   BOTONES DE RESPUESTA
 ========================= */
 
 #opciones {
@@ -282,6 +289,63 @@ h1 {
 }
 
 /* =========================
+   PANEL DE RESULTADOS
+========================= */
+
+#pantalla-resultados {
+    display: none;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.resultado-titulo {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 25px;
+}
+
+.resultado-tarjeta {
+    background: #ebf5fb;
+    border: 3px solid #3498db;
+    border-radius: 18px;
+    padding: 25px;
+    max-width: 500px;
+    margin: 0 auto 25px auto;
+}
+
+.resultado-fila {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 12px 0;
+}
+
+.resultado-numero {
+    font-size: 1.7rem;
+    color: #3498db;
+}
+
+.resultado-estado {
+    font-size: 1.4rem;
+    color: #2c3e50;
+}
+
+.btn-resultado {
+    background: #5dade2;
+    color: white;
+    border: none;
+    padding: 16px 35px;
+    border-radius: 14px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-resultado:hover {
+    background: #3498db;
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
 
@@ -313,6 +377,11 @@ h1 {
     .cronometro {
         font-size: 3rem;
     }
+
+    .resultado-titulo {
+        font-size: 1.7rem;
+    }
+
 }
 
 </style>
@@ -400,6 +469,10 @@ h1 {
         </div>
 
 
+        <!-- =========================
+             INTRODUCCIÓN
+        ========================== -->
+
         <div id="pantalla-previa">
 
             <h2 id="titulo-modulo"></h2>
@@ -416,6 +489,10 @@ h1 {
 
         </div>
 
+
+        <!-- =========================
+             JUEGO
+        ========================== -->
 
         <div id="area-juego">
 
@@ -452,6 +529,64 @@ h1 {
 
         </div>
 
+
+        <!-- =========================
+             RESULTADOS
+        ========================== -->
+
+        <div id="pantalla-resultados">
+
+            <div class="resultado-titulo">
+                🎉 ¡Actividad terminada!
+            </div>
+
+            <div class="resultado-tarjeta">
+
+                <div class="resultado-fila">
+
+                    Estado:
+
+                    <span
+                        class="resultado-estado"
+                        id="resultado-estado">
+                    </span>
+
+                </div>
+
+                <div class="resultado-fila">
+
+                    Aciertos:
+
+                    <span
+                        class="resultado-numero"
+                        id="resultado-aciertos">
+                    </span>
+
+                </div>
+
+                <div class="resultado-fila">
+
+                    Errores:
+
+                    <span
+                        class="resultado-numero"
+                        id="resultado-errores">
+                    </span>
+
+                </div>
+
+            </div>
+
+            <button
+                class="btn-resultado"
+                onclick="volver()">
+
+                VOLVER AL MENÚ
+
+            </button>
+
+        </div>
+
     </div>
 
 </div>
@@ -469,8 +604,6 @@ const GOOGLE_URL =
 
 /* =========================================================
    GITHUB PAGES BASE URL
-
-   Kept exactly as in the working version.
 ========================================================= */
 
 const GITHUB_BASE =
@@ -561,12 +694,6 @@ const SIMBOLOS = [
 
 /* =========================================================
    LAS 5 NOTAS
-
-   C4 = Do
-   D4 = Re
-   E4 = Mi
-   F4 = Fa
-   G4 = Sol
 ========================================================= */
 
 const NOTAS = [
@@ -658,6 +785,11 @@ function entrarModulo(modulo) {
         "area-juego"
     ).style.display = "none";
 
+
+    document.getElementById(
+        "pantalla-resultados"
+    ).style.display = "none";
+
 }
 
 
@@ -675,6 +807,11 @@ function comenzarActividad() {
     document.getElementById(
         "area-juego"
     ).style.display = "block";
+
+
+    document.getElementById(
+        "pantalla-resultados"
+    ).style.display = "none";
 
 
     aciertos = 0;
@@ -799,8 +936,6 @@ function siguientePregunta() {
 
 /* =========================================================
    MOSTRAR SÍMBOLO
-
-   Absolute GitHub Pages URL.
 ========================================================= */
 
 function mostrarSimbolo(item) {
@@ -830,6 +965,28 @@ function mostrarSimbolo(item) {
         "simbolo-imagen";
 
 
+    /*
+       Agrandamos únicamente
+       Compás y Barra de compás.
+    */
+
+    if (item.id === "compas") {
+
+        imagen.classList.add(
+            "compas"
+        );
+
+    }
+
+    if (item.id === "barra") {
+
+        imagen.classList.add(
+            "barra"
+        );
+
+    }
+
+
     pentagrama.appendChild(
         imagen
     );
@@ -838,7 +995,7 @@ function mostrarSimbolo(item) {
 
 
 /* =========================================================
-   CREAR 4 OPCIONES PARA CADA SÍMBOLO
+   CREAR 4 OPCIONES PARA LOS SÍMBOLOS
 ========================================================= */
 
 function crearOpcionesSimbolos(
@@ -919,8 +1076,6 @@ function crearOpcionesSimbolos(
 
 /* =========================================================
    DIBUJAR NOTA
-
-   UNCHANGED.
 ========================================================= */
 
 function dibujarNota(n) {
@@ -1248,6 +1403,12 @@ function volver() {
 
 
     document.getElementById(
+        "pantalla-resultados"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
         "pentagrama"
     ).innerHTML =
         "";
@@ -1269,6 +1430,52 @@ function volver() {
         "mensaje-incorrecto"
     ).style.visibility =
         "hidden";
+
+}
+
+
+/* =========================================================
+   MOSTRAR RESULTADOS
+========================================================= */
+
+function mostrarResultados(
+    estado
+) {
+
+    document.getElementById(
+        "resultado-estado"
+    ).innerText =
+        estado;
+
+
+    document.getElementById(
+        "resultado-aciertos"
+    ).innerText =
+        aciertos;
+
+
+    document.getElementById(
+        "resultado-errores"
+    ).innerText =
+        errores;
+
+
+    document.getElementById(
+        "area-juego"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "pantalla-previa"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "pantalla-resultados"
+    ).style.display =
+        "block";
 
 }
 
@@ -1296,18 +1503,19 @@ function finalizarYEnviar(
         ].text;
 
 
-    alert(
-        "¡Actividad terminada!\n\n" +
-        "Estado: " +
-        estado +
-        "\n" +
-        "Aciertos: " +
-        aciertos +
-        "\n" +
-        "Errores: " +
-        errores
+    /*
+       Mostrar el resultado dentro
+       de la propia página.
+    */
+
+    mostrarResultados(
+        estado
     );
 
+
+    /*
+       Enviar resultados a Google Sheets.
+    */
 
     const params =
         new URLSearchParams();
@@ -1374,12 +1582,10 @@ function finalizarYEnviar(
         }
     );
 
-
-    volver();
-
 }
 
 </script>
 
 </body>
 </html>
+```
