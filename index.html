@@ -1,12 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fundamentos Básicos del Lenguaje Musical</title>
-
-<!-- VexFlow -->
-<script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/vexflow-min.js"></script>
 
 <style>
     * {
@@ -45,9 +43,9 @@
         color: #34495e;
     }
 
-    /* =========================
-       MENÚ PRINCIPAL
-       ========================= */
+    /* ==============================
+       MENÚ
+       ============================== */
 
     #menu-inicio {
         display: flex;
@@ -78,7 +76,6 @@
         cursor: pointer;
         transition: 0.3s;
         box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-        text-decoration: none;
         padding: 15px;
         gap: 15px;
     }
@@ -99,7 +96,7 @@
     }
 
     .icono-clave {
-        font-size: 105px !important;
+        font-size: 105px;
         display: inline-block;
     }
 
@@ -110,9 +107,9 @@
         margin: 0;
     }
 
-    /* =========================
-       PANTALLA DE ACTIVIDAD
-       ========================= */
+    /* ==============================
+       ACTIVIDAD
+       ============================== */
 
     #pantalla-actividad {
         display: none;
@@ -171,9 +168,9 @@
         transform: scale(1.03);
     }
 
-    /* =========================
+    /* ==============================
        JUEGO
-       ========================= */
+       ============================== */
 
     #area-juego {
         display: none;
@@ -222,7 +219,7 @@
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        padding: 10px;
+        padding: 15px;
     }
 
     #feedback-error {
@@ -238,9 +235,9 @@
         pointer-events: none;
     }
 
-    /* =========================
-       BOTONES DE RESPUESTA
-       ========================= */
+    /* ==============================
+       BOTONES
+       ============================== */
 
     #opciones {
         display: flex;
@@ -262,7 +259,6 @@
         cursor: pointer;
         font-weight: bold;
         transition: 0.2s;
-        line-height: 1.2;
         min-width: 100px;
     }
 
@@ -275,20 +271,213 @@
         background-color: #e74c3c !important;
     }
 
-    /* =========================
-       TEXTO DE PREGUNTA
-       ========================= */
+    /* ==============================
+       NOTACIÓN MUSICAL
+       ============================== */
 
-    .texto-pregunta {
-        font-size: 1.25rem;
-        color: #34495e;
-        font-weight: bold;
-        margin: 5px 0 15px;
+    .musica {
+        width: 100%;
+        max-width: 560px;
+        margin: auto;
     }
 
-    /* =========================
+    .pregunta-musical {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #34495e;
+        margin-bottom: 15px;
+    }
+
+    .staff {
+        position: relative;
+        height: 130px;
+        width: 100%;
+        margin: auto;
+    }
+
+    .staff-lines {
+        position: absolute;
+        left: 8%;
+        right: 8%;
+        top: 35px;
+        height: 80px;
+        border-top: 2px solid #222;
+        border-bottom: 2px solid #222;
+        background:
+            linear-gradient(
+                to bottom,
+                transparent 19%,
+                #222 20%,
+                #222 22%,
+                transparent 23%,
+                transparent 44%,
+                #222 45%,
+                #222 47%,
+                transparent 48%,
+                transparent 69%,
+                #222 70%,
+                #222 72%,
+                transparent 73%
+            );
+    }
+
+    /*
+       Se generan cinco líneas mediante elementos individuales.
+    */
+
+    .linea {
+        position: absolute;
+        left: 8%;
+        right: 8%;
+        height: 2px;
+        background: #222;
+    }
+
+    .linea1 { top: 35px; }
+    .linea2 { top: 55px; }
+    .linea3 { top: 75px; }
+    .linea4 { top: 95px; }
+    .linea5 { top: 115px; }
+
+    .clave-sol {
+        position: absolute;
+        left: 10%;
+        top: 7px;
+        font-family: "Times New Roman", serif;
+        font-size: 105px;
+        line-height: 1;
+        font-weight: normal;
+        z-index: 2;
+    }
+
+    .nota-musical {
+        position: absolute;
+        font-family: "Times New Roman", serif;
+        font-size: 55px;
+        font-weight: bold;
+        z-index: 3;
+        line-height: 1;
+    }
+
+    /*
+       Posiciones de Do a Sol.
+       Estas posiciones corresponden al pentagrama
+       en clave de Sol.
+    */
+
+    .nota-do  { left: 46%; top: 100px; }
+    .nota-re  { left: 50%; top: 90px; }
+    .nota-mi  { left: 50%; top: 80px; }
+    .nota-fa  { left: 50%; top: 70px; }
+    .nota-sol { left: 50%; top: 60px; }
+
+    .nota-con-linea {
+        position: absolute;
+        width: 38px;
+        height: 2px;
+        background: #222;
+        z-index: 2;
+    }
+
+    .linea-do {
+        left: 43%;
+        top: 112px;
+    }
+
+    /* ==============================
+       SÍMBOLOS
+       ============================== */
+
+    .simbolo-grande {
+        font-family: "Times New Roman", serif;
+        color: #222;
+        font-weight: normal;
+    }
+
+    .simbolo-clave-grande {
+        font-family: "Times New Roman", serif;
+        font-size: 120px;
+        line-height: 1;
+    }
+
+    .simbolo-nota {
+        font-family: "Times New Roman", serif;
+        font-size: 100px;
+        line-height: 1;
+    }
+
+    .simbolo-blanca {
+        font-family: "Times New Roman", serif;
+        font-size: 100px;
+        line-height: 1;
+    }
+
+    .compas-visual {
+        width: 360px;
+        height: 100px;
+        position: relative;
+        margin: auto;
+    }
+
+    .compas-visual .linea {
+        left: 0;
+        right: 0;
+    }
+
+    .barra-vertical {
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        width: 3px;
+        background: #222;
+    }
+
+    .barra-1 {
+        left: 20px;
+    }
+
+    .barra-2 {
+        right: 20px;
+    }
+
+    .barra-centro {
+        left: 180px;
+    }
+
+    .doble-1 {
+        left: 170px;
+    }
+
+    .doble-2 {
+        left: 180px;
+    }
+
+    .time-signature {
+        position: absolute;
+        left: 105px;
+        top: 18px;
+        font-family: "Times New Roman", serif;
+        font-size: 35px;
+        font-weight: bold;
+        line-height: 0.9;
+    }
+
+    .time-signature div {
+        height: 32px;
+    }
+
+    .nota-en-compas {
+        position: absolute;
+        font-family: "Times New Roman", serif;
+        font-size: 55px;
+    }
+
+    .nota1 { left: 190px; top: 18px; }
+    .nota2 { left: 230px; top: 18px; }
+
+    /* ==============================
        RESPONSIVE
-       ========================= */
+       ============================== */
 
     @media (max-width: 650px) {
 
@@ -317,7 +506,7 @@
         }
 
         .icono-clave {
-            font-size: 85px !important;
+            font-size: 85px;
         }
 
         .header-actividad {
@@ -333,14 +522,19 @@
             font-size: 3.5rem;
         }
 
-        #pentagrama {
-            min-height: 190px;
-        }
-
         .btn-respuesta {
             min-width: 90px;
             padding: 13px 18px;
             font-size: 1rem;
+        }
+
+        .clave-sol {
+            left: 5%;
+        }
+
+        .linea {
+            left: 5%;
+            right: 5%;
         }
     }
 </style>
@@ -350,49 +544,78 @@
 
 <div id="contenedor-app">
 
-    <!-- =========================
+    <!-- ==========================================
          MENÚ PRINCIPAL
-         ========================= -->
+         ========================================== -->
 
     <div id="menu-inicio">
 
-        <h1>Fundamentos Básicos del Lenguaje Musical</h1>
+        <h1>
+            Fundamentos Básicos del Lenguaje Musical
+        </h1>
 
         <div class="cuadros-container">
 
-            <div class="tarjeta" onclick="intentarEntrar('Símbolos Musicales')">
-                <div class="icono">𝄞</div>
-                <span>SÍMBOLOS MUSICALES</span>
+            <div
+                class="tarjeta"
+                onclick="intentarEntrar('Símbolos Musicales')"
+            >
+
+                <div class="icono">
+                    𝄞
+                </div>
+
+                <span>
+                    SÍMBOLOS MUSICALES
+                </span>
+
             </div>
 
-            <div class="tarjeta" onclick="intentarEntrar('Notas en el Pentagrama')">
-                <div class="icono">♫</div>
-                <span>NOTAS EN EL PENTAGRAMA</span>
+
+            <div
+                class="tarjeta"
+                onclick="intentarEntrar('Notas en el Pentagrama')"
+            >
+
+                <div class="icono">
+                    ♫
+                </div>
+
+                <span>
+                    NOTAS EN EL PENTAGRAMA
+                </span>
+
             </div>
 
         </div>
+
     </div>
 
 
-    <!-- =========================
+    <!-- ==========================================
          PANTALLA DE ACTIVIDAD
-         ========================= -->
+         ========================================== -->
 
     <div id="pantalla-actividad">
 
         <div class="header-actividad">
 
-            <button class="btn-volver" onclick="volver()">
+            <button
+                class="btn-volver"
+                onclick="volver()"
+            >
                 MENÚ
             </button>
 
-            <select id="selector-nivel" onchange="ajustarTiempo()">
+
+            <select
+                id="selector-nivel"
+                onchange="ajustarTiempo()"
+            >
             </select>
 
         </div>
 
-
-        <!-- INTRODUCCIÓN -->
 
         <div id="pantalla-previa">
 
@@ -400,28 +623,35 @@
 
             <p id="instrucciones-texto"></p>
 
-            <button class="btn-inicio" onclick="comenzarActividad()">
+            <button
+                class="btn-inicio"
+                onclick="comenzarActividad()"
+            >
                 COMENZAR
             </button>
 
         </div>
 
 
-        <!-- JUEGO -->
-
         <div id="area-juego">
 
-            <div class="cronometro" id="tiempo">
+            <div
+                class="cronometro"
+                id="tiempo"
+            >
                 20
             </div>
+
 
             <div id="contador">
                 Aciertos: 0 | Errores: 0
             </div>
 
+
             <div id="mensaje-incorrecto">
                 ¡Incorrecto!
             </div>
+
 
             <div id="contenedor-pentagrama">
 
@@ -432,6 +662,7 @@
                 </div>
 
             </div>
+
 
             <div id="opciones"></div>
 
@@ -444,44 +675,123 @@
 
 <script>
 
-    /* =========================================================
-       CONFIGURACIÓN
-       ========================================================= */
+    /* ======================================================
+       CONFIGURACIÓN GENERAL
+       ====================================================== */
 
     const GOOGLE_URL =
         "https://script.google.com/macros/s/AKfycbzy5sc0_ijmg0Ch50LYrAzfKYaxuW5qHL_iBq3GaiLYkLmokIwRmMEFF5wh_vuYT60YPQ/exec";
 
 
-    /*
-       TIEMPOS DE LOS TRES NIVELES
-
-       Beginner     = 20 segundos
-       Intermediate = 12 segundos
-       Expert       = 8 segundos
-    */
-
     const NIVELES = [
+
         {
             nombre: "BÁSICO",
             tiempo: 20,
             opciones: 3
         },
+
         {
             nombre: "INTERMEDIO",
             tiempo: 12,
             opciones: 4
         },
+
         {
             nombre: "EXPERTO",
             tiempo: 8,
             opciones: 5
         }
+
     ];
 
 
-    /* =========================================================
-       VARIABLES DEL JUEGO
-       ========================================================= */
+    /* ======================================================
+       SÍMBOLOS
+       ====================================================== */
+
+    const SIMBOLOS = [
+
+        {
+            id: "staff",
+            nombre: "Pentagrama"
+        },
+
+        {
+            id: "clef",
+            nombre: "Clave de Sol"
+        },
+
+        {
+            id: "measure",
+            nombre: "Compás"
+        },
+
+        {
+            id: "time44",
+            nombre: "Compás 4/4"
+        },
+
+        {
+            id: "barline",
+            nombre: "Barra de compás"
+        },
+
+        {
+            id: "doublebar",
+            nombre: "Doble barra"
+        },
+
+        {
+            id: "quarter",
+            nombre: "Negra"
+        },
+
+        {
+            id: "half",
+            nombre: "Blanca"
+        }
+
+    ];
+
+
+    /* ======================================================
+       NOTAS
+       ====================================================== */
+
+    const NOTAS = [
+
+        {
+            id: "do",
+            nombre: "Do"
+        },
+
+        {
+            id: "re",
+            nombre: "Re"
+        },
+
+        {
+            id: "mi",
+            nombre: "Mi"
+        },
+
+        {
+            id: "fa",
+            nombre: "Fa"
+        },
+
+        {
+            id: "sol",
+            nombre: "Sol"
+        }
+
+    ];
+
+
+    /* ======================================================
+       VARIABLES
+       ====================================================== */
 
     let moduloActual = "";
     let nivelActual = 0;
@@ -493,113 +803,16 @@
     let errores = 0;
 
     let respuestaCorrecta = "";
+
     let bloqueado = false;
 
     let logAciertos = [];
     let logErrores = [];
 
 
-    /* =========================================================
-       MÓDULO 1 — SÍMBOLOS MUSICALES
-       ========================================================= */
-
-    const SIMBOLOS = [
-
-        {
-            id: "pentagrama",
-            nombre: "Pentagrama",
-            tipo: "staff"
-        },
-
-        {
-            id: "clave",
-            nombre: "Clave de Sol",
-            tipo: "clef"
-        },
-
-        {
-            id: "compas",
-            nombre: "Compás",
-            tipo: "measure"
-        },
-
-        {
-            id: "compas44",
-            nombre: "Compás 4/4",
-            tipo: "time"
-        },
-
-        {
-            id: "barra",
-            nombre: "Barra de compás",
-            tipo: "barline"
-        },
-
-        {
-            id: "doblebarra",
-            nombre: "Doble barra",
-            tipo: "doublebar"
-        },
-
-        {
-            id: "negra",
-            nombre: "Negra",
-            tipo: "quarter"
-        },
-
-        {
-            id: "blanca",
-            nombre: "Blanca",
-            tipo: "half"
-        }
-
-    ];
-
-
-    /*
-       NOTA:
-       "Compás" se representa visualmente como un pequeño
-       fragmento de pentagrama delimitado por barras.
-    */
-
-
-    /* =========================================================
-       MÓDULO 2 — NOTAS
-       ========================================================= */
-
-    const NOTAS = [
-
-        {
-            id: "c/4",
-            nombre: "Do"
-        },
-
-        {
-            id: "d/4",
-            nombre: "Re"
-        },
-
-        {
-            id: "e/4",
-            nombre: "Mi"
-        },
-
-        {
-            id: "f/4",
-            nombre: "Fa"
-        },
-
-        {
-            id: "g/4",
-            nombre: "Sol"
-        }
-
-    ];
-
-
-    /* =========================================================
-       ENTRAR A UN MÓDULO
-       ========================================================= */
+    /* ======================================================
+       ENTRAR AL MÓDULO
+       ====================================================== */
 
     function intentarEntrar(modulo) {
 
@@ -608,173 +821,225 @@
         const selector =
             document.getElementById("selector-nivel");
 
-        const instrucciones =
-            document.getElementById("instrucciones-texto");
-
         selector.innerHTML = "";
 
-        NIVELES.forEach((nivel, index) => {
 
-            const option =
-                document.createElement("option");
+        NIVELES.forEach(
+            (nivel, index) => {
 
-            option.value = index;
+                const option =
+                    document.createElement("option");
 
-            option.textContent =
-                `${nivel.nombre} (${nivel.tiempo}s)`;
+                option.value = index;
 
-            selector.appendChild(option);
+                option.textContent =
+                    `${nivel.nombre} (${nivel.tiempo}s)`;
 
-        });
+                selector.appendChild(option);
+            }
+        );
 
 
-        if (modulo === "Símbolos Musicales") {
+        if (
+            modulo === "Símbolos Musicales"
+        ) {
 
-            instrucciones.innerText =
+            document.getElementById(
+                "instrucciones-texto"
+            ).innerText =
                 "Identifica los símbolos y elementos básicos del lenguaje musical. Responde tantas preguntas como puedas antes de que se termine el tiempo.";
 
         } else {
 
-            instrucciones.innerText =
+            document.getElementById(
+                "instrucciones-texto"
+            ).innerText =
                 "Identifica las notas Do, Re, Mi, Fa y Sol en el pentagrama. Responde tantas preguntas como puedas antes de que se termine el tiempo.";
 
         }
 
 
-        document.getElementById("menu-inicio")
-            .style.display = "none";
+        document.getElementById(
+            "titulo-modulo"
+        ).innerText = modulo;
 
-        document.getElementById("pantalla-actividad")
-            .style.display = "block";
 
-        document.getElementById("pantalla-previa")
-            .style.display = "block";
+        document.getElementById(
+            "menu-inicio"
+        ).style.display = "none";
 
-        document.getElementById("area-juego")
-            .style.display = "none";
 
-        document.getElementById("titulo-modulo")
-            .innerText = modulo;
+        document.getElementById(
+            "pantalla-actividad"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "pantalla-previa"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "area-juego"
+        ).style.display = "none";
+
 
         ajustarTiempo();
     }
 
 
-    /* =========================================================
-       CAMBIAR NIVEL
-       ========================================================= */
+    /* ======================================================
+       AJUSTAR TIEMPO
+       ====================================================== */
 
     function ajustarTiempo() {
 
-        const index =
+        nivelActual =
             parseInt(
-                document.getElementById("selector-nivel").value || 0
+                document.getElementById(
+                    "selector-nivel"
+                ).value || 0
             );
 
-        nivelActual = index;
 
         tiempoRestante =
-            NIVELES[index].tiempo;
+            NIVELES[nivelActual].tiempo;
 
-        document.getElementById("tiempo")
-            .innerText = tiempoRestante;
+
+        document.getElementById(
+            "tiempo"
+        ).innerText = tiempoRestante;
     }
 
 
-    /* =========================================================
+    /* ======================================================
        COMENZAR
-       ========================================================= */
+       ====================================================== */
 
     function comenzarActividad() {
 
         clearInterval(timer);
 
-        const nivel =
-            NIVELES[nivelActual];
-
-        tiempoRestante =
-            nivel.tiempo;
-
         aciertos = 0;
         errores = 0;
-
-        bloqueado = false;
 
         logAciertos = [];
         logErrores = [];
 
-        document.getElementById("pantalla-previa")
-            .style.display = "none";
+        bloqueado = false;
 
-        document.getElementById("area-juego")
-            .style.display = "block";
 
-        document.getElementById("tiempo")
-            .innerText = tiempoRestante;
+        tiempoRestante =
+            NIVELES[nivelActual].tiempo;
+
+
+        document.getElementById(
+            "pantalla-previa"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "area-juego"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "tiempo"
+        ).innerText = tiempoRestante;
+
 
         actualizarContador();
 
+
         siguientePregunta();
+
 
         iniciarTimer();
     }
 
 
-    /* =========================================================
+    /* ======================================================
        TEMPORIZADOR
-       ========================================================= */
+       ====================================================== */
 
     function iniciarTimer() {
 
         clearInterval(timer);
 
-        timer = setInterval(() => {
+        timer = setInterval(
+            function() {
 
-            tiempoRestante--;
+                tiempoRestante--;
 
-            document.getElementById("tiempo")
-                .innerText = tiempoRestante;
+                document.getElementById(
+                    "tiempo"
+                ).innerText =
+                    tiempoRestante;
 
-            if (tiempoRestante <= 0) {
 
-                clearInterval(timer);
+                if (
+                    tiempoRestante <= 0
+                ) {
 
-                finalizarYEnviar("Tiempo agotado");
-            }
+                    clearInterval(timer);
 
-        }, 1000);
+                    finalizarYEnviar(
+                        "Tiempo agotado"
+                    );
+                }
+
+            },
+            1000
+        );
     }
 
 
-    /* =========================================================
+    /* ======================================================
        SIGUIENTE PREGUNTA
-       ========================================================= */
+       ====================================================== */
 
     function siguientePregunta() {
 
-        if (tiempoRestante <= 0) {
+        if (
+            tiempoRestante <= 0
+        ) {
             return;
         }
 
+
         bloqueado = false;
 
+
         const pentagrama =
-            document.getElementById("pentagrama");
+            document.getElementById(
+                "pentagrama"
+            );
+
 
         const opciones =
-            document.getElementById("opciones");
+            document.getElementById(
+                "opciones"
+            );
+
 
         pentagrama.innerHTML = "";
         opciones.innerHTML = "";
 
-        document.getElementById("feedback-error")
-            .style.display = "none";
 
-        document.getElementById("mensaje-incorrecto")
-            .style.visibility = "hidden";
+        document.getElementById(
+            "feedback-error"
+        ).style.display = "none";
 
 
-        if (moduloActual === "Símbolos Musicales") {
+        document.getElementById(
+            "mensaje-incorrecto"
+        ).style.visibility = "hidden";
+
+
+        if (
+            moduloActual ===
+            "Símbolos Musicales"
+        ) {
 
             generarPreguntaSimbolo();
 
@@ -786,32 +1051,45 @@
     }
 
 
-    /* =========================================================
+    /* ======================================================
        PREGUNTA DE SÍMBOLOS
-       ========================================================= */
+       ====================================================== */
 
     function generarPreguntaSimbolo() {
 
         const objetivo =
             SIMBOLOS[
                 Math.floor(
-                    Math.random() * SIMBOLOS.length
+                    Math.random() *
+                    SIMBOLOS.length
                 )
             ];
+
 
         respuestaCorrecta =
             objetivo.id;
 
 
-        dibujarSimbolo(objetivo);
+        /*
+           IMPORTANTE:
+           Creamos primero los botones.
+        */
+
+        const opciones =
+            document.getElementById(
+                "opciones"
+            );
 
 
         const cantidad =
             NIVELES[nivelActual].opciones;
 
+
         const candidatos =
             SIMBOLOS.filter(
-                s => s.id !== objetivo.id
+                function(s) {
+                    return s.id !== objetivo.id;
+                }
             );
 
 
@@ -821,88 +1099,106 @@
         let respuestas =
             [objetivo];
 
+
         respuestas =
             respuestas.concat(
-                candidatos.slice(0, cantidad - 1)
+                candidatos.slice(
+                    0,
+                    cantidad - 1
+                )
             );
+
 
         mezclar(respuestas);
 
 
-        respuestas.forEach(simbolo => {
+        respuestas.forEach(
+            function(simbolo) {
 
-            const boton =
-                document.createElement("button");
+                const boton =
+                    document.createElement(
+                        "button"
+                    );
 
-            boton.className =
-                "btn-respuesta";
 
-            boton.innerText =
-                simbolo.nombre;
+                boton.className =
+                    "btn-respuesta";
 
-            boton.onclick = () => {
 
-                verificarRespuesta(
-                    simbolo.id,
-                    boton,
-                    simbolo.nombre
+                boton.innerText =
+                    simbolo.nombre;
+
+
+                boton.onclick =
+                    function() {
+
+                        verificarRespuesta(
+                            simbolo.id,
+                            boton,
+                            simbolo.nombre
+                        );
+
+                    };
+
+
+                opciones.appendChild(
+                    boton
                 );
+            }
+        );
 
-            };
 
-            opciones.appendChild(boton);
-        });
+        /*
+           Después dibujamos el símbolo.
+        */
+
+        dibujarSimbolo(
+            objetivo.id
+        );
 
 
         actualizarContador();
     }
 
 
-    /* =========================================================
-       DIBUJAR SÍMBOLOS
-       ========================================================= */
+    /* ======================================================
+       DIBUJAR SÍMBOLO
+       ====================================================== */
 
-    function dibujarSimbolo(simbolo) {
+    function dibujarSimbolo(id) {
 
         const contenedor =
-            document.getElementById("pentagrama");
-
-        /*
-           VexFlow utiliza un SVG para representar
-           el símbolo musical.
-        */
-
-        const ancho = 500;
-        const alto = 180;
-
-        const renderer =
-            new Vex.Flow.Renderer(
-                contenedor,
-                Vex.Flow.Renderer.Backends.SVG
+            document.getElementById(
+                "pentagrama"
             );
 
-        renderer.resize(ancho, alto);
-
-        const ctx =
-            renderer.getContext();
-
 
         /*
-           STAFF
+           PENTAGRAMA
         */
 
-        if (simbolo.tipo === "staff") {
+        if (id === "staff") {
 
-            const stave =
-                new Vex.Flow.Stave(
-                    60,
-                    55,
-                    360
-                );
+            contenedor.innerHTML = `
 
-            stave
-                .setContext(ctx)
-                .draw();
+                <div class="musica">
+
+                    <div class="pregunta-musical">
+                        ¿Qué elemento musical es?
+                    </div>
+
+                    <div class="staff">
+
+                        <div class="linea linea1"></div>
+                        <div class="linea linea2"></div>
+                        <div class="linea linea3"></div>
+                        <div class="linea linea4"></div>
+                        <div class="linea linea5"></div>
+
+                    </div>
+
+                </div>
+            `;
 
             return;
         }
@@ -912,19 +1208,32 @@
            CLAVE DE SOL
         */
 
-        if (simbolo.tipo === "clef") {
+        if (id === "clef") {
 
-            const stave =
-                new Vex.Flow.Stave(
-                    60,
-                    45,
-                    360
-                );
+            contenedor.innerHTML = `
 
-            stave
-                .addClef("treble")
-                .setContext(ctx)
-                .draw();
+                <div class="musica">
+
+                    <div class="pregunta-musical">
+                        ¿Qué símbolo musical es?
+                    </div>
+
+                    <div class="staff">
+
+                        <div class="linea linea1"></div>
+                        <div class="linea linea2"></div>
+                        <div class="linea linea3"></div>
+                        <div class="linea linea4"></div>
+                        <div class="linea linea5"></div>
+
+                        <div class="clave-sol">
+                            𝄞
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
 
             return;
         }
@@ -934,19 +1243,31 @@
            COMPÁS
         */
 
-        if (simbolo.tipo === "measure") {
+        if (id === "measure") {
 
-            const stave =
-                new Vex.Flow.Stave(
-                    80,
-                    55,
-                    300
-                );
+            contenedor.innerHTML = `
 
-            stave
-                .addClef("treble")
-                .setContext(ctx)
-                .draw();
+                <div class="musica">
+
+                    <div class="pregunta-musical">
+                        ¿Qué elemento musical es?
+                    </div>
+
+                    <div class="compas-visual">
+
+                        <div class="linea linea1"></div>
+                        <div class="linea linea2"></div>
+                        <div class="linea linea3"></div>
+                        <div class="linea linea4"></div>
+                        <div class="linea linea5"></div>
+
+                        <div class="barra-vertical barra-1"></div>
+                        <div class="barra-vertical barra-2"></div>
+
+                    </div>
+
+                </div>
+            `;
 
             return;
         }
@@ -956,20 +1277,38 @@
            4/4
         */
 
-        if (simbolo.tipo === "time") {
+        if (id === "time44") {
 
-            const stave =
-                new Vex.Flow.Stave(
-                    80,
-                    55,
-                    300
-                );
+            contenedor.innerHTML = `
 
-            stave
-                .addClef("treble")
-                .addTimeSignature("4/4")
-                .setContext(ctx)
-                .draw();
+                <div class="musica">
+
+                    <div class="pregunta-musical">
+                        ¿Qué símbolo musical es?
+                    </div>
+
+                    <div class="compas-visual">
+
+                        <div class="linea linea1"></div>
+                        <div class="linea linea2"></div>
+                        <div class="linea linea3"></div>
+                        <div class="linea linea4"></div>
+                        <div class="linea linea5"></div>
+
+                        <div class="barra-vertical barra-1"></div>
+                        <div class="barra-vertical barra-2"></div>
+
+                        <div class="time-signature">
+
+                            <div>4</div>
+                            <div>4</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
 
             return;
         }
@@ -979,29 +1318,32 @@
            BARRA DE COMPÁS
         */
 
-        if (simbolo.tipo === "barline") {
+        if (id === "barline") {
 
-            const stave =
-                new Vex.Flow.Stave(
-                    80,
-                    55,
-                    300
-                );
+            contenedor.innerHTML = `
 
-            stave
-                .addClef("treble")
-                .setContext(ctx)
-                .draw();
+                <div class="musica">
 
+                    <div class="pregunta-musical">
+                        ¿Qué símbolo musical es?
+                    </div>
 
-            ctx.setLineWidth(4);
+                    <div class="compas-visual">
 
-            ctx.beginPath();
+                        <div class="linea linea1"></div>
+                        <div class="linea linea2"></div>
+                        <div class="linea linea3"></div>
+                        <div class="linea linea4"></div>
+                        <div class="linea linea5"></div>
 
-            ctx.moveTo(280, 55);
-            ctx.lineTo(280, 125);
+                        <div class="barra-vertical barra-1"></div>
 
-            ctx.stroke();
+                        <div class="barra-vertical barra-centro"></div>
+
+                    </div>
+
+                </div>
+            `;
 
             return;
         }
@@ -1011,32 +1353,31 @@
            DOBLE BARRA
         */
 
-        if (simbolo.tipo === "doublebar") {
+        if (id === "doublebar") {
 
-            const stave =
-                new Vex.Flow.Stave(
-                    80,
-                    55,
-                    300
-                );
+            contenedor.innerHTML = `
 
-            stave
-                .addClef("treble")
-                .setContext(ctx)
-                .draw();
+                <div class="musica">
 
+                    <div class="pregunta-musical">
+                        ¿Qué símbolo musical es?
+                    </div>
 
-            ctx.setLineWidth(3);
+                    <div class="compas-visual">
 
-            ctx.beginPath();
+                        <div class="linea linea1"></div>
+                        <div class="linea linea2"></div>
+                        <div class="linea linea3"></div>
+                        <div class="linea linea4"></div>
+                        <div class="linea linea5"></div>
 
-            ctx.moveTo(270, 55);
-            ctx.lineTo(270, 125);
+                        <div class="barra-vertical doble-1"></div>
+                        <div class="barra-vertical doble-2"></div>
 
-            ctx.moveTo(280, 55);
-            ctx.lineTo(280, 125);
+                    </div>
 
-            ctx.stroke();
+                </div>
+            `;
 
             return;
         }
@@ -1046,34 +1387,42 @@
            NEGRA
         */
 
-        if (simbolo.tipo === "quarter") {
+        if (id === "quarter") {
 
-            const stave =
-                new Vex.Flow.Stave(
-                    80,
-                    55,
-                    300
-                );
+            contenedor.innerHTML = `
 
-            stave
-                .addClef("treble")
-                .setContext(ctx)
-                .draw();
+                <div class="musica">
 
+                    <div class="pregunta-musical">
+                        ¿Qué figura musical es?
+                    </div>
 
-            const nota =
-                new Vex.Flow.StaveNote({
-                    keys: ["b/4"],
-                    duration: "q"
-                });
+                    <div class="staff">
 
+                        <div class="linea linea1"></div>
+                        <div class="linea linea2"></div>
+                        <div class="linea linea3"></div>
+                        <div class="linea linea4"></div>
+                        <div class="linea linea5"></div>
 
-            Vex.Flow.Formatter
-                .FormatAndDraw(
-                    ctx,
-                    stave,
-                    [nota]
-                );
+                        <div
+                            class="clave-sol"
+                            style="font-size:75px; left:10%;"
+                        >
+                            𝄞
+                        </div>
+
+                        <div
+                            class="nota-musical"
+                            style="left:53%; top:65px;"
+                        >
+                            ♩
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
 
             return;
         }
@@ -1083,58 +1432,85 @@
            BLANCA
         */
 
-        if (simbolo.tipo === "half") {
+        if (id === "half") {
 
-            const stave =
-                new Vex.Flow.Stave(
-                    80,
-                    55,
-                    300
-                );
+            contenedor.innerHTML = `
 
-            stave
-                .addClef("treble")
-                .setContext(ctx)
-                .draw();
+                <div class="musica">
 
+                    <div class="pregunta-musical">
+                        ¿Qué figura musical es?
+                    </div>
+
+                    <div class="staff">
+
+                        <div class="linea linea1"></div>
+                        <div class="linea linea2"></div>
+                        <div class="linea linea3"></div>
+                        <div class="linea linea4"></div>
+                        <div class="linea linea5"></div>
+
+                        <div
+                            class="clave-sol"
+                            style="font-size:75px; left:10%;"
+                        >
+                            𝄞
+                        </div>
+
+                        <div
+                            class="nota-musical"
+                            style="left:53%; top:65px;"
+                        >
+                            ♩
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
+            /*
+               La diferencia visual entre negra y blanca
+               se establece debajo mediante CSS/Unicode
+               en una segunda capa.
+            */
 
             const nota =
-                new Vex.Flow.StaveNote({
-                    keys: ["b/4"],
-                    duration: "h"
-                });
-
-
-            Vex.Flow.Formatter
-                .FormatAndDraw(
-                    ctx,
-                    stave,
-                    [nota]
+                contenedor.querySelector(
+                    ".nota-musical"
                 );
+
+            nota.innerHTML = "𝅗𝅥";
 
             return;
         }
+
     }
 
 
-    /* =========================================================
+    /* ======================================================
        PREGUNTA DE NOTAS
-       ========================================================= */
+       ====================================================== */
 
     function generarPreguntaNota() {
 
         const objetivo =
             NOTAS[
                 Math.floor(
-                    Math.random() * NOTAS.length
+                    Math.random() *
+                    NOTAS.length
                 )
             ];
+
 
         respuestaCorrecta =
             objetivo.id;
 
 
-        dibujarNota(objetivo.id);
+        const opciones =
+            document.getElementById(
+                "opciones"
+            );
 
 
         const cantidad =
@@ -1143,8 +1519,11 @@
 
         const candidatos =
             NOTAS.filter(
-                n => n.id !== objetivo.id
+                function(n) {
+                    return n.id !== objetivo.id;
+                }
             );
+
 
         mezclar(candidatos);
 
@@ -1152,98 +1531,154 @@
         let respuestas =
             [objetivo];
 
+
         respuestas =
             respuestas.concat(
-                candidatos.slice(0, cantidad - 1)
+                candidatos.slice(
+                    0,
+                    cantidad - 1
+                )
             );
+
 
         mezclar(respuestas);
 
 
-        respuestas.forEach(nota => {
+        respuestas.forEach(
+            function(nota) {
 
-            const boton =
-                document.createElement("button");
+                const boton =
+                    document.createElement(
+                        "button"
+                    );
 
-            boton.className =
-                "btn-respuesta";
 
-            boton.innerText =
-                nota.nombre;
+                boton.className =
+                    "btn-respuesta";
 
-            boton.onclick = () => {
 
-                verificarRespuesta(
-                    nota.id,
-                    boton,
-                    nota.nombre
+                boton.innerText =
+                    nota.nombre;
+
+
+                boton.onclick =
+                    function() {
+
+                        verificarRespuesta(
+                            nota.id,
+                            boton,
+                            nota.nombre
+                        );
+
+                    };
+
+
+                opciones.appendChild(
+                    boton
                 );
+            }
+        );
 
-            };
 
-            opciones.appendChild(boton);
-
-        });
+        dibujarNota(
+            objetivo.id
+        );
 
 
         actualizarContador();
     }
 
 
-    /* =========================================================
-       DIBUJAR NOTA
-       ========================================================= */
+    /* ======================================================
+       DIBUJAR NOTA EN PENTAGRAMA
+       ====================================================== */
 
-    function dibujarNota(claveNota) {
+    function dibujarNota(id) {
+
+        const posiciones = {
+
+            do: {
+                clase: "nota-do",
+                linea: true
+            },
+
+            re: {
+                clase: "nota-re",
+                linea: false
+            },
+
+            mi: {
+                clase: "nota-mi",
+                linea: false
+            },
+
+            fa: {
+                clase: "nota-fa",
+                linea: false
+            },
+
+            sol: {
+                clase: "nota-sol",
+                linea: false
+            }
+
+        };
+
+
+        const posicion =
+            posiciones[id];
+
 
         const contenedor =
-            document.getElementById("pentagrama");
-
-        const renderer =
-            new Vex.Flow.Renderer(
-                contenedor,
-                Vex.Flow.Renderer.Backends.SVG
-            );
-
-        renderer.resize(500, 190);
-
-        const ctx =
-            renderer.getContext();
-
-
-        const stave =
-            new Vex.Flow.Stave(
-                70,
-                35,
-                360
+            document.getElementById(
+                "pentagrama"
             );
 
 
-        stave
-            .addClef("treble")
-            .setContext(ctx)
-            .draw();
+        contenedor.innerHTML = `
 
+            <div class="musica">
 
-        const nota =
-            new Vex.Flow.StaveNote({
-                keys: [claveNota],
-                duration: "q"
-            });
+                <div class="pregunta-musical">
+                    ¿Qué nota es?
+                </div>
 
+                <div class="staff">
 
-        Vex.Flow.Formatter
-            .FormatAndDraw(
-                ctx,
-                stave,
-                [nota]
-            );
+                    <div class="linea linea1"></div>
+                    <div class="linea linea2"></div>
+                    <div class="linea linea3"></div>
+                    <div class="linea linea4"></div>
+                    <div class="linea linea5"></div>
+
+                    <div class="clave-sol">
+                        𝄞
+                    </div>
+
+                    <div
+                        class="nota-musical ${posicion.clase}"
+                    >
+                        ●
+                    </div>
+
+                    ${
+                        posicion.linea
+                        ?
+                        '<div class="nota-con-linea linea-do"></div>'
+                        :
+                        ''
+                    }
+
+                </div>
+
+            </div>
+        `;
     }
 
 
-    /* =========================================================
+    /* ======================================================
        VERIFICAR RESPUESTA
-       ========================================================= */
+       ====================================================== */
 
     function verificarRespuesta(
         valor,
@@ -1256,11 +1691,15 @@
         }
 
 
-        if (valor === respuestaCorrecta) {
+        if (
+            valor === respuestaCorrecta
+        ) {
 
             aciertos++;
 
-            logAciertos.push(nombre);
+            logAciertos.push(
+                nombre
+            );
 
             actualizarContador();
 
@@ -1270,86 +1709,94 @@
 
             errores++;
 
-            logErrores.push(nombre);
+            logErrores.push(
+                nombre
+            );
 
             actualizarContador();
 
-            mostrarError(boton);
+            mostrarError(
+                boton
+            );
         }
     }
 
 
-    /* =========================================================
+    /* ======================================================
        ERROR
-       ========================================================= */
+       ====================================================== */
 
     function mostrarError(boton) {
 
         bloqueado = true;
 
-        const feedback =
-            document.getElementById(
-                "feedback-error"
-            );
 
-        const mensaje =
-            document.getElementById(
-                "mensaje-incorrecto"
-            );
+        document.getElementById(
+            "feedback-error"
+        ).style.display = "block";
 
 
-        feedback.style.display =
-            "block";
-
-        mensaje.style.visibility =
-            "visible";
+        document.getElementById(
+            "mensaje-incorrecto"
+        ).style.visibility = "visible";
 
 
         if (boton) {
-            boton.classList.add("error");
+            boton.classList.add(
+                "error"
+            );
         }
 
 
-        setTimeout(() => {
+        setTimeout(
+            function() {
 
-            feedback.style.display =
-                "none";
+                document.getElementById(
+                    "feedback-error"
+                ).style.display = "none";
 
-            mensaje.style.visibility =
-                "hidden";
 
-            if (boton) {
-                boton.classList.remove("error");
-            }
+                document.getElementById(
+                    "mensaje-incorrecto"
+                ).style.visibility =
+                    "hidden";
 
-            /*
-               Después de un error, el estudiante
-               permanece en la misma pregunta.
-            */
 
-            bloqueado = false;
+                if (boton) {
+                    boton.classList.remove(
+                        "error"
+                    );
+                }
 
-        }, 900);
+
+                bloqueado = false;
+
+            },
+            900
+        );
     }
 
 
-    /* =========================================================
+    /* ======================================================
        CONTADOR
-       ========================================================= */
+       ====================================================== */
 
     function actualizarContador() {
 
-        document.getElementById("contador")
-            .innerText =
-                `Aciertos: ${aciertos} | Errores: ${errores}`;
+        document.getElementById(
+            "contador"
+        ).innerText =
+            `Aciertos: ${aciertos} | Errores: ${errores}`;
     }
 
 
-    /* =========================================================
+    /* ======================================================
        FINALIZAR
-       ========================================================= */
+       ====================================================== */
 
-    function finalizarYEnviar(estado) {
+    function finalizarYEnviar(
+        estado
+    ) {
 
         clearInterval(timer);
 
@@ -1360,6 +1807,7 @@
             document.getElementById(
                 "selector-nivel"
             );
+
 
         const nivel =
             selector.options[
@@ -1375,14 +1823,6 @@
         );
 
 
-        /*
-           Enviamos los resultados al Google Sheet.
-
-           El campo Alumno se conserva vacío para que
-           el sistema existente no se rompa, pero ya
-           no se solicita ningún nombre.
-        */
-
         const params =
             new URLSearchParams();
 
@@ -1392,40 +1832,48 @@
             new Date().toLocaleString()
         );
 
+
         params.append(
             "Alumno",
             ""
         );
+
 
         params.append(
             "Módulo",
             moduloActual
         );
 
+
         params.append(
             "Nivel",
             nivel
         );
+
 
         params.append(
             "Aciertos",
             aciertos
         );
 
+
         params.append(
             "Errores",
             errores
         );
+
 
         params.append(
             "Estado",
             estado
         );
 
+
         params.append(
             "Log Aciertos",
             logAciertos.join(", ")
         );
+
 
         params.append(
             "Log Errores",
@@ -1433,34 +1881,29 @@
         );
 
 
-        fetch(GOOGLE_URL, {
-
-            method: "POST",
-
-            mode: "no-cors",
-
-            headers: {
-                "Content-Type":
-                    "application/x-www-form-urlencoded"
-            },
-
-            body: params.toString()
-
-        }).catch(() => {
-            /*
-               No detenemos el módulo si el envío
-               de resultados falla.
-            */
-        });
+        fetch(
+            GOOGLE_URL,
+            {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
+                },
+                body: params.toString()
+            }
+        ).catch(
+            function() {}
+        );
 
 
         volver();
     }
 
 
-    /* =========================================================
-       VOLVER AL MENÚ
-       ========================================================= */
+    /* ======================================================
+       VOLVER
+       ====================================================== */
 
     function volver() {
 
@@ -1500,9 +1943,9 @@
     }
 
 
-    /* =========================================================
-       UTILIDAD — MEZCLAR ARRAY
-       ========================================================= */
+    /* ======================================================
+       MEZCLAR
+       ====================================================== */
 
     function mezclar(array) {
 
@@ -1514,8 +1957,10 @@
 
             const j =
                 Math.floor(
-                    Math.random() * (i + 1)
+                    Math.random() *
+                    (i + 1)
                 );
+
 
             [
                 array[i],
@@ -1527,6 +1972,7 @@
             ];
         }
 
+
         return array;
     }
 
@@ -1534,3 +1980,4 @@
 
 </body>
 </html>
+```
