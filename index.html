@@ -256,12 +256,17 @@ h1 {
     display: block;
 }
 
+
+/* =========================================================
+   AJUSTE ESPECIAL PARA COMPÁS Y BARRA DE COMPÁS
+========================================================= */
+
 .simbolo-imagen.compas {
-    max-height: 190px;
+    max-height: 230px;
 }
 
 .simbolo-imagen.barra {
-    max-height: 190px;
+    max-height: 230px;
 }
 
 
@@ -996,11 +1001,6 @@ function mostrarSimbolo(item) {
         "simbolo-imagen";
 
 
-    /*
-       Agrandamos únicamente
-       Compás y Barra de compás.
-    */
-
     if (item.id === "compas") {
 
         imagen.classList.add(
@@ -1108,13 +1108,6 @@ function crearOpcionesSimbolos(
 
 /* =========================================================
    DIBUJAR NOTA
-
-   CAMBIO DE ESTA VERSIÓN:
-   Se aumenta ligeramente el tamaño REAL
-   del glifo de la nota mediante
-   glyph_font_scale.
-
-   Module 1 / Símbolos NO se modifica.
 ========================================================= */
 
 function dibujarNota(n) {
@@ -1159,11 +1152,6 @@ function dibujarNota(n) {
             keys: [n],
 
             duration: "q",
-
-            /*
-               Aumenta el tamaño real
-               del símbolo de la nota.
-            */
 
             glyph_font_scale: 44
 
@@ -1551,19 +1539,10 @@ function finalizarYEnviar(
         ].text;
 
 
-    /*
-       Mostrar el resultado dentro
-       de la propia página.
-    */
-
     mostrarResultados(
         estado
     );
 
-
-    /*
-       Enviar resultados a Google Sheets.
-    */
 
     const params =
         new URLSearchParams();
