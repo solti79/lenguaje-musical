@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Selecciona una Actividad:</title>
+<title>Selecciona una Actividad</title>
 
 <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.3/build/cjs/vexflow.js"></script>
 
 <style>
-
-/* =========================================================
-   ESTILOS GENERALES
-========================================================= */
 
 * {
     box-sizing: border-box;
@@ -46,10 +41,9 @@ h1 {
     margin-bottom: 35px;
 }
 
-
-/* =========================================================
-   MENÚ PRINCIPAL
-========================================================= */
+/* =========================
+   MENÚ
+========================= */
 
 #menu-inicio {
     display: flex;
@@ -110,10 +104,9 @@ h1 {
     margin: 0;
 }
 
-
-/* =========================================================
-   PANTALLA DE ACTIVIDAD
-========================================================= */
+/* =========================
+   ACTIVIDAD
+========================= */
 
 #pantalla-actividad {
     display: none;
@@ -168,10 +161,9 @@ h1 {
     background: #3498db;
 }
 
-
-/* =========================================================
+/* =========================
    JUEGO
-========================================================= */
+========================= */
 
 #area-juego {
     display: none;
@@ -201,16 +193,6 @@ h1 {
     visibility: hidden;
 }
 
-
-/* =========================================================
-   CONTENEDOR DE LA ACTIVIDAD
-
-   Importante:
-   NO se coloca un segundo contenedor alrededor de VexFlow.
-   El SVG de VexFlow se dibuja directamente dentro de
-   #pentagrama, como en la versión original.
-========================================================= */
-
 #contenedor-pentagrama {
     display: flex;
     justify-content: center;
@@ -231,7 +213,6 @@ h1 {
     align-items: center;
     overflow: hidden;
     padding: 10px;
-    box-sizing: border-box;
 }
 
 #feedback-error {
@@ -247,12 +228,13 @@ h1 {
     pointer-events: none;
 }
 
+/* =========================
+   SÍMBOLOS MUSICALES
 
-/* =========================================================
-   IMÁGENES DE SÍMBOLOS
-
-   Se conservan las proporciones originales.
-========================================================= */
+   IMPORTANT:
+   These images are now referenced
+   using absolute GitHub Pages URLs.
+========================= */
 
 .simbolo-imagen {
     max-width: 90%;
@@ -263,10 +245,9 @@ h1 {
     display: block;
 }
 
-
-/* =========================================================
-   BOTONES DE RESPUESTA
-========================================================= */
+/* =========================
+   BOTONES
+========================= */
 
 #opciones {
     display: flex;
@@ -299,10 +280,9 @@ h1 {
     background-color: #e74c3c !important;
 }
 
-
-/* =========================================================
+/* =========================
    RESPONSIVE
-========================================================= */
+========================= */
 
 @media (max-width: 650px) {
 
@@ -332,161 +312,155 @@ h1 {
     .cronometro {
         font-size: 3rem;
     }
-
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div id="contenedor-app">
 
-<!-- =====================================================
-     MENÚ PRINCIPAL
-===================================================== -->
+    <!-- =========================
+         MENÚ PRINCIPAL
+    ========================== -->
 
-<div id="menu-inicio">
+    <div id="menu-inicio">
 
-```
-<h1>
-    Selecciona una Actividad:
-</h1>
+        <h1>
+            Selecciona una actividad
+        </h1>
 
-<div class="cuadros-container">
+        <div class="cuadros-container">
 
-    <div class="tarjeta"
-         onclick="entrarModulo('Simbolos')">
+            <div class="tarjeta"
+                 onclick="entrarModulo('Simbolos')">
 
-        <div class="icono">
-            𝄞
-        </div>
+                <div class="icono">
+                    𝄞
+                </div>
 
-        <span>
-            SÍMBOLOS MUSICALES
-        </span>
+                <span>
+                    SÍMBOLOS MUSICALES
+                </span>
 
-    </div>
+            </div>
 
+            <div class="tarjeta"
+                 onclick="entrarModulo('Notas')">
 
-    <div class="tarjeta"
-         onclick="entrarModulo('Notas')">
+                <div class="icono">
+                    ♩
+                </div>
 
-        <div class="icono">
-            ♩
-        </div>
+                <span>
+                    NOTAS MUSICALES
+                </span>
 
-        <span>
-            NOTAS MUSICALES
-        </span>
+            </div>
 
-    </div>
-
-</div>
-```
-
-</div>
-
-<!-- =====================================================
-     PANTALLA DE ACTIVIDAD
-===================================================== -->
-
-<div id="pantalla-actividad">
-
-```
-<div class="header-actividad">
-
-    <button
-        class="btn-volver"
-        onclick="volver()">
-
-        ← MENÚ
-
-    </button>
-
-
-    <select id="selector-nivel">
-
-        <option value="20">
-            PRINCIPIANTE — 25 segundos
-        </option>
-
-        <option value="15">
-            INTERMEDIO — 20 segundos
-        </option>
-
-        <option value="10">
-            EXPERTO — 15 segundos
-        </option>
-
-    </select>
-
-</div>
-
-
-
-<div id="pantalla-previa">
-
-    <h2 id="titulo-modulo"></h2>
-
-    <p id="instrucciones-texto"></p>
-
-    <button
-        class="btn-inicio"
-        onclick="comenzarActividad()">
-
-        COMENZAR
-
-    </button>
-
-</div>
-
-
-
-<div id="area-juego">
-
-    <div class="cronometro"
-         id="tiempo">
-
-        20
-
-    </div>
-
-
-    <div id="contador">
-
-        Aciertos: 0 | Errores: 0
-
-    </div>
-
-
-    <div id="mensaje-incorrecto">
-
-        ¡Incorrecto!
-
-    </div>
-
-
-    <div id="contenedor-pentagrama">
-
-        <div id="pentagrama"></div>
-
-        <div id="feedback-error">
-            ✘
         </div>
 
     </div>
 
 
-    <div id="opciones"></div>
+    <!-- =========================
+         PANTALLA DE ACTIVIDAD
+    ========================== -->
+
+    <div id="pantalla-actividad">
+
+        <div class="header-actividad">
+
+            <button
+                class="btn-volver"
+                onclick="volver()">
+
+                ← MENÚ
+
+            </button>
+
+            <select id="selector-nivel">
+
+                <!-- CORREGIDO: 25 segundos -->
+
+                <option value="25">
+                    PRINCIPIANTE — 25 segundos
+                </option>
+
+                <!-- CORREGIDO: 20 segundos -->
+
+                <option value="20">
+                    INTERMEDIO — 20 segundos
+                </option>
+
+                <!-- CORREGIDO: 15 segundos -->
+
+                <option value="15">
+                    EXPERTO — 15 segundos
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div id="pantalla-previa">
+
+            <h2 id="titulo-modulo"></h2>
+
+            <p id="instrucciones-texto"></p>
+
+            <button
+                class="btn-inicio"
+                onclick="comenzarActividad()">
+
+                COMENZAR
+
+            </button>
+
+        </div>
+
+
+        <div id="area-juego">
+
+            <div class="cronometro"
+                 id="tiempo">
+
+                25
+
+            </div>
+
+            <div id="contador">
+
+                Aciertos: 0 | Errores: 0
+
+            </div>
+
+            <div id="mensaje-incorrecto">
+
+                ¡Incorrecto!
+
+            </div>
+
+            <div id="contenedor-pentagrama">
+
+                <div id="pentagrama"></div>
+
+                <div id="feedback-error">
+                    ✘
+                </div>
+
+            </div>
+
+            <div id="opciones"></div>
+
+        </div>
+
+    </div>
 
 </div>
-```
 
-</div>
-
-</div>
 
 <script>
 
@@ -496,6 +470,16 @@ h1 {
 
 const GOOGLE_URL =
 "https://script.google.com/macros/s/AKfycbzy5sc0_ijmg0Ch50LYrAzfKYaxuW5qHL_iBq3GaiLYkLmokIwRmMEFF5wh_vuYT60YPQ/exec";
+
+
+/* =========================================================
+   GITHUB PAGES BASE URL
+
+   This is the important correction for Google Sites.
+========================================================= */
+
+const GITHUB_BASE =
+"https://solti79.github.io/lenguaje-musical/";
 
 
 /* =========================================================
@@ -528,46 +512,55 @@ let logErrores = [];
 ========================================================= */
 
 const SIMBOLOS = [
+
     {
-        id: "staff",
+        id: "pentagrama",
         nombre: "Pentagrama",
         imagen: "pentagrama.png"
     },
+
     {
-        id: "clef",
+        id: "clave",
         nombre: "Clave de Sol",
         imagen: "clavedesol.png"
     },
+
     {
-        id: "measure",
+        id: "cuatrocuatro",
+        nombre: "4/4",
+        imagen: "cuatrocuatro.png"
+    },
+
+    {
+        id: "compas",
         nombre: "Compás",
         imagen: "compas.png"
     },
+
     {
-        id: "time44",
-        nombre: "Compás 4/4",
-        imagen: "cuatrocuatro.png"
-    },
-    {
-        id: "barline",
+        id: "barra",
         nombre: "Barra de compás",
         imagen: "barra.png"
     },
+
     {
-        id: "doublebar",
+        id: "doblebarra",
         nombre: "Doble barra",
         imagen: "doblebarra.png"
     },
+
     {
-        id: "quarter",
+        id: "negra",
         nombre: "Negra",
         imagen: "negra.png"
     },
+
     {
-        id: "half",
+        id: "blanca",
         nombre: "Blanca",
         imagen: "blanca.png"
     }
+
 ];
 
 
@@ -619,12 +612,10 @@ function entrarModulo(modulo) {
 
     moduloActual = modulo;
 
-
     const titulo =
         document.getElementById(
             "titulo-modulo"
         );
-
 
     const instrucciones =
         document.getElementById(
@@ -635,18 +626,17 @@ function entrarModulo(modulo) {
     if (modulo === "Simbolos") {
 
         titulo.innerText =
-            "Módulo de Símbolos Musicales";
+            "Símbolos Musicales";
 
         instrucciones.innerText =
             "Identifica cada símbolo musical. Tendrás 4 opciones para cada pregunta.";
 
     }
 
-
     else if (modulo === "Notas") {
 
         titulo.innerText =
-            "Módulo de Notas Musicales";
+            "Notas Musicales";
 
         instrucciones.innerText =
             "Identifica las notas Do, Re, Mi, Fa y Sol en el pentagrama.";
@@ -705,10 +695,6 @@ function comenzarActividad() {
 
     if (moduloActual === "Simbolos") {
 
-        /*
-           Los 8 símbolos aparecen una sola vez.
-        */
-
         itemsRestantes =
             [...SIMBOLOS]
             .sort(
@@ -718,12 +704,7 @@ function comenzarActividad() {
 
     }
 
-
     else {
-
-        /*
-           Las 5 notas aparecen una sola vez.
-        */
 
         itemsRestantes =
             [...NOTAS]
@@ -751,9 +732,7 @@ function comenzarActividad() {
 
     actualizarContador();
 
-
     siguientePregunta();
-
 
     iniciarTimer();
 
@@ -770,7 +749,6 @@ function siguientePregunta() {
         document.getElementById(
             "pentagrama"
         );
-
 
     const opciones =
         document.getElementById(
@@ -810,7 +788,6 @@ function siguientePregunta() {
 
     }
 
-
     else {
 
         dibujarNota(item.id);
@@ -827,6 +804,9 @@ function siguientePregunta() {
 
 /* =========================================================
    MOSTRAR SÍMBOLO
+
+   IMPORTANT:
+   Uses the absolute GitHub Pages URL.
 ========================================================= */
 
 function mostrarSimbolo(item) {
@@ -843,7 +823,18 @@ function mostrarSimbolo(item) {
         );
 
 
+    /*
+       THIS IS THE IMPORTANT FIX.
+
+       Instead of:
+       imagen.src = item.imagen;
+
+       we explicitly tell the browser
+       where the image lives.
+    */
+
     imagen.src =
+        GITHUB_BASE +
         item.imagen;
 
 
@@ -877,7 +868,7 @@ function crearOpcionesSimbolos(
 
 
     /*
-       La respuesta correcta siempre está incluida.
+       Select exactly 3 incorrect answers.
     */
 
     const incorrectas =
@@ -893,6 +884,10 @@ function crearOpcionesSimbolos(
         )
         .slice(0, 3);
 
+
+    /*
+       1 correct + 3 incorrect = 4 total.
+    */
 
     const respuestas = [
 
@@ -949,10 +944,9 @@ function crearOpcionesSimbolos(
 /* =========================================================
    DIBUJAR NOTA
 
-   ESTA FUNCIÓN VUELVE A LA ESTRUCTURA DEL CÓDIGO
-   ORIGINAL DEL USUARIO.
-
-   No se crea un contenedor VexFlow adicional.
+   This is kept essentially unchanged
+   from the version that was working
+   correctly for you.
 ========================================================= */
 
 function dibujarNota(n) {
