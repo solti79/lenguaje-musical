@@ -1,5 +1,5 @@
-```html
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -10,10 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.3/build/cjs/vexflow.js"></script>
 
 <style>
-
-/* =========================================================
-   ESTILOS GENERALES
-========================================================= */
 
 * {
     box-sizing: border-box;
@@ -45,11 +41,6 @@ h1 {
     font-size: 2.2rem;
     margin-bottom: 35px;
 }
-
-
-/* =========================================================
-   MENÚ PRINCIPAL
-========================================================= */
 
 #menu-inicio {
     display: flex;
@@ -110,11 +101,6 @@ h1 {
     margin: 0;
 }
 
-
-/* =========================================================
-   PANTALLA DE ACTIVIDAD
-========================================================= */
-
 #pantalla-actividad {
     display: none;
 }
@@ -168,11 +154,6 @@ h1 {
     background: #3498db;
 }
 
-
-/* =========================================================
-   JUEGO
-========================================================= */
-
 #area-juego {
     display: none;
 }
@@ -201,11 +182,6 @@ h1 {
     visibility: hidden;
 }
 
-
-/* =========================================================
-   CONTENEDOR DE LA ACTIVIDAD
-========================================================= */
-
 #contenedor-pentagrama {
     display: flex;
     justify-content: center;
@@ -229,19 +205,6 @@ h1 {
     box-sizing: border-box;
 }
 
-
-/*
-   IMPORTANTE:
-   Esta clase solamente se activa para Module 2.
-   No modifica Module 1.
-*/
-
-#pentagrama.notas-activo {
-    min-height: 230px;
-    padding: 5px;
-}
-
-
 #feedback-error {
     display: none;
     position: absolute;
@@ -255,12 +218,6 @@ h1 {
     pointer-events: none;
 }
 
-
-/* =========================================================
-   IMÁGENES DE SÍMBOLOS
-   MODULE 1 — CONSERVADO
-========================================================= */
-
 .simbolo-imagen {
     max-width: 90%;
     max-height: 160px;
@@ -272,16 +229,13 @@ h1 {
 
 .simbolo-imagen.compas {
     max-height: 190px;
+    min-height: 180px;
 }
 
 .simbolo-imagen.barra {
     max-height: 190px;
+    min-height: 180px;
 }
-
-
-/* =========================================================
-   BOTONES DE RESPUESTA
-========================================================= */
 
 #opciones {
     display: flex;
@@ -313,11 +267,6 @@ h1 {
 .btn-respuesta.error {
     background-color: #e74c3c !important;
 }
-
-
-/* =========================================================
-   RESULTADOS
-========================================================= */
 
 #pantalla-resultados {
     display: none;
@@ -370,11 +319,6 @@ h1 {
     background: #3498db;
 }
 
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
 @media (max-width: 650px) {
 
     #contenedor-app {
@@ -404,10 +348,6 @@ h1 {
         font-size: 3rem;
     }
 
-    #pentagrama.notas-activo {
-        min-height: 225px;
-    }
-
 }
 
 </style>
@@ -418,262 +358,168 @@ h1 {
 
 <div id="contenedor-app">
 
-
-<!-- =====================================================
-     MENÚ PRINCIPAL
-===================================================== -->
-
 <div id="menu-inicio">
 
-    <h1>
-        Selecciona una Actividad:
-    </h1>
+```
+<h1>Selecciona una Actividad:</h1>
 
-    <div class="cuadros-container">
+<div class="cuadros-container">
 
-        <div class="tarjeta"
-             onclick="entrarModulo('Simbolos')">
+    <div class="tarjeta"
+         onclick="entrarModulo('Simbolos')">
 
-            <div class="icono">
-                𝄞
-            </div>
+        <div class="icono">𝄞</div>
 
-            <span>
-                SÍMBOLOS MUSICALES
-            </span>
+        <span>SÍMBOLOS MUSICALES</span>
 
-        </div>
+    </div>
 
+    <div class="tarjeta"
+         onclick="entrarModulo('Notas')">
 
-        <div class="tarjeta"
-             onclick="entrarModulo('Notas')">
+        <div class="icono">♩</div>
 
-            <div class="icono">
-                ♩
-            </div>
-
-            <span>
-                NOTAS MUSICALES
-            </span>
-
-        </div>
+        <span>NOTAS MUSICALES</span>
 
     </div>
 
 </div>
+```
 
-
-<!-- =====================================================
-     PANTALLA DE ACTIVIDAD
-===================================================== -->
+</div>
 
 <div id="pantalla-actividad">
 
-    <div class="header-actividad">
+```
+<div class="header-actividad">
 
-        <button
-            class="btn-volver"
+    <button class="btn-volver"
             onclick="volver()">
+        ← MENÚ
+    </button>
 
-            ← MENÚ
+    <select id="selector-nivel"
+            onchange="cambiarNivel()">
 
-        </button>
+        <option value="25">
+            PRINCIPIANTE — 25 segundos
+        </option>
 
+        <option value="20">
+            INTERMEDIO — 20 segundos
+        </option>
 
-        <select
-            id="selector-nivel"
-            onchange="cambioNivel()">
+        <option value="15">
+            EXPERTO — 15 segundos
+        </option>
 
-            <option value="25">
-                PRINCIPIANTE — 25 segundos
-            </option>
+    </select>
 
-            <option value="20">
-                INTERMEDIO — 20 segundos
-            </option>
+</div>
 
-            <option value="15">
-                EXPERTO — 15 segundos
-            </option>
+<div id="pantalla-previa">
 
-        </select>
+    <h2 id="titulo-modulo"></h2>
 
-    </div>
+    <p id="instrucciones-texto"></p>
 
-
-    <!-- INTRODUCCIÓN -->
-
-    <div id="pantalla-previa">
-
-        <h2 id="titulo-modulo"></h2>
-
-        <p id="instrucciones-texto"></p>
-
-        <button
-            class="btn-inicio"
+    <button class="btn-inicio"
             onclick="comenzarActividad()">
+        COMENZAR
+    </button>
 
-            COMENZAR
+</div>
 
-        </button>
+<div id="area-juego">
+
+    <div class="cronometro"
+         id="tiempo">
+        25
+    </div>
+
+    <div id="contador">
+        Aciertos: 0 | Errores: 0
+    </div>
+
+    <div id="mensaje-incorrecto">
+        ¡Incorrecto!
+    </div>
+
+    <div id="contenedor-pentagrama">
+
+        <div id="pentagrama"></div>
+
+        <div id="feedback-error">
+            ✘
+        </div>
 
     </div>
 
+    <div id="opciones"></div>
 
-    <!-- JUEGO -->
+</div>
 
-    <div id="area-juego">
+<div id="pantalla-resultados">
 
-        <div class="cronometro"
-             id="tiempo">
+    <div class="resultado-titulo">
+        🎉 ¡Actividad terminada!
+    </div>
 
-            25
+    <div class="resultado-tarjeta">
 
+        <div class="resultado-fila">
+            Estado:
+            <span class="resultado-estado"
+                  id="resultado-estado">
+            </span>
         </div>
 
-
-        <div id="contador">
-
-            Aciertos: 0 | Errores: 0
-
+        <div class="resultado-fila">
+            Aciertos:
+            <span class="resultado-numero"
+                  id="resultado-aciertos">
+            </span>
         </div>
 
-
-        <div id="mensaje-incorrecto">
-
-            ¡Incorrecto!
-
+        <div class="resultado-fila">
+            Errores:
+            <span class="resultado-numero"
+                  id="resultado-errores">
+            </span>
         </div>
-
-
-        <div id="contenedor-pentagrama">
-
-            <div id="pentagrama"></div>
-
-            <div id="feedback-error">
-                ✘
-            </div>
-
-        </div>
-
-
-        <div id="opciones"></div>
 
     </div>
 
-
-    <!-- RESULTADOS -->
-
-    <div id="pantalla-resultados">
-
-        <div class="resultado-titulo">
-
-            🎉 ¡Actividad terminada!
-
-        </div>
-
-
-        <div class="resultado-tarjeta">
-
-            <div class="resultado-fila">
-
-                Estado:
-
-                <span
-                    class="resultado-estado"
-                    id="resultado-estado">
-                </span>
-
-            </div>
-
-
-            <div class="resultado-fila">
-
-                Aciertos:
-
-                <span
-                    class="resultado-numero"
-                    id="resultado-aciertos">
-                </span>
-
-            </div>
-
-
-            <div class="resultado-fila">
-
-                Errores:
-
-                <span
-                    class="resultado-numero"
-                    id="resultado-errores">
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <button
-            class="btn-resultado"
+    <button class="btn-resultado"
             onclick="volver()">
+        VOLVER AL MENÚ
+    </button>
 
-            VOLVER AL MENÚ
-
-        </button>
-
-    </div>
+</div>
+```
 
 </div>
 
 </div>
-
 
 <script>
-
-/* =========================================================
-   GOOGLE APPS SCRIPT
-========================================================= */
 
 const GOOGLE_URL =
 "https://script.google.com/macros/s/AKfycbzy5sc0_ijmg0Ch50LYrAzfKYaxuW5qHL_iBq3GaiLYkLmokIwRmMEFF5wh_vuYT60YPQ/exec";
 
-
-/* =========================================================
-   GITHUB BASE URL
-========================================================= */
-
 const GITHUB_BASE =
 "https://solti79.github.io/lenguaje-musical/";
 
-
-/* =========================================================
-   VARIABLES
-========================================================= */
-
 let moduloActual = "";
-
 let tiempoRestante = 0;
-
 let timer = null;
-
 let notaActual = null;
-
 let itemsRestantes = [];
-
 let aciertos = 0;
-
 let errores = 0;
-
 let bloqueado = false;
-
 let logAciertos = [];
-
 let logErrores = [];
-
-
-/* =========================================================
-   LOS 8 SÍMBOLOS
-========================================================= */
 
 const SIMBOLOS = [
 
@@ -727,11 +573,6 @@ const SIMBOLOS = [
 
 ];
 
-
-/* =========================================================
-   LAS 5 NOTAS
-========================================================= */
-
 const NOTAS = [
 
     {
@@ -761,25 +602,15 @@ const NOTAS = [
 
 ];
 
-
-/* =========================================================
-   ENTRAR AL MÓDULO
-========================================================= */
-
 function entrarModulo(modulo) {
 
     moduloActual = modulo;
 
     const titulo =
-        document.getElementById(
-            "titulo-modulo"
-        );
+        document.getElementById("titulo-modulo");
 
     const instrucciones =
-        document.getElementById(
-            "instrucciones-texto"
-        );
-
+        document.getElementById("instrucciones-texto");
 
     if (modulo === "Simbolos") {
 
@@ -791,7 +622,7 @@ function entrarModulo(modulo) {
 
     }
 
-    else if (modulo === "Notas") {
+    else {
 
         titulo.innerText =
             "Notas Musicales";
@@ -801,158 +632,51 @@ function entrarModulo(modulo) {
 
     }
 
+    document.getElementById("menu-inicio").style.display = "none";
 
-    document.getElementById(
-        "menu-inicio"
-    ).style.display =
-        "none";
+    document.getElementById("pantalla-actividad").style.display = "block";
 
+    document.getElementById("pantalla-previa").style.display = "block";
 
-    document.getElementById(
-        "pantalla-actividad"
-    ).style.display =
-        "block";
+    document.getElementById("area-juego").style.display = "none";
 
-
-    document.getElementById(
-        "pantalla-previa"
-    ).style.display =
-        "block";
-
-
-    document.getElementById(
-        "area-juego"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "pantalla-resultados"
-    ).style.display =
-        "none";
-
-
-    /*
-       Limpiamos cualquier clase
-       específica de Module 2.
-    */
-
-    document.getElementById(
-        "pentagrama"
-    ).classList.remove(
-        "notas-activo"
-    );
+    document.getElementById("pantalla-resultados").style.display = "none";
 
 }
 
+function cambiarNivel() {
 
-/* =========================================================
-   CAMBIO DE NIVEL
-========================================================= */
+    if (!timer) {
 
-function cambioNivel() {
+        const nivel =
+            document.getElementById("selector-nivel").value;
 
-    const nuevoTiempo =
-        parseInt(
-            document.getElementById(
-                "selector-nivel"
-            ).value
-        );
-
-
-    /*
-       Si todavía estamos en la pantalla
-       inicial, solamente guardamos la
-       selección.
-
-       Al comenzar, se utilizará
-       automáticamente este valor.
-    */
-
-    if (
-        document.getElementById(
-            "area-juego"
-        ).style.display !== "block"
-    ) {
-
-        document.getElementById(
-            "tiempo"
-        ).innerText =
-            nuevoTiempo;
-
-        return;
+        document.getElementById("tiempo").innerText =
+            nivel;
 
     }
 
-
-    /*
-       Si la actividad ya está corriendo,
-       el cambio se aplica inmediatamente.
-    */
-
-    tiempoRestante =
-        nuevoTiempo;
-
-
-    document.getElementById(
-        "tiempo"
-    ).innerText =
-        tiempoRestante;
-
-
-    /*
-       Reiniciamos el intervalo para que
-       el nuevo nivel quede activo.
-    */
-
-    iniciarTimer();
-
 }
-
-
-/* =========================================================
-   COMENZAR ACTIVIDAD
-========================================================= */
 
 function comenzarActividad() {
 
-    document.getElementById(
-        "pantalla-previa"
-    ).style.display =
-        "none";
+    document.getElementById("pantalla-previa").style.display = "none";
 
+    document.getElementById("area-juego").style.display = "block";
 
-    document.getElementById(
-        "area-juego"
-    ).style.display =
-        "block";
-
-
-    document.getElementById(
-        "pantalla-resultados"
-    ).style.display =
-        "none";
-
+    document.getElementById("pantalla-resultados").style.display = "none";
 
     aciertos = 0;
-
     errores = 0;
-
     bloqueado = false;
-
     logAciertos = [];
-
     logErrores = [];
-
 
     if (moduloActual === "Simbolos") {
 
         itemsRestantes =
             [...SIMBOLOS]
-            .sort(
-                () =>
-                    Math.random() - 0.5
-            );
+            .sort(() => Math.random() - 0.5);
 
     }
 
@@ -960,27 +684,17 @@ function comenzarActividad() {
 
         itemsRestantes =
             [...NOTAS]
-            .sort(
-                () =>
-                    Math.random() - 0.5
-            );
+            .sort(() => Math.random() - 0.5);
 
     }
 
-
     tiempoRestante =
         parseInt(
-            document.getElementById(
-                "selector-nivel"
-            ).value
+            document.getElementById("selector-nivel").value
         );
 
-
-    document.getElementById(
-        "tiempo"
-    ).innerText =
+    document.getElementById("tiempo").innerText =
         tiempoRestante;
-
 
     actualizarContador();
 
@@ -990,61 +704,30 @@ function comenzarActividad() {
 
 }
 
-
-/* =========================================================
-   SIGUIENTE PREGUNTA
-========================================================= */
-
 function siguientePregunta() {
 
     const pentagrama =
-        document.getElementById(
-            "pentagrama"
-        );
+        document.getElementById("pentagrama");
 
     const opciones =
-        document.getElementById(
-            "opciones"
-        );
-
+        document.getElementById("opciones");
 
     pentagrama.innerHTML = "";
-
     opciones.innerHTML = "";
-
-
-    /*
-       Cada vez que cambiamos de pregunta,
-       quitamos cualquier configuración
-       especial de Module 2.
-
-       dibujarNota() la volverá a activar
-       solamente cuando corresponda.
-    */
-
-    pentagrama.classList.remove(
-        "notas-activo"
-    );
-
 
     if (itemsRestantes.length === 0) {
 
-        finalizarYEnviar(
-            "Completado"
-        );
+        finalizarYEnviar("Completado");
 
         return;
 
     }
 
-
     const item =
         itemsRestantes.pop();
 
-
     notaActual =
         item.id;
-
 
     if (moduloActual === "Simbolos") {
 
@@ -1062,237 +745,134 @@ function siguientePregunta() {
 
     }
 
-
     actualizarContador();
 
 }
 
-
-/* =========================================================
-   MOSTRAR SÍMBOLO
-   MODULE 1 — SIN CAMBIOS
-========================================================= */
-
 function mostrarSimbolo(item) {
 
     const pentagrama =
-        document.getElementById(
-            "pentagrama"
-        );
-
+        document.getElementById("pentagrama");
 
     const imagen =
-        document.createElement(
-            "img"
-        );
-
+        document.createElement("img");
 
     imagen.src =
-        GITHUB_BASE +
-        item.imagen;
-
+        GITHUB_BASE + item.imagen;
 
     imagen.alt =
         item.nombre;
 
-
     imagen.className =
         "simbolo-imagen";
 
-
-    /*
-       Estos dos símbolos conservan
-       el tamaño grande que ya estaba
-       funcionando.
-    */
-
     if (item.id === "compas") {
 
-        imagen.classList.add(
-            "compas"
-        );
+        imagen.classList.add("compas");
 
     }
-
 
     if (item.id === "barra") {
 
-        imagen.classList.add(
-            "barra"
-        );
+        imagen.classList.add("barra");
 
     }
 
-
-    pentagrama.appendChild(
-        imagen
-    );
+    pentagrama.appendChild(imagen);
 
 }
 
-
-/* =========================================================
-   CREAR 4 OPCIONES PARA LOS SÍMBOLOS
-========================================================= */
-
-function crearOpcionesSimbolos(
-    respuestaCorrecta
-) {
+function crearOpcionesSimbolos(respuestaCorrecta) {
 
     const opciones =
-        document.getElementById(
-            "opciones"
-        );
-
+        document.getElementById("opciones");
 
     const incorrectas =
         SIMBOLOS
         .filter(
             item =>
-                item.id !==
-                respuestaCorrecta.id
+                item.id !== respuestaCorrecta.id
         )
         .sort(
-            () =>
-                Math.random() - 0.5
+            () => Math.random() - 0.5
         )
         .slice(0, 3);
 
+    const respuestas =
+        [
+            respuestaCorrecta,
+            ...incorrectas
+        ]
+        .sort(
+            () => Math.random() - 0.5
+        );
 
-    const respuestas = [
+    respuestas.forEach(item => {
 
-        respuestaCorrecta,
+        const boton =
+            document.createElement("button");
 
-        ...incorrectas
+        boton.className =
+            "btn-respuesta";
 
-    ]
-    .sort(
-        () =>
-            Math.random() - 0.5
-    );
+        boton.innerText =
+            item.nombre;
 
+        boton.onclick =
+            function() {
 
-    respuestas.forEach(
-        item => {
-
-            const boton =
-                document.createElement(
-                    "button"
+                verificarRespuesta(
+                    item.id,
+                    boton,
+                    item.nombre
                 );
 
+            };
 
-            boton.className =
-                "btn-respuesta";
+        opciones.appendChild(boton);
 
-
-            boton.innerText =
-                item.nombre;
-
-
-            boton.onclick =
-                function() {
-
-                    verificarRespuesta(
-                        item.id,
-                        boton,
-                        item.nombre
-                    );
-
-                };
-
-
-            opciones.appendChild(
-                boton
-            );
-
-        }
-    );
+    });
 
 }
 
-
-/* =========================================================
-   DIBUJAR NOTA
-   MODULE 2 ONLY
-========================================================= */
-
 function dibujarNota(n) {
 
-    const pentagrama =
-        document.getElementById(
-            "pentagrama"
-        );
+    const contenedor =
+        document.getElementById("pentagrama");
 
-
-    /*
-       Activamos una clase exclusiva
-       de Module 2.
-
-       Esto NO modifica los PNG de
-       Module 1.
-    */
-
-    pentagrama.classList.add(
-        "notas-activo"
-    );
-
+    contenedor.innerHTML = "";
 
     const renderer =
         new Vex.Flow.Renderer(
-            pentagrama,
+            contenedor,
             Vex.Flow.Renderer.Backends.SVG
         );
 
-
-    /*
-       Aumentamos nuevamente el área
-       de VexFlow para que la nota sea
-       claramente más grande.
-
-       Module 1 no utiliza estos valores.
-    */
-
-    renderer.resize(
-        235,
-        210
-    );
-
+    renderer.resize(210, 185);
 
     const ctx =
         renderer.getContext();
 
-
-    /*
-       Pentagrama más ancho y con
-       suficiente espacio vertical.
-    */
-
     const stave =
         new Vex.Flow.Stave(
             10,
-            45,
-            215
+            35,
+            190
         );
-
 
     stave
         .addClef("treble")
         .setContext(ctx)
         .draw();
 
-
     const notes = [
 
         new Vex.Flow.StaveNote({
-
             keys: [n],
-
             duration: "q"
-
         })
 
     ];
-
 
     Vex.Flow.Formatter.FormatAndDraw(
         ctx,
@@ -1302,69 +882,44 @@ function dibujarNota(n) {
 
 }
 
-
-/* =========================================================
-   OPCIONES DE NOTAS
-========================================================= */
-
 function crearOpcionesNotas() {
 
     const opciones =
-        document.getElementById(
-            "opciones"
-        );
-
+        document.getElementById("opciones");
 
     const respuestas =
         [...NOTAS]
         .sort(
-            () =>
-                Math.random() - 0.5
+            () => Math.random() - 0.5
         );
 
+    respuestas.forEach(item => {
 
-    respuestas.forEach(
-        item => {
+        const boton =
+            document.createElement("button");
 
-            const boton =
-                document.createElement(
-                    "button"
+        boton.className =
+            "btn-respuesta";
+
+        boton.innerText =
+            item.nombre;
+
+        boton.onclick =
+            function() {
+
+                verificarRespuesta(
+                    item.id,
+                    boton,
+                    item.nombre
                 );
 
+            };
 
-            boton.className =
-                "btn-respuesta";
+        opciones.appendChild(boton);
 
-
-            boton.innerText =
-                item.nombre;
-
-
-            boton.onclick =
-                function() {
-
-                    verificarRespuesta(
-                        item.id,
-                        boton,
-                        item.nombre
-                    );
-
-                };
-
-
-            opciones.appendChild(
-                boton
-            );
-
-        }
-    );
+    });
 
 }
-
-
-/* =========================================================
-   VERIFICAR RESPUESTA
-========================================================= */
 
 function verificarRespuesta(
     respuesta,
@@ -1373,21 +928,14 @@ function verificarRespuesta(
 ) {
 
     if (bloqueado) {
-
         return;
-
     }
-
 
     if (respuesta === notaActual) {
 
         aciertos++;
 
-
-        logAciertos.push(
-            nombre
-        );
-
+        logAciertos.push(nombre);
 
         siguientePregunta();
 
@@ -1397,90 +945,55 @@ function verificarRespuesta(
 
         errores++;
 
+        logErrores.push(nombre);
 
-        logErrores.push(
-            nombre
-        );
-
-
-        mostrarError(
-            boton
-        );
+        mostrarError(boton);
 
     }
-
 
     actualizarContador();
 
 }
 
-
-/* =========================================================
-   MOSTRAR ERROR
-========================================================= */
-
 function mostrarError(boton) {
 
     bloqueado = true;
 
-
     document.getElementById(
         "feedback-error"
-    ).style.display =
-        "block";
-
+    ).style.display = "block";
 
     document.getElementById(
         "mensaje-incorrecto"
-    ).style.visibility =
-        "visible";
-
+    ).style.visibility = "visible";
 
     if (boton) {
 
-        boton.classList.add(
-            "error"
-        );
+        boton.classList.add("error");
 
     }
 
+    setTimeout(function() {
 
-    setTimeout(
-        function() {
+        document.getElementById(
+            "feedback-error"
+        ).style.display = "none";
 
-            document.getElementById(
-                "feedback-error"
-            ).style.display =
-                "none";
+        document.getElementById(
+            "mensaje-incorrecto"
+        ).style.visibility = "hidden";
 
+        if (boton) {
 
-            document.getElementById(
-                "mensaje-incorrecto"
-            ).style.visibility =
-                "hidden";
+            boton.classList.remove("error");
 
+        }
 
-            if (boton) {
+        bloqueado = false;
 
-                boton.classList.remove(
-                    "error"
-                );
-
-            }
-
-
-            bloqueado = false;
-
-        },
-        900
-    );
+    }, 900);
 
 }
-
-
-/* =========================================================
-   CONTADOR
-========================================================= */
 
 function actualizarContador() {
 
@@ -1494,119 +1007,81 @@ function actualizarContador() {
 
 }
 
-
-/* =========================================================
-   TEMPORIZADOR
-========================================================= */
-
 function iniciarTimer() {
 
     clearInterval(timer);
 
-
     timer =
-        setInterval(
-            function() {
+        setInterval(function() {
 
-                tiempoRestante--;
+            tiempoRestante--;
 
+            document.getElementById(
+                "tiempo"
+            ).innerText =
+                tiempoRestante;
 
-                document.getElementById(
-                    "tiempo"
-                ).innerText =
-                    tiempoRestante;
+            if (tiempoRestante <= 0) {
 
+                clearInterval(timer);
 
-                if (
-                    tiempoRestante <= 0
-                ) {
+                timer = null;
 
-                    clearInterval(
-                        timer
-                    );
+                finalizarYEnviar(
+                    "Tiempo agotado"
+                );
 
+            }
 
-                    finalizarYEnviar(
-                        "Tiempo agotado"
-                    );
-
-                }
-
-            },
-            1000
-        );
+        }, 1000);
 
 }
-
-
-/* =========================================================
-   VOLVER AL MENÚ
-========================================================= */
 
 function volver() {
 
     clearInterval(timer);
 
+    timer = null;
 
     document.getElementById(
         "menu-inicio"
     ).style.display =
         "flex";
 
-
     document.getElementById(
         "pantalla-actividad"
     ).style.display =
         "none";
-
 
     document.getElementById(
         "pantalla-previa"
     ).style.display =
         "block";
 
-
     document.getElementById(
         "area-juego"
     ).style.display =
         "none";
-
 
     document.getElementById(
         "pantalla-resultados"
     ).style.display =
         "none";
 
-
     document.getElementById(
         "pentagrama"
     ).innerHTML =
         "";
-
-
-    /*
-       Importante: eliminar también
-       la clase exclusiva de Module 2.
-    */
-
-    document.getElementById(
-        "pentagrama"
-    ).classList.remove(
-        "notas-activo"
-    );
-
 
     document.getElementById(
         "opciones"
     ).innerHTML =
         "";
 
-
     document.getElementById(
         "feedback-error"
     ).style.display =
         "none";
-
 
     document.getElementById(
         "mensaje-incorrecto"
@@ -1615,44 +1090,32 @@ function volver() {
 
 }
 
-
-/* =========================================================
-   MOSTRAR RESULTADOS
-========================================================= */
-
-function mostrarResultados(
-    estado
-) {
+function mostrarResultados(estado) {
 
     document.getElementById(
         "resultado-estado"
     ).innerText =
         estado;
 
-
     document.getElementById(
         "resultado-aciertos"
     ).innerText =
         aciertos;
-
 
     document.getElementById(
         "resultado-errores"
     ).innerText =
         errores;
 
-
     document.getElementById(
         "area-juego"
     ).style.display =
         "none";
 
-
     document.getElementById(
         "pantalla-previa"
     ).style.display =
         "none";
-
 
     document.getElementById(
         "pantalla-resultados"
@@ -1661,44 +1124,31 @@ function mostrarResultados(
 
 }
 
-
-/* =========================================================
-   FINALIZAR Y ENVIAR RESULTADOS
-========================================================= */
-
-function finalizarYEnviar(
-    estado
-) {
+function finalizarYEnviar(estado) {
 
     clearInterval(timer);
 
+    timer = null;
 
     const selector =
         document.getElementById(
             "selector-nivel"
         );
 
-
     const nivel =
         selector.options[
             selector.selectedIndex
         ].text;
 
-
-    mostrarResultados(
-        estado
-    );
-
+    mostrarResultados(estado);
 
     const params =
         new URLSearchParams();
-
 
     params.append(
         "Fecha",
         new Date().toLocaleString()
     );
-
 
     params.append(
         "Módulo",
@@ -1707,49 +1157,40 @@ function finalizarYEnviar(
             : "Notas Musicales"
     );
 
-
     params.append(
         "Nivel",
         nivel
     );
-
 
     params.append(
         "Aciertos",
         aciertos
     );
 
-
     params.append(
         "Estado",
         estado
     );
-
 
     params.append(
         "Log Aciertos",
         logAciertos.join(", ")
     );
 
-
     params.append(
         "Log Errores",
         logErrores.join(", ")
     );
 
-
     fetch(
         GOOGLE_URL,
         {
             method: "POST",
-
             mode: "no-cors",
-
             headers: {
                 "Content-Type":
                     "application/x-www-form-urlencoded"
             },
-
             body:
                 params.toString()
         }
@@ -1761,4 +1202,3 @@ function finalizarYEnviar(
 
 </body>
 </html>
-```
