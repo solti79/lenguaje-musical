@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -228,6 +229,19 @@ h1 {
     box-sizing: border-box;
 }
 
+
+/*
+   IMPORTANTE:
+   Esta clase solamente se activa para Module 2.
+   No modifica Module 1.
+*/
+
+#pentagrama.notas-activo {
+    min-height: 230px;
+    padding: 5px;
+}
+
+
 #feedback-error {
     display: none;
     position: absolute;
@@ -244,6 +258,7 @@ h1 {
 
 /* =========================================================
    IMÁGENES DE SÍMBOLOS
+   MODULE 1 — CONSERVADO
 ========================================================= */
 
 .simbolo-imagen {
@@ -255,31 +270,12 @@ h1 {
     display: block;
 }
 
-
-/*
-   COMPÁS Y BARRA DE COMPÁS
-
-   Estas dos clases tienen un tamaño específico y además
-   se les aplica una escala para evitar que vuelvan a
-   aparecer visualmente demasiado pequeñas en Google Sites.
-*/
-
 .simbolo-imagen.compas {
-    width: 190px !important;
-    height: 170px !important;
-    max-width: 90% !important;
-    max-height: 170px !important;
-    object-fit: contain !important;
-    transform: scale(1.35);
+    max-height: 190px;
 }
 
 .simbolo-imagen.barra {
-    width: 190px !important;
-    height: 170px !important;
-    max-width: 90% !important;
-    max-height: 170px !important;
-    object-fit: contain !important;
-    transform: scale(1.35);
+    max-height: 190px;
 }
 
 
@@ -408,11 +404,8 @@ h1 {
         font-size: 3rem;
     }
 
-    .simbolo-imagen.compas,
-    .simbolo-imagen.barra {
-        width: 175px !important;
-        height: 155px !important;
-        transform: scale(1.25);
+    #pentagrama.notas-activo {
+        min-height: 225px;
     }
 
 }
@@ -487,12 +480,6 @@ h1 {
         </button>
 
 
-        <!--
-            CAMBIO:
-            onchange ahora llama a cambioNivel()
-            para reiniciar inmediatamente la actividad.
-        -->
-
         <select
             id="selector-nivel"
             onchange="cambioNivel()">
@@ -514,9 +501,7 @@ h1 {
     </div>
 
 
-    <!-- =========================
-         INTRODUCCIÓN
-    ========================== -->
+    <!-- INTRODUCCIÓN -->
 
     <div id="pantalla-previa">
 
@@ -535,9 +520,7 @@ h1 {
     </div>
 
 
-    <!-- =========================
-         JUEGO
-    ========================== -->
+    <!-- JUEGO -->
 
     <div id="area-juego">
 
@@ -579,9 +562,7 @@ h1 {
     </div>
 
 
-    <!-- =========================
-         RESULTADOS
-    ========================== -->
+    <!-- RESULTADOS -->
 
     <div id="pantalla-resultados">
 
@@ -658,7 +639,7 @@ const GOOGLE_URL =
 
 
 /* =========================================================
-   GITHUB PAGES BASE URL
+   GITHUB BASE URL
 ========================================================= */
 
 const GITHUB_BASE =
@@ -850,55 +831,54 @@ function entrarModulo(modulo) {
     ).style.display =
         "none";
 
+
+    /*
+       Limpiamos cualquier clase
+       específica de Module 2.
+    */
+
+    document.getElementById(
+        "pentagrama"
+    ).classList.remove(
+        "notas-activo"
+    );
+
 }
 
 
 /* =========================================================
-   CAMBIAR NIVEL DURANTE LA ACTIVIDAD
-
-   NUEVO:
-
-   Si el estudiante cambia el nivel mientras está
-   jugando, la actividad se reinicia completamente:
-
-   - Aciertos = 0
-   - Errores = 0
-   - Nuevas preguntas
-   - Nuevo tiempo
-   - Nuevo temporizador
-
+   CAMBIO DE NIVEL
 ========================================================= */
 
 function cambioNivel() {
 
-    const selector =
-        document.getElementById(
-            "selector-nivel"
-        );
-
     const nuevoTiempo =
         parseInt(
-            selector.value
+            document.getElementById(
+                "selector-nivel"
+            ).value
         );
 
 
     /*
-       Si estamos actualmente jugando,
-       reiniciamos inmediatamente.
+       Si todavía estamos en la pantalla
+       inicial, solamente guardamos la
+       selección.
+
+       Al comenzar, se utilizará
+       automáticamente este valor.
     */
 
-    const areaJuego =
+    if (
         document.getElementById(
             "area-juego"
-        );
-
-
-    if (
-        areaJuego.style.display === "block" &&
-        moduloActual !== ""
+        ).style.display !== "block"
     ) {
 
-        comenzarActividad();
+        document.getElementById(
+            "tiempo"
+        ).innerText =
+            nuevoTiempo;
 
         return;
 
@@ -906,15 +886,26 @@ function cambioNivel() {
 
 
     /*
-       Si todavía estamos en la pantalla
-       de introducción, solamente actualizamos
-       el número mostrado.
+       Si la actividad ya está corriendo,
+       el cambio se aplica inmediatamente.
     */
+
+    tiempoRestante =
+        nuevoTiempo;
+
 
     document.getElementById(
         "tiempo"
     ).innerText =
-        nuevoTiempo;
+        tiempoRestante;
+
+
+    /*
+       Reiniciamos el intervalo para que
+       el nuevo nivel quede activo.
+    */
+
+    iniciarTimer();
 
 }
 
@@ -924,9 +915,6 @@ function cambioNivel() {
 ========================================================= */
 
 function comenzarActividad() {
-
-    clearInterval(timer);
-
 
     document.getElementById(
         "pantalla-previa"
@@ -946,17 +934,11 @@ function comenzarActividad() {
         "none";
 
 
-    /*
-       REINICIO COMPLETO
-    */
-
     aciertos = 0;
 
     errores = 0;
 
     bloqueado = false;
-
-    notaActual = null;
 
     logAciertos = [];
 
@@ -1031,6 +1013,20 @@ function siguientePregunta() {
     opciones.innerHTML = "";
 
 
+    /*
+       Cada vez que cambiamos de pregunta,
+       quitamos cualquier configuración
+       especial de Module 2.
+
+       dibujarNota() la volverá a activar
+       solamente cuando corresponda.
+    */
+
+    pentagrama.classList.remove(
+        "notas-activo"
+    );
+
+
     if (itemsRestantes.length === 0) {
 
         finalizarYEnviar(
@@ -1074,6 +1070,7 @@ function siguientePregunta() {
 
 /* =========================================================
    MOSTRAR SÍMBOLO
+   MODULE 1 — SIN CAMBIOS
 ========================================================= */
 
 function mostrarSimbolo(item) {
@@ -1104,14 +1101,9 @@ function mostrarSimbolo(item) {
 
 
     /*
-       COMPÁS Y BARRA DE COMPÁS
-
-       Además de las clases CSS, aplicamos
-       directamente los valores de tamaño
-       mediante JavaScript. Esto evita que
-       el navegador o Google Sites termine
-       reduciendo el tamaño de estas imágenes
-       entre preguntas.
+       Estos dos símbolos conservan
+       el tamaño grande que ya estaba
+       funcionando.
     */
 
     if (item.id === "compas") {
@@ -1119,24 +1111,6 @@ function mostrarSimbolo(item) {
         imagen.classList.add(
             "compas"
         );
-
-        imagen.style.width =
-            "190px";
-
-        imagen.style.height =
-            "170px";
-
-        imagen.style.maxWidth =
-            "90%";
-
-        imagen.style.maxHeight =
-            "170px";
-
-        imagen.style.objectFit =
-            "contain";
-
-        imagen.style.transform =
-            "scale(1.35)";
 
     }
 
@@ -1146,24 +1120,6 @@ function mostrarSimbolo(item) {
         imagen.classList.add(
             "barra"
         );
-
-        imagen.style.width =
-            "190px";
-
-        imagen.style.height =
-            "170px";
-
-        imagen.style.maxWidth =
-            "90%";
-
-        imagen.style.maxHeight =
-            "170px";
-
-        imagen.style.objectFit =
-            "contain";
-
-        imagen.style.transform =
-            "scale(1.35)";
 
     }
 
@@ -1257,25 +1213,48 @@ function crearOpcionesSimbolos(
 
 /* =========================================================
    DIBUJAR NOTA
-
-   SE MANTIENE EL AJUSTE DE TAMAÑO
-   DE LA VERSIÓN ANTERIOR.
+   MODULE 2 ONLY
 ========================================================= */
 
 function dibujarNota(n) {
 
+    const pentagrama =
+        document.getElementById(
+            "pentagrama"
+        );
+
+
+    /*
+       Activamos una clase exclusiva
+       de Module 2.
+
+       Esto NO modifica los PNG de
+       Module 1.
+    */
+
+    pentagrama.classList.add(
+        "notas-activo"
+    );
+
+
     const renderer =
         new Vex.Flow.Renderer(
-            document.getElementById(
-                "pentagrama"
-            ),
+            pentagrama,
             Vex.Flow.Renderer.Backends.SVG
         );
 
 
+    /*
+       Aumentamos nuevamente el área
+       de VexFlow para que la nota sea
+       claramente más grande.
+
+       Module 1 no utiliza estos valores.
+    */
+
     renderer.resize(
-        210,
-        185
+        235,
+        210
     );
 
 
@@ -1283,11 +1262,16 @@ function dibujarNota(n) {
         renderer.getContext();
 
 
+    /*
+       Pentagrama más ancho y con
+       suficiente espacio vertical.
+    */
+
     const stave =
         new Vex.Flow.Stave(
             10,
-            35,
-            190
+            45,
+            215
         );
 
 
@@ -1600,6 +1584,18 @@ function volver() {
         "";
 
 
+    /*
+       Importante: eliminar también
+       la clase exclusiva de Module 2.
+    */
+
+    document.getElementById(
+        "pentagrama"
+    ).classList.remove(
+        "notas-activo"
+    );
+
+
     document.getElementById(
         "opciones"
     ).innerHTML =
@@ -1616,9 +1612,6 @@ function volver() {
         "mensaje-incorrecto"
     ).style.visibility =
         "hidden";
-
-
-    moduloActual = "";
 
 }
 
@@ -1768,3 +1761,4 @@ function finalizarYEnviar(
 
 </body>
 </html>
+```
